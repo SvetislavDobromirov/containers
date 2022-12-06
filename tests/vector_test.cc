@@ -34,3 +34,18 @@ TEST (push_back, Test_1) {
     obj_V.clear();
     EXPECT_EQ(obj.size(), obj_V.size());
 }
+
+TEST (pop_back, Test_1) {
+    Vector<int> obj;
+    std::vector<int> obj_V;
+    
+    obj.push_back(1);
+    obj_V.push_back(1);
+  
+    //EXPECT_EQ(obj.empty(), obj_V.empty());
+    obj.pop_back();
+    obj_V.pop_back();
+    //EXPECT_EQ(obj.empty(), obj_V.empty());
+
+  
+}

@@ -68,5 +68,5 @@ class Vector {
 
 ///
 
-#include "s21_vector.tpp"
+#include "s21_vector.cpp"
 #endif

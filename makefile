@@ -6,12 +6,10 @@ REPORTFILE		=	$(REPORTFOLDER)gcov_report.info
 
 
 vector_run: clean
-	g++ -c s21_vector.cc main.cc -std=c++17
-	g++ *.o
-	./a.out
+	g++  -c s21_vector.h  -std=c++17
 
 clean:
-	rm -rf a.out *.gcno *.o *.gcda report
+	rm -rf a.out *.gcno *.o *.gcda report *.gch s21 test
 
 push:
 	git add --all
