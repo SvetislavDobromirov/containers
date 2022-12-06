@@ -1,6 +1,6 @@
 #include "s21_vector.h"
-#include "iostream"
-#include "cmath"
+#include <iostream>
+#include <cmath>
 #include <cstring>
 #include <stdio.h>
 
@@ -188,7 +188,7 @@ inline void Vector<T>::shrink_to_fit() {
     m_capacity = m_size;
     add_memory();
 }
-
+/*
 int main() {
     Vector<int> obj{9,2,3};
     Vector<int> obj_vector(obj);
@@ -197,7 +197,7 @@ int main() {
         std::cout << "d " << *p << std::endl;
 
    // std::cout << obj_vector.max_size() << std::endl;
-/*
+
    std::cout << obj_vector.empty() << std::endl;
     obj_vector.push_back(0);
     obj_vector.pop_back();
@@ -206,7 +206,7 @@ int main() {
     //std::cout << (obj_vector.front()) << std::endl;
     //std::cout << (obj_vector.back()) << std::endl;
     std::cout << obj_vector.empty() << std::endl;
- */   
+ 
 
     //std::cout << "size: " << obj_vector.size() << endl;
     //std::cout << obj_vector[1];
@@ -216,4 +216,4 @@ int main() {
     
     
     return 0;
-}
+}*/

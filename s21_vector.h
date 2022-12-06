@@ -1,6 +1,8 @@
-//#define size_type size_t
+#ifndef __SRC_S21_VECTOR_H__
+#define __SRC_S21_VECTOR_H__
+
+
 #define print cout
-//#define size_type size_t
 typedef unsigned long size_t;
 #include <initializer_list>
 
@@ -14,7 +16,6 @@ class Vector {
         using iterator = T *;
         using const_iterator = const T *;
         using size_type = size_t;
-
 
         // Constrictors and destructors
         Vector();
@@ -56,3 +57,5 @@ class Vector {
         void add_memory();
         void CopyC(Vector && other);
 };
+
+#endif
