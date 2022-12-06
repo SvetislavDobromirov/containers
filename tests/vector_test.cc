@@ -42,9 +42,11 @@ TEST (pop_back, Test_1) {
     obj.push_back(1);
     obj_V.push_back(1);
   
+    std::cout << obj.empty() << " : " << obj_V.empty;
     //EXPECT_EQ(obj.empty(), obj_V.empty());
     obj.pop_back();
     obj_V.pop_back();
+    std::cout << obj.empty() << " : " << obj_V.empty;
     //EXPECT_EQ(obj.empty(), obj_V.empty());
 
   
