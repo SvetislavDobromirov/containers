@@ -2,7 +2,7 @@
 
 TEST(test, test_1) {
   
-  EXPECT_EQ(a.GetCols(), 0);
+  EXPECT_EQ(0, 0);
   //EXPECT_TRUE(b.EqMatrix(c));
 }
 

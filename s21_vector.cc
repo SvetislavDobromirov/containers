@@ -89,13 +89,13 @@ void Vector<T>::add_memory() {
 // методы вызова
 template <class T>
 T& Vector<T>::operator[](size_t index) {
-    if (index > m_size) throw std::out_of_range("Out of range");
+    if (index > m_size || index < 0) throw std::out_of_range("Out of range");
     return *(arr + index);
 }
 
 template <class T>
 inline T& Vector<T>::at(size_t index) {
-    if (index > m_size) throw std::out_of_range("Out of range");
+    if (index > m_size || index < 0 ) throw std::out_of_range("Out of range");
     return *(arr + index);
 }
 
