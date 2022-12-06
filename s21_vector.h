@@ -6,6 +6,12 @@
 typedef unsigned long size_t;
 #include <initializer_list>
 
+#include <iostream>
+#include <cmath>
+#include <cstring>
+#include <stdio.h>
+
+
 template <class T>
 class Vector {
     public:
@@ -37,6 +43,7 @@ class Vector {
         inline void pop_back() noexcept;
 
         // Vector Capacity
+        inline void clear() noexcept;
         inline bool empty() noexcept;
         inline size_type size() noexcept;
         inline size_type max_size() noexcept;
@@ -58,4 +65,8 @@ class Vector {
         void CopyC(Vector && other);
 };
 
+
+///
+
+#include "s21_vector.tpp"
 #endif

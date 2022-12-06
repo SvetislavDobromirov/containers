@@ -1,6 +1,9 @@
 CFLAGS 			=	-std=c++17 # -Wall -Wextra -Werror
 CHECKFLAGS 		= 	-lgtest -lgtest_main -pthread
 
+REPORTFOLDER	=	report/
+REPORTFILE		=	$(REPORTFOLDER)gcov_report.info
+
 
 vector_run: clean
 	g++ -c s21_vector.cc main.cc -std=c++17
@@ -8,7 +11,7 @@ vector_run: clean
 	./a.out
 
 clean:
-	rm -rf a.out *.gcno *.o *.gcda
+	rm -rf a.out *.gcno *.o *.gcda report
 
 push:
 	git add --all
@@ -16,7 +19,20 @@ push:
 	git push --all
 
 test: clean
-	g++ $(CFLAGS) -c tests/test_run.cc
+	g++ $(CFLAGS) -c --coverage tests/test_run.cc
 #g++ $(CFLAGS) -c  s21_vector.cc
-	g++ $(CFLAGS) *.o --coverage *.cc -o test $(CHECKFLAGS)
-#./test
+	g++ $(CFLAGS) *.o --coverage -o test $(CHECKFLAGS)
+	./test
+
+s21_vector.a:
+	ar rc s21_vector.a *.cc
+	ranlib s21_vector.a
+
+
+gcov_report: test
+	mkdir -p gcov/
+	mkdir report/
+	lcov -t "s21_vector.a" -o $(REPORTFILE) -c -d .
+	genhtml $(REPORTFILE) -o $(REPORTFOLDER)
+	open $(REPORTFOLDER)index.html
+

@@ -1,5 +1,7 @@
 
 #include "../s21_vector.h"
+#include <vector>
+#include <iostream>
  
 TEST(reload_sq_breaks, Test_1) {
     Vector<int> obj = {1,2,3,4,5};
@@ -18,11 +20,17 @@ TEST(reload_sq_breaks, Test_1) {
 
 TEST (push_back, Test_1) {
     Vector<int> obj;
-    Vector<int> obj_V;
-    obj.push_back(4);
-    obj_V.push_back(4);
-    EXPECT_EQ(obj[4], obj_V[4]);
-    for (int i = 0; i < 129; i++) obj.push_back(i);
-    for (int i = 0; i < 129; i++) obj.push_back(i);
-    EXPECT_EQ(obj[129], obj_V[129]);
+    std::vector<int> obj_V;
+   unsigned long value_capasity = 0;
+   
+    for (int i = 0; i < 130; i++) obj.push_back(i);
+    for (int i = 0; i < 130; i++) obj_V.push_back(i);
+    EXPECT_EQ(obj.at(127), obj_V.at(127));
+    EXPECT_EQ(obj[127], obj_V[127]);
+    EXPECT_EQ(obj.capacity(), obj_V.capacity());
+    EXPECT_EQ(obj.size(), obj_V.size());
+    EXPECT_EQ(*(obj.begin()), *(obj_V.begin()));
+    obj.clear();
+    obj_V.clear();
+    EXPECT_EQ(obj.size(), obj_V.size());
 }
