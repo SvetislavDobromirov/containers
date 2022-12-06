@@ -62,6 +62,7 @@ void Vector<T>::operator=(Vector &&other) {
 
 /// 
 
+template <class T>
 void Vector<T>::CopyC(Vector && other) {
     m_size =other.m_size, 
     m_capacity = other.m_capacity;
@@ -70,7 +71,7 @@ void Vector<T>::CopyC(Vector && other) {
     other.m_capacity = 0;
     other.arr = nullptr;
 }
-}
+
 ///
 
 template <class T>
@@ -115,7 +116,7 @@ inline T* Vector<T>::data() noexcept {
 }
 
 template <class T>
-inline void Vector<T>::push_back(const T* new_element) {
+inline void Vector<T>::push_back(const T& new_element) {
     // NEED FOR CHECK
     if (m_size >= m_capacity) {
         m_capacity *= 2;
@@ -133,17 +134,17 @@ inline void Vector<T>::pop_back() noexcept {
 
 // Vector Capacity
 template <class T>
-inline bool Vector<T>::empty() const noexcept {
+inline bool Vector<T>::empty() noexcept {
     return m_size == 0 ? 0 : 1;
 }
 
 template <class T>
-size_t Vector<T>::size() {
+inline size_t Vector<T>::size() noexcept {
     return m_size;
 }
 
 template <class T>
-size_t Vector<T>::capacity() { 
+inline size_t Vector<T>::capacity() noexcept { 
     return m_capacity; 
 };
 

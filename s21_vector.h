@@ -36,12 +36,12 @@ class Vector {
         inline void pop_back() noexcept;
 
         // Vector Capacity
-        inline bool empty() const noexcept;
-        inline size_type size() const noexcept;
+        inline bool empty() noexcept;
+        inline size_type size() noexcept;
         inline size_type max_size() noexcept;
         void reserve(size_type __n);
-        inline void shrink_to_fit();;
-        inline size_type capacity() noexcept const;
+        inline void shrink_to_fit();
+        inline size_type capacity() noexcept;
     
 
         // methods iterators
