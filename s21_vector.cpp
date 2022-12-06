@@ -38,33 +38,28 @@ Vector<T>::Vector(const Vector &other) :
         m_size(other.m_size),
         m_capacity(other.m_capacity) {
     arr = new T(m_capacity);
-    memcpy(arr, other.arr, sizeof(T));
+    memcpy(arr, other.arr, m_size * sizeof(T));
 }
 
 
-template <class T>
-Vector<T>::Vector(Vector &&other) {
-    CopyC(other);
-    // m_size(other.m_size), 
-    // m_capacity(other.m_capacity), arr(other.arr) {
-    // other.m_size = 0;
-    // other.m_capacity = 0;
-    // other.arr = nullptr;
-}
 
 template <class T>
 Vector<T>::~Vector()  { delete[] arr; }
 
 template <class T>
 void Vector<T>::operator=(Vector &&other) {
-    CopyC(other);
+    MoveC(other);
 }
 
+template <class T>
+Vector<T>::Vector(Vector<T> male&&other) {
+    MoveC(other);
+}
 /// 
 
 template <class T>
-void Vector<T>::CopyC(Vector && other) {
-    m_size =other.m_size, 
+void Vector<T>::MoveC(Vector other) {
+    m_size = other.m_size, 
     m_capacity = other.m_capacity;
     arr = other.arr;
     other.m_size = 0;
@@ -141,7 +136,7 @@ inline void Vector<T>::pop_back() noexcept {
 // Vector Capacity
 template <class T>
 inline bool Vector<T>::empty() noexcept {
-    return m_size == 0 ? 0 : 1;
+    return m_size == 0 ? 1 : 0;
 }
 
 template <class T>

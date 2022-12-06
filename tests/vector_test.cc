@@ -36,18 +36,28 @@ TEST (push_back, Test_1) {
 }
 
 TEST (pop_back, Test_1) {
-    Vector<int> obj;
-    std::vector<int> obj_V;
-    
+    Vector<int> obj(2);
+    std::vector<int> obj_V(2);
     obj.push_back(1);
     obj_V.push_back(1);
-  
-    std::cout << obj.empty() << " : " << obj_V.empty;
-    //EXPECT_EQ(obj.empty(), obj_V.empty());
+    EXPECT_EQ(obj.empty(), obj_V.empty());
     obj.pop_back();
     obj_V.pop_back();
-    std::cout << obj.empty() << " : " << obj_V.empty;
-    //EXPECT_EQ(obj.empty(), obj_V.empty());
-
+    EXPECT_EQ(obj.empty(), obj_V.empty());
+    EXPECT_EQ(obj.max_size(), obj_V.max_size());
   
+}
+
+TEST (copy1, Test_1) {
+    Vector<int> obj = {1,2,3};
+    Vector<int> obj_2(obj);
+    EXPECT_EQ(obj.at(2), obj_2.at(2));
+}
+
+TEST (move1, Test_1) {
+    Vector<int> obj = {1,2,3};
+    //obj = Vector<int> && obj_2;
+    Vector<int> obj_2((Vector<int> &&) obj);
+    EXPECT_EQ(obj.at(2), obj_2.at(2));
+    
 }

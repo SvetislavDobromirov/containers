@@ -62,7 +62,7 @@ class Vector {
         size_type m_capacity;
         T *arr;
         void add_memory();
-        void CopyC(Vector && other);
+        void MoveC(Vector other);
 };
 
 
