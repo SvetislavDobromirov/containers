@@ -70,10 +70,7 @@ TEST (reserve, Test_1) {
     obj.reserve(50);
     obj_2.reserve(50);
     EXPECT_EQ(obj.capacity(), obj_2.capacity());
-    
 }
-
-
 
 TEST (shrink_to_fit, Test_1) {
     Vector<int> obj(7);
@@ -89,6 +86,16 @@ TEST (end_it, Test_1) {
     Vector<int> obj_2={1,2,3,4,5,6};
     int* p = obj_2.end();
     EXPECT_EQ(*(p-1), obj_2.at(5));   
+}
+
+
+TEST (other, Test_1) {
+    Vector<int> obj_2={1,2,3,4,5,6};
+    Vector<int> obj(std::move(obj_2));
+    
+    EXPECT_EQ(obj.front(), 1);
+    EXPECT_EQ(obj.back(), 6);
+    EXPECT_EQ(*obj.data(), 1);
 }
 
 
