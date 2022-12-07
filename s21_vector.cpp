@@ -48,26 +48,22 @@ Vector<T>::~Vector()  { delete[] arr; }
 
 template <class T>
 void Vector<T>::operator=(Vector &&other) {
-    MoveC(other);
+    if (this != &other) { // Not fully correct, but should work
+        if (this->arr) delete[] arr;
+        this->arr = other.arr;
+        this->m_size = other.m_size;
+        this->m_capacity = other.m_capacity;
+        other.m_size = 0;
+        other.m_capacity = 1;
+        other.arr = nullptr;
+    }
 }
 
 template <class T>
-Vector<T>::Vector(Vector<T> male&&other) {
-    MoveC(other);
+Vector<T>::Vector(Vector &&other) {
+  *this = other;
 }
 /// 
-
-template <class T>
-void Vector<T>::MoveC(Vector other) {
-    m_size = other.m_size, 
-    m_capacity = other.m_capacity;
-    arr = other.arr;
-    other.m_size = 0;
-    other.m_capacity = 0;
-    other.arr = nullptr;
-}
-
-///
 
 template <class T>
 void Vector<T>::add_memory() {
@@ -118,7 +114,6 @@ template <class T>
 inline void Vector<T>::push_back(const T& new_element) {
     // NEED FOR CHECK
     if (m_size >= m_capacity) {
-        std::cout << "122" << std::endl;
         m_capacity *= 2;
         m_capacity = int(pow(2, ceil(log2(m_size))));
         add_memory();
@@ -194,32 +189,3 @@ inline void Vector<T>::shrink_to_fit() {
     m_capacity = m_size;
     add_memory();
 }
-/*
-int main() {
-    Vector<int> obj{9,2,3};
-    Vector<int> obj_vector(obj);
-
-    for (auto p = obj.begin(); p != obj.end(); p++)
-        std::cout << "d " << *p << std::endl;
-
-   // std::cout << obj_vector.max_size() << std::endl;
-
-   std::cout << obj_vector.empty() << std::endl;
-    obj_vector.push_back(0);
-    obj_vector.pop_back();
-    std::cout << obj_vector.empty() << std::endl;
-    obj_vector.push_back(8);
-    //std::cout << (obj_vector.front()) << std::endl;
-    //std::cout << (obj_vector.back()) << std::endl;
-    std::cout << obj_vector.empty() << std::endl;
- 
-
-    //std::cout << "size: " << obj_vector.size() << endl;
-    //std::cout << obj_vector[1];
-
-   // std::cout << 
-
-    
-    
-    return 0;
-}*/
