@@ -28,7 +28,7 @@ all: test
 
 test: $(OBJSTESTS)
 	@mkdir -p $(GCOVFOLDER)
-	$(CC) $(CFLAGS) $(OBJSTESTS) --coverage s21_array.h -o $(TESTEXEC) $(CHECKFLAGS)
+	$(CC) $(CFLAGS) $(OBJSTESTS) -o $(TESTEXEC) $(CHECKFLAGS)
 	./$(TESTEXEC)
 
 clean:
