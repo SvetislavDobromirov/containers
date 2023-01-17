@@ -30,6 +30,10 @@ class multiset : public BinaryTree<Key>{
 
 };
 
+template <class Key>
+typename multiset<Key>::iterator multiset<Key>::begin(){
+   // return tree.
+}
 
 template <class Key>
 multiset<Key>::multiset(){
@@ -45,6 +49,9 @@ template <class Key>
 typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& value) {
     // Надо обратиться к дереву и вставить новый элемент по правилам
     // Переходим к дереву, и кидаем в него элемент. Магия происходит внутри дерева
+    if (tree.head_element == nullptr) { // Если в дереве нет элементов, то помещаем в голову
+
+    }
     return tree.;
 }
 

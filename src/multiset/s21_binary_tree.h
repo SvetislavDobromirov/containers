@@ -21,23 +21,23 @@ class BinaryTree {
         } node;
 
         class iterator {
-            reference operator*(){
-                return 0;
+
+            reference operator*() {
+                return current->data;
             }
             iterator operator++(){
 
             }
         };
 
-    private:
-        node *head;
+    protected:
+        node *head_element;
         
 }; 
 
 template <class Key>
-BinaryTree<Key>::BinaryTree(){
-    std::cout << "Конструктор дерева" << std::endl;
-    head = nullptr;
+BinaryTree<Key>::BinaryTree() : head_element(nullptr){
+    std::cout << "Конструктор дерева без инициализации" << std::endl;
 }
 
 }
