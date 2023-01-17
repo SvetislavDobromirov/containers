@@ -52,6 +52,13 @@ typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& valu
     // Переходим к дереву, и кидаем в него элемент. Магия происходит внутри дерева
     if (tree.head_element == nullptr) { // Если в дереве нет элементов, то помещаем в голову
         tree.head_element = (node*) new (node);
+        tree.head_element->data = value;
+        tree.head_element->color = BLACK;
+        tree.head_element->left = nullptr;
+        tree.head_element->right = nullptr;
+    } else {
+        // Вызываем метод поиска места для вставки элемента
+        // После вызываем вводный элемент для балансировки
     }
     return tree;
 }
