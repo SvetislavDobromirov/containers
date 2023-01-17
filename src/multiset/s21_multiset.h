@@ -56,11 +56,14 @@ typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& valu
         tree.head_element->color = BLACK;
         tree.head_element->left = nullptr;
         tree.head_element->right = nullptr;
+        tree.
     } else {
         // Вызываем метод поиска места для вставки элемента
+        // 
+
         // После вызываем вводный элемент для балансировки
     }
-    return tree;
+    return ;
 }
 
 

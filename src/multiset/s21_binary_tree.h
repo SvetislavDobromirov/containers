@@ -23,11 +23,12 @@ class BinaryTree {
         class iterator {
 
             reference operator*() {
-                return current->data;
+              //  return ptr->data;
             }
             iterator operator++(){
 
             }
+           node* ptr_;
         };
 
     protected:
