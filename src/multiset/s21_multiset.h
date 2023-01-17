@@ -10,6 +10,7 @@ class multiset : public BinaryTree<Key>{
        
         using const_reference = const Key &;
         using iterator = typename BinaryTree<Key>::iterator;
+        using node = typename BinaryTree<Key>::node;
        // using const_iterator = typename BinaryTree<Key>::const_iterator;
         iterator insert(const value_type& value);
 
@@ -50,9 +51,9 @@ typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& valu
     // Надо обратиться к дереву и вставить новый элемент по правилам
     // Переходим к дереву, и кидаем в него элемент. Магия происходит внутри дерева
     if (tree.head_element == nullptr) { // Если в дереве нет элементов, то помещаем в голову
-
+        tree.head_element = (node*) new (node);
     }
-    return tree.;
+    return tree;
 }
 
 
