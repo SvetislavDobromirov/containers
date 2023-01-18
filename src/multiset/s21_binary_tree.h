@@ -14,7 +14,7 @@ class BinaryTree {
 
         BinaryTree();
         
-        typedef struct Node {
+        typedef struct ElementЧ {
             struct Node *left, *right, *parent;
             Key data;
             enum node_colors color;
@@ -33,6 +33,7 @@ class BinaryTree {
 
     protected:
         node *head_element;
+        node* get_head(){return head_element;};
         
 }; 
 
