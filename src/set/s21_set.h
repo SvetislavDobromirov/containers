@@ -36,6 +36,9 @@ class set : public tree<Key> {
   class const_iterator {
    public:
     auto operator++(int);
+    auto operator++();
+    auto operator--(int);
+    auto operator--();
     const auto operator*();
     bool operator!=(const const_iterator &other);
     bool operator==(const const_iterator &other);

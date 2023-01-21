@@ -43,6 +43,74 @@ auto set<T>::const_iterator::operator++(int) {
   return *this;
 }
 
+template <typename T>
+auto set<T>::const_iterator::operator++() {
+  // Если у текущего узла есть правое поддерево, то нужно перейти к наименьшему
+  // элементу в этом поддереве
+  if (it_current_node->right_node) {
+    it_current_node = it_current_node->right_node;
+    while (it_current_node->left_node) {
+      it_current_node = it_current_node->left_node;
+    }
+  } else {
+    // Иначе, нужно искать родительский узел, который является левым потомком
+    typename tree<T>::node *parent = it_current_node->parent_node;
+    while (parent && it_current_node == parent->right_node) {
+      it_current_node = parent;
+      parent = parent->parent_node;
+    }
+    it_current_node = parent;
+  }
+
+  return *this;
+}
+
+template <typename T>
+auto set<T>::const_iterator::operator--(int) {
+  // Если у текущего узла есть левое поддерево, то нужно перейти к наибольшему
+  // элементу в этом поддереве
+  if (it_current_node->left_node) {
+    it_current_node = it_current_node->left_node;
+    while (it_current_node->right_node) {
+      it_current_node = it_current_node->right_node;
+    }
+  } else {
+    // Иначе, нужно искать родительский узел, который является правым потомком
+    typename tree<T>::node *parent = it_current_node->parent_node;
+    while (parent && it_current_node == parent->left_node) {
+      it_current_node = parent;
+      parent = parent->parent_node;
+    }
+
+    it_current_node = parent;
+  }
+
+  return *this;
+}
+
+template <typename T>
+auto set<T>::const_iterator::operator--() {
+  // Если у текущего узла есть левое поддерево, то нужно перейти к наибольшему
+  // элементу в этом поддереве
+  if (it_current_node->left_node) {
+    it_current_node = it_current_node->left_node;
+    while (it_current_node->right_node) {
+      it_current_node = it_current_node->right_node;
+    }
+  } else {
+    // Иначе, нужно искать родительский узел, который является правым потомком
+    typename tree<T>::node *parent = it_current_node->parent_node;
+    while (parent && it_current_node == parent->left_node) {
+      it_current_node = parent;
+      parent = parent->parent_node;
+    }
+
+    it_current_node = parent;
+  }
+
+  return *this;
+}
+
 template <typename Key>
 std::pair<typename set<Key>::iterator, bool> set<Key>::insert(
     const value_type &value) {

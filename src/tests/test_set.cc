@@ -342,3 +342,17 @@ TEST(Set, 30_iterators) {
   ASSERT_EQ(*it_1, -1);
   ASSERT_EQ(*it_2, -1);
 }
+
+TEST(Set, 31_increments) {
+  s21::set<int> a {1, 0, -1};
+
+  auto it = a.begin();
+  it++;
+  ASSERT_EQ(*it, 0);
+  ++it;
+  ASSERT_EQ(*it, 1);
+  --it;
+  ASSERT_EQ(*it, 0);
+  it--;
+  ASSERT_EQ(*it, -1);
+}
