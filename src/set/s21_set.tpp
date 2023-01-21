@@ -14,7 +14,7 @@ template <typename T>
 set<T>::set(set &&s) : tree<T>(std::move(s)) {}
 
 template <typename T>
-const auto set<T>::iterator::operator*() {
+const auto set<T>::const_iterator::operator*() {
   if (!it_current_node) {
     throw std::runtime_error("pointer is null");
   }
@@ -22,7 +22,7 @@ const auto set<T>::iterator::operator*() {
 }
 
 template <typename T>
-auto set<T>::iterator::operator++(int) {
+auto set<T>::const_iterator::operator++(int) {
   // Если у текущего узла есть правое поддерево, то нужно перейти к наименьшему
   // элементу в этом поддереве
   if (it_current_node->right_node) {
@@ -57,7 +57,7 @@ std::pair<typename set<Key>::iterator, bool> set<Key>::insert(
 }
 
 template <typename T>
-auto set<T>::begin() {
+typename set<T>::iterator set<T>::begin() {
   iterator result;
 
   if (tree<T>::root_ == nullptr) {
@@ -75,7 +75,7 @@ auto set<T>::begin() {
 }
 
 template <typename T>
-auto set<T>::end() {
+typename set<T>::iterator set<T>::end() {
   iterator result;
   result.it_current_node = nullptr;
 
@@ -139,12 +139,12 @@ bool set<Key>::contains(const Key &key) {
 }
 
 template <typename Key>
-bool set<Key>::iterator::operator!=(const set<Key>::iterator &other) {
+bool set<Key>::const_iterator::operator!=(const set<Key>::const_iterator &other) {
   return it_current_node != other.it_current_node;
 }
 
 template <typename Key>
-bool set<Key>::iterator::operator==(const set<Key>::iterator &other) {
+bool set<Key>::const_iterator::operator==(const set<Key>::const_iterator &other) {
   return it_current_node == other.it_current_node;
 }
 

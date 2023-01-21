@@ -33,17 +33,21 @@ class set : public tree<Key> {
   bool contains(const key_type &key);
   void swap(set &other) noexcept;
   void merge(set &other);
-  class iterator {
+  class const_iterator {
    public:
     auto operator++(int);
     const auto operator*();
-    bool operator!=(const iterator &other);
-    bool operator==(const iterator &other);
+    bool operator!=(const const_iterator &other);
+    bool operator==(const const_iterator &other);
     typename tree<Key>::node *it_current_node = nullptr;
   };
+  class iterator : public const_iterator {
+   public:
+    iterator() : const_iterator() {}
+  };
 
-  auto begin();
-  auto end();
+  iterator begin();
+  iterator end();
 };
 
 }  // namespace s21
