@@ -34,7 +34,7 @@ class set : public tree<Key> {
   void swap(set &other) noexcept;
   void merge(set &other);
   class iterator {
-   public:
+  public:
     auto operator++(int);
     const auto operator*();
     bool operator!=(const iterator &other);

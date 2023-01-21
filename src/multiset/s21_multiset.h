@@ -3,7 +3,7 @@
 
 namespace s21 {
     template <class Key>
-    class multiset : public BinaryTree<Key>{
+    class multiset : public BinaryTree<Key> {
         public:
             using key_type = Key;
             using value_type = key_type;
@@ -15,18 +15,27 @@ namespace s21 {
             iterator insert(const value_type& value);
 
             multiset();
-            multiset(std::initializer_list<value_type> const &items);
+           // multiset(std::initializer_list<value_type> const &items);
             //multiset(const multiset &ms);
             //multiset(multiset &&ms);
             //~multiset();
             //operator=(multiset &&ms);
-
-
             iterator begin();
             iterator end();
 
         
         private:
+            node_m * go_to_left(node_m * cur) {
+                while (cur->left != nullptr)
+                    cur = cur->left;
+                return cur;
+            }
+            node_m * go_to_right(node_m * cur) {
+                while (cur->right != nullptr)
+                    cur = cur->right;
+                return cur;
+            }
+
         // typename s21::BinaryTree<Key>::node *head;
     };
 
@@ -38,20 +47,50 @@ multiset<Key>::multiset() : BinaryTree<Key>() {
 }
 
 template <class Key>
-typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& value) {
-    // Надо обратиться к дереву и вставить новый элемент по правилам
-    // Переходим к дереву, и кидаем в него элемент. Магия происходит внутри дерева
-    if (this->head_element == nullptr) { // Если в дереве нет элементов, то помещаем в голову
-        this->head_element = (node_m*) new (node_m);
-        this->head_element->data = value;
-        this->head_element->color = BLACK;
-        this->head_element->left = nullptr;
-        this->head_element->right = nullptr;       
-    } else {
-        // Запускаем функцию вставки в нужную ветвь дерева.
-        this.insert_element(value);
+typename BinaryTree<Key>::iterator  multiset<Key>::begin() {
+    node_m * goal = this->head_element;
+    goal = go_to_left(goal);
+    // Проверяем есть и повторные элемент 
+    if (goal->right){
+        if (goal->right->data == goal->data) {
+            goal = go_to_left(goal);
+        } 
+        if (goal->right->left) {
+            if (goal->data == goal->right->left->data) {
+                goal = goal->right->left;
+            }
+            goal = go_to_left(goal);
+        } 
+    } 
+    iterator it;
+    it.ptr_ = goal;
+    return it;
+}
+
+template <class Key>
+typename BinaryTree<Key>::iterator multiset<Key>::end(){
+    node_m *goal = this->head_element;
+    goal = go_to_right(goal);
+    if (goal->right){
+        if (goal->right->data == goal->data) {
+            goal = go_to_right(goal);
+        } 
+        if (goal->right->left) {
+            if (goal->data == goal->right->left->data) {
+                goal = goal->right->left;
+            }
+            goal = go_to_right(goal);
+        } 
     }
-    auto it = BinaryTree<Key>::iterator();
+    iterator it;
+    it.ptr_ = goal;
+    return it;
+}
+
+template <class Key>
+typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& value) {
+    this->insert_to_tree(value);
+    iterator it;
     return it;
 }
 

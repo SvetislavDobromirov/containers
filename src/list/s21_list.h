@@ -69,7 +69,7 @@ namespace s21
             element_list *Data() { return ptr_; };
 
             ListIterator(){};
-
+            
             ListIterator operator--()
             {
                 ptr_ = ptr_->before_;
