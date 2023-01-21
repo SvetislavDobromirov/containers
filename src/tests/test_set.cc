@@ -331,10 +331,14 @@ TEST(Set, 29_equal) {
   }
 }
 
-TEST(Set, 30_iterator) {
+TEST(Set, 30_iterators) {
   s21::set<int> a {5, 10, 3, 4, 0, 1, -2, 12, -1, 0, 10};
   s21::set<int>::const_iterator it_1 = a.begin();
   s21::set<int>::iterator it_2 = a.begin();
   ASSERT_EQ(*it_1, -2);
   ASSERT_EQ(*it_2, -2);
+  it_1++;
+  it_2++;
+  ASSERT_EQ(*it_1, -1);
+  ASSERT_EQ(*it_2, -1);
 }
