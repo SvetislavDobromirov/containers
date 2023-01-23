@@ -13,9 +13,9 @@ int main(){
     multi.insert(0);
     multi.insert(6);
     multi.insert(7);
-   multi.insert(0);
-    multi.insert(0);
-    multi.insert(0);
+   //multi.insert(0);
+   // multi.insert(0);
+    //multi.insert(0);
     multi.insert(1);
     
     // multi.insert(5);
@@ -25,14 +25,21 @@ int main(){
 
     std::cout << *it << std::endl;
     std::cout << *multi.end() << std::endl;
-    printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
+   // printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
 
     auto it_end = multi.end();
-    while(it != it_end){
-        std::cout << *it << std::endl;
+    // while(it != it_end){
+    //     std::cout << *it << std::endl;
+    //     printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
+    //     ++it;
+    // }
+
+    for (int i = 0; i < 10;  i ++){
+             std::cout << *it << std::endl;
         printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
         ++it;
     }
+
 //  ++it;
 //     std::cout << *it << std::endl;
 //     printf("Element: %d : %p \n\tParent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_, it.ptr_->parent, it.ptr_->left, it.ptr_->right);

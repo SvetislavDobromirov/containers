@@ -31,6 +31,7 @@ namespace s21 {
                 return cur;
             }
             node_m * go_to_right(node_m * cur) {
+               
                 while (cur->right != nullptr)
                     cur = cur->right;
                 return cur;
@@ -53,9 +54,12 @@ typename BinaryTree<Key>::iterator  multiset<Key>::begin() {
     // Проверяем есть и повторные элемент 
     if (goal->right){
         if (goal->right->data == goal->data) {
-            goal = go_to_left(goal);
-        } 
-        if (goal->right->left) {
+             Key check_value = goal->data;
+            while (goal->right != nullptr) {
+                if (goal->right->data != check_value) break;
+                goal = goal->right;
+            }
+        }  else if (goal->right->left) {
             if (goal->data == goal->right->left->data) {
                 goal = goal->right->left;
             }

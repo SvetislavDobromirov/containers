@@ -30,21 +30,31 @@ class BinaryTree {
                 }
                 iterator operator++() {
                     if (!ptr_->parent) { //  1
-
+                        std::cout << "1   33" << std::endl;
                         if (ptr_->right) {
                             ptr_ = ptr_->right;
                         } else {
                             // Или возвращаем текущий, или идем налево, или конечный
                             // enf
                         }
-                    } else if (ptr_->right) { // 2
+                    } else if (ptr_->right ) { // 2
                     // налево до упора
-                        ptr_ = ptr_->right;
-                        while (ptr_->left != nullptr)
-                            ptr_ = ptr_->left;
+                    // Два случая : либо родитель меньше, лбо равен
+                        std::cout << "2   43" << std::endl;
+                        
+                        //if (ptr_->parent->data <= ptr_->data){
+                            ptr_ = ptr_->right;
+                            while (ptr_->left != nullptr)
+                                ptr_ = ptr_->left;
+                        // } else {
+                        //     std::cout << "2   48" << std::endl;
+                        //     ptr_ = ptr_ ->parent;
+                        // }
                     } else if (ptr_->parent->data >= ptr_->data) { // 3
+                      std::cout << "3  50" << std::endl;
                         ptr_ = ptr_->parent;
                     } else  { // 4
+                      std::cout << "4   53" << std::endl;
                         ptr_ = ptr_->parent;
                         if (ptr_->parent) {
                             ptr_ = ptr_->parent;
@@ -107,6 +117,7 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
     if (!head_element) {
        // std::cout << "64 " << std::endl;
         head_element  = new node();
+        printf("head: %p\n", head_element);
         head_element -> right == nullptr;
         head_element -> left == nullptr;
         head_element ->color = BLACK;
@@ -125,8 +136,10 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
                 if (value >= current->data) {
                     if (current->right == nullptr) {
                         current->right = new node();
+                        
                         current->right->parent = current;
                         current = current->right;
+                        printf("current %p\n", current);
                         current->color = RED;
                         current->left = nullptr;
                         current->right = nullptr;
@@ -142,8 +155,8 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
 
                         current->left = new node();
                         current->left->parent = current;
-
                         current = current->left;
+                        printf("current %p\n", current);
                         current->color = RED;
                         current->left = nullptr;
                         current->right = nullptr;
