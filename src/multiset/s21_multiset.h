@@ -37,22 +37,18 @@ namespace s21 {
                 return cur;
             }
 
-        // typename s21::BinaryTree<Key>::node *head;
+        protected:
+
+            // typename s21::BinaryTree<Key>::node *head;
     };
 
-template <class Key>
-multiset<Key>::multiset() : BinaryTree<Key>() {
-    if (this->head_element  == nullptr) {
-        std::cout << "Голова нулевая. Все под контролем" << std::endl;
-    }
-}
 
 template <class Key>
-typename BinaryTree<Key>::iterator  multiset<Key>::begin() {
+typename BinaryTree<Key>::iterator multiset<Key>::begin() {
     node_m * goal = this->head_element;
     goal = go_to_left(goal);
     // Проверяем есть и повторные элемент 
-    if (goal->right){
+    if (goal->right) {
         if (goal->right->data == goal->data) {
              Key check_value = goal->data;
             while (goal->right != nullptr) {
@@ -98,12 +94,12 @@ typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& valu
     return it;
 }
 
-
-}
 // template <class Key>
 // multiset<Key>::multiset(std::initializer_list<value_type> const &items){
 //     // Здесь есть смысл использовать insert 
 // }
 
 
+}
 
+#include "s21_m_constructor.h"

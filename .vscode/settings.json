@@ -78,6 +78,13 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "memory_resource": "cpp",
-        "stop_token": "cpp"
+        "stop_token": "cpp",
+        "__bits": "cpp",
+        "any": "cpp",
+        "iomanip": "cpp",
+        "map": "cpp",
+        "variant": "cpp",
+        "ranges": "cpp",
+        "cinttypes": "cpp"
     }
 }

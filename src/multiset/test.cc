@@ -22,23 +22,26 @@ int main(){
      //multi.insert(10);
     // multi.insert(0);
     auto it = multi.begin();
+    // static std::string  ch_hor = "-", ch_ver = "|", ch_ddia = "/", ch_rddia = "\\",
+    //                     ch_udia = "\\", ch_ver_hor = "|-", ch_udia_hor = "\\-", 
+    //                     ch_ddia_hor = "/-", ch_ver_spa = "| ";
+    multi.dump2(multi.get_head());
+    // std::cout << *it << std::endl;
+    // std::cout << *multi.end() << std::endl;
+    // printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
 
-    std::cout << *it << std::endl;
-    std::cout << *multi.end() << std::endl;
-   // printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
-
-    auto it_end = multi.end();
+    // auto it_end = multi.end();
     // while(it != it_end){
     //     std::cout << *it << std::endl;
     //     printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
     //     ++it;
     // }
 
-    for (int i = 0; i < 10;  i ++){
-             std::cout << *it << std::endl;
-        printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
-        ++it;
-    }
+    // for (int i = 0; i < 10;  i ++){
+    //          std::cout << *it << std::endl;
+    //     printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
+    //     ++it;
+    // }
 
 //  ++it;
 //     std::cout << *it << std::endl;
@@ -50,7 +53,7 @@ int main(){
 //     printf("Element: %d : %p \n\tParent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_, it.ptr_->parent, it.ptr_->left, it.ptr_->right);
 
 
-    printf("%d", *it);
+   // printf("%d", *it);
     // multi.insert(2);
     // multi.insert(4);
     // multi.insert(3);

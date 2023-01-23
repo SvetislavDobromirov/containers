@@ -1,11 +1,12 @@
 #include <iostream>
 
 namespace s21 {
-enum node_colors { RED, BLACK };
+enum node_colors { RED, BLACK, SERVICE };
 
 template <class Key>
 class BinaryTree {
     public:
+
         class iterator;
         class const_iterator;
         using key_type = Key;
@@ -15,13 +16,13 @@ class BinaryTree {
         BinaryTree();
         
         typedef struct Element {
-            struct Element*left, *right, *parent, *repeate;
+            struct Element*left, *right, *parent;
             value_type data;
             enum node_colors color;
         } node;
 
-        
-        
+        node *get_head() { return head_element; }; // TEST
+
         class iterator {
             friend BinaryTree;
             public:
@@ -86,22 +87,57 @@ class BinaryTree {
 
         };
 
+
+    private:
+        node *create_service_element(); // Создаем мнимый элемент при инициализации
+        node *add_new_element(node *current, Key Value, node_colors color, node *service);
+
     protected:
-        node *head_element;
-        node *get_head(){return head_element;};
-        int insert_element(const value_type& value);
-        node *insert_to_tree(const value_type& value);
-}; 
+        node *head_element, *end_element;
+        node *min_element;
+        node *max_element;
+        
+        int insert_element(const value_type &value);
+        node *insert_to_tree(const value_type &value);
+        void print_element(node *El);
+        
+
+    public: // FOR SiLLy TESTS
+        // RED BLUE foos
+        node *grandparent(node *n);
+        node *uncle(node *n);
+        void rotate_left(node *n);
+        void rotate_right(node *n);
+        void insert_case1(node *n);
+        void insert_case2(node *n);
+        void insert_case3(node *n);
+        void insert_case4(node *n);
+        void insert_case5(node *n);
+        void dump2(node  *node_);
+};
 
 template <class Key>
-BinaryTree<Key>::BinaryTree() : head_element(nullptr){
-    std::cout << "Конструктор дерева без инициализации" << std::endl;
+typename BinaryTree<Key>::node *BinaryTree<Key>::create_service_element()
+{
+        node *service = new node();
+        service->left = nullptr;
+        service->right = nullptr;
+        service->parent = nullptr;
+        service->color = SERVICE;
+        service->data = -1;  // E
+        //TODO: DELETE Test Service info
+        return service;
+}
+
+template <class Key>
+BinaryTree<Key>::BinaryTree() {
+        head_element = end_element = create_service_element();
+        std::cout << "Конструктор дерева без инициализации" << std::endl;
 }
 
 template <class Key>
 int BinaryTree<Key>::insert_element(const value_type& value){
     int result = 0;
-    //node *insert_place = 
     insert_to_tree(value);
 
     return result;
@@ -109,68 +145,62 @@ int BinaryTree<Key>::insert_element(const value_type& value){
 
 template <class Key>
 typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_type& value) {
-    // От головы 
-    // Если поинтер на голову нулевой, тогда поместить элементы
-    // Возвращаем ссылку на новый элемент
-    node *result  =  nullptr;
-   // std::cout << "62 " << std::endl;
-    if (!head_element) {
-       // std::cout << "64 " << std::endl;
-        head_element  = new node();
-        printf("head: %p\n", head_element);
-        head_element -> right == nullptr;
-        head_element -> left == nullptr;
-        head_element ->color = BLACK;
-        head_element->data = value;
-       //  printf("78: %p\n", head_element);
 
-    } else { 
-        // Идем от головы.
-            //// Если текущее >= головы тогда смотрим право
-            // если право пустое, вставляем
-            // иначе переходим налево. Повторяем
-            //// Иначе - смотрим лево
-            // если левое пустое, вставляем
-            node* current = head_element;
-            while(1) {
-                if (value >= current->data) {
-                    if (current->right == nullptr) {
-                        current->right = new node();
-                        
+    // Крайний правый связываем с мнимым элемеетом.
+
+    // Идем от головы.
+    //// Если текущее >= головы тогда смотрим право
+    // если право пустое, вставляем
+    // иначе переходим налево. Повторяем
+    //// Иначе - смотрим лево
+    // если левое пустое, вставляем
+   
+    node* current = head_element; 
+    node *new_element = new node(); 
+    //      Дело в том, что если голова является мнимым элементом, тогда голова меняется на новый элемент.
+    //      Если же голова это действительный элемент, тогда идем от элемента головы
+    //      Если элемент на место которого вставляем новый элемент ссылается на мнимый, то совершаем вставку нового элемента. 
+    if (current->color == SERVICE) {
+        // Где current = SERVICE
+        current = head_element = add_new_element(new_element, value, BLACK, end_element);
+    } else {
+        while(1) {
+            if (value >= current->data) {
+                if (current->right == nullptr) {
+                        current->right = new_element;
                         current->right->parent = current;
                         current = current->right;
-                        printf("current %p\n", current);
-                        current->color = RED;
-                        current->left = nullptr;
-                        current->right = nullptr;
-                        current->data = value;
-                        result = current;
-                       //  printf("98: %p\n", current);
+                        current = add_new_element(current, value, RED, nullptr);
                         break;
-                    } else {
-                        current = current->right;
-                    }
+                } else if (current->right == end_element) {
+                    // вставляем элемент между текущим и конечным.
+                    current->right = new_element;
+                    current->right->parent = current;
+                    current = current->right;
+                    current = add_new_element(current, value, RED, end_element);
+                    break;
                 } else {
-                    if (current->left == nullptr) {
-
-                        current->left = new node();
-                        current->left->parent = current;
-                        current = current->left;
-                        printf("current %p\n", current);
-                        current->color = RED;
-                        current->left = nullptr;
-                        current->right = nullptr;
-                        current->data = value;
-                        result = current;
-                    //     printf("113: %p\n", current);
-                        break;
-                    } else {
-                         current = current->left;
-                    }
+                    current = current->right;
                 }
-            }
+            } else {
+                if (current->left == nullptr) {
+                    current->left = new node();
+                    current->left->parent = current;
+                    current = current->left;
+                    current = add_new_element(current, value, RED, nullptr);
+                    break;
+                } else {
+                    current = current->left;
+                }
+            }                               
+        }
     }
-    return result;
+    //print_element(current);
+    insert_case1(current);
+    return current;
 } 
+
+#include "s21_Red_Blue.h"
+#include "s21_additional_foos.h"
 
 }
