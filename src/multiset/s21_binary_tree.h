@@ -162,40 +162,70 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
     //      Если элемент на место которого вставляем новый элемент ссылается на мнимый, то совершаем вставку нового элемента. 
     if (current->color == SERVICE) {
         // Где current = SERVICE
-        current = head_element = add_new_element(new_element, value, BLACK, end_element);
+                printf("end = %p\n", end_element);
+                current = head_element = add_new_element(new_element, value, BLACK, end_element);
     } else {
         while(1) {
-            if (value >= current->data) {
-                if (current->right == nullptr) {
-                        current->right = new_element;
-                        current->right->parent = current;
-                        current = current->right;
-                        current = add_new_element(current, value, RED, nullptr);
-                        break;
-                } else if (current->right == end_element) {
-                    // вставляем элемент между текущим и конечным.
-                    current->right = new_element;
-                    current->right->parent = current;
-                    current = current->right;
-                    current = add_new_element(current, value, RED, end_element);
-                    break;
-                } else {
-                    current = current->right;
-                }
-            } else {
-                if (current->left == nullptr) {
-                    current->left = new node();
-                    current->left->parent = current;
-                    current = current->left;
-                    current = add_new_element(current, value, RED, nullptr);
-                    break;
-                } else {
-                    current = current->left;
-                }
-            }                               
+            if (value >= current->data)
+            {
+                        std::cout << "value >= current->data" << std::endl;
+                        if (current->right == nullptr)
+                        {
+                            current->right = new_element;
+                            current->right->parent = current;
+                            current = current->right;
+                            current = add_new_element(current, value, RED, nullptr);
+                            break;
+                        }
+                        else if (current->right == end_element)
+                        {
+                            std::cout << "right element = end" << std::endl;
+                            // вставляем элемент между текущим и конечным.
+                            current->right = new_element;
+                            current->right->parent = current;
+                            current = current->right;
+                            current = add_new_element(current, value, RED, end_element);
+                            break;
+                        }
+                        else
+                        {
+                            current = current->right;
+                        }
+            }
+            else
+            {
+                        if (current->left == nullptr)
+                        {
+                            current->left = new node();
+                            current->left->parent = current;
+                            current = current->left;
+                            current = add_new_element(current, value, RED, nullptr);
+                            break;
+                        }
+
+                        // C этим куском работает частично
+                        else if (current->right == end_element)
+                        {
+                            std::cout << "right element = end" << std::endl;
+                            // вставляем элемент между текущим и конечным.
+                            current->right = new_element;
+                            current->right->parent = current;
+                            current = current->right;
+                            current = add_new_element(current, value, RED, end_element);
+                            break;
+                        }
+
+                        else
+                        {
+                            current = current->left;
+                        }
+            }
         }
+
+        
     }
-    //print_element(current);
+   // print_element(current);
+    std::cout << "pre-insert point" << std::endl;
     insert_case1(current);
     return current;
 } 

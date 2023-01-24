@@ -16,16 +16,18 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::add_new_element
 
 template <class Key>
 void BinaryTree<Key>::print_element(node* El) {
-    printf("Element:  %17p Parent: %17p  Left: %17p  Right: %17p Value: %3d  \n",
+    printf("Element:  %17p Parent: %17p  Left: %17p  Right: %17p Value: %3d ",
            El, El->parent, El->left, El->right, El->data);
+    if (El == head_element){
+        printf("Head\n");
+    }
+    else
+    {
+        printf("\n");
+    }
 }
 template <class Key>
-void BinaryTree<Key>::dump2(node *node_)
-{
-   // std::cout << "Dump2 start" << std::endl;
-    std::string  ch_hor = "-", ch_ver = "|", ch_ddia = "/", ch_rddia = "\\",
-                        ch_udia = "\\", ch_ver_hor = "|-", ch_udia_hor = "\\-",
-                         ch_ddia_hor = "/-", ch_ver_spa = "| ";
+void BinaryTree<Key>::dump2(node *node_) {
     if (!node_)
         return;
     if (node_->right)

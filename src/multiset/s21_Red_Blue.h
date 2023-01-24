@@ -23,6 +23,7 @@ typename BinaryTree<Key>::node *BinaryTree<Key>::uncle(node *n)
 template <class Key>
 void BinaryTree<Key>::rotate_left(node *n)
 {
+    std::cout << "Left Rotate" << std::endl;
     node *pivot = n->right;
     // меняемся родителями
     pivot->parent = n->parent; /* при этом, возможно, pivot становится корнем дерева */
@@ -47,6 +48,8 @@ void BinaryTree<Key>::rotate_left(node *n)
 template <class Key>
 void BinaryTree<Key>::rotate_right(node *n)
 {
+    std::cout << "Right  Rotate" << std::endl;
+
     node *pivot = n->left;
     pivot->parent = n->parent; /* при этом, возможно, pivot становится корнем дерева */
     if (n->parent != nullptr) {

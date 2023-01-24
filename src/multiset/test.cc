@@ -9,14 +9,14 @@ int main(){
     s21::multiset<int> multi;
   //  std::vector<int> obj;
 //    std::vector<int>::iterator it;
-    multi.insert(3);
-    multi.insert(0);
-    multi.insert(6);
-    multi.insert(7);
-   //multi.insert(0);
-   // multi.insert(0);
-    //multi.insert(0);
     multi.insert(1);
+    multi.insert(2);
+    multi.insert(3);
+//     multi.insert(3);
+//    multi.insert(2);
+//    multi.insert(1);
+//     multi.insert(7);
+//     multi.insert(8);
     
     // multi.insert(5);
      //multi.insert(10);
