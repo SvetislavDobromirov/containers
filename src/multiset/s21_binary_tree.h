@@ -204,16 +204,16 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
                         }
 
                         // C этим куском работает частично
-                        else if (current->right == end_element)
-                        {
-                            std::cout << "right element = end" << std::endl;
-                            // вставляем элемент между текущим и конечным.
-                            current->right = new_element;
-                            current->right->parent = current;
-                            current = current->right;
-                            current = add_new_element(current, value, RED, end_element);
-                            break;
-                        }
+                        // else if (current->right == end_element)
+                        // {
+                        //     std::cout << "right element = end" << std::endl;
+                        //     // вставляем элемент между текущим и конечным.
+                        //     current->right = new_element;
+                        //     current->right->parent = current;
+                        //     current = current->right;
+                        //     current = add_new_element(current, value, RED, end_element);
+                        //     break;
+                        // }
 
                         else
                         {

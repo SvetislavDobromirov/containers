@@ -10,6 +10,7 @@ int main() {
         s21::multiset<int> multi;
   //  std::vector<int> obj;
 //    std::vector<int>::iterator it;
+
     // multi.insert(1);
     // multi.insert(2);
     // multi.insert(3);
@@ -17,6 +18,7 @@ int main() {
         multi.insert(3);
         multi.insert(2);
         multi.insert(1);
+
     //     multi.insert(7);
     //     multi.insert(8);
     
@@ -31,6 +33,9 @@ int main() {
     // printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);
 
     auto it_end = multi.end();
+    std::cout << "36 Begin:" << *it << std::endl;
+    std::cout << "37 Head:" << multi.get_head()->data << std::endl;
+
     while(it != it_end){
         std::cout << *it << std::endl;
         printf("Element: %d : %p\n\t Parent: %p \n\t Left: %p \n\t Right %p \n\n",  it.ptr_->data, it.ptr_ , it.ptr_->parent, it.ptr_->left, it.ptr_->right);

@@ -47,21 +47,21 @@ template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::begin() {
     node_m * goal = this->head_element;
     goal = go_to_left(goal);
-    // Проверяем есть и повторные элемент 
-    if (goal->right) {
-        if (goal->right->data == goal->data) {
-             Key check_value = goal->data;
-            while (goal->right != nullptr) {
-                if (goal->right->data != check_value) break;
-                goal = goal->right;
-            }
-        }  else if (goal->right->left) {
-            if (goal->data == goal->right->left->data) {
-                goal = goal->right->left;
-            }
-            goal = go_to_left(goal);
-        } 
-    } 
+    //Проверяем есть и повторные элемент 
+    // if (goal->right) {
+    //     if (goal->right->data == goal->data) {
+    //          Key check_value = goal->data;
+    //         while (goal->right != nullptr) {
+    //             if (goal->right->data != check_value) break;
+    //             goal = goal->right;
+    //         }
+    //     }  else if (goal->right->left) {
+    //         if (goal->data == goal->right->left->data) {
+    //             goal = goal->right->left;
+    //         }
+    //         goal = go_to_left(goal);
+    //     } 
+    // } 
     iterator it;
     it.ptr_ = goal;
     return it;
