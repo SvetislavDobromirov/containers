@@ -60,6 +60,8 @@ void BinaryTree<Key>::rotate_right(node *n)
             n->parent->left = pivot;
         else
             n->parent->right = pivot;
+    } else {
+        head_element = pivot;
     }
 
     n->left = pivot->right;
