@@ -23,7 +23,8 @@ class BinaryTree {
 
         node *get_head() { return head_element; }; // TEST
 
-        class iterator {
+        class iterator 
+        {
             friend BinaryTree;
             public:
                 reference operator*() {
@@ -32,9 +33,30 @@ class BinaryTree {
                 iterator operator++() {
                     if (!ptr_->parent) { //  1
                         std::cout << "1   33" << std::endl;
+                        // if (ptr_->left != nullptr) {
+                        //     std::cout << "1   34" << std::endl;
+                        //     if (ptr_->parent->data >= ptr_->left->data) {
+                        //         std::cout << "1   35" << std::endl;
+                        //         ptr_ = ptr_->left;
+                        //         std::cout << "1   36" << std::endl;
+                        //     }
+                        // } else 
                         if (ptr_->right) {
                             ptr_ = ptr_->right;
-                        } else {
+
+                            if (ptr_->left != nullptr) {
+                                std::cout << "1   34" << std::endl;
+                                if (ptr_->parent->data >= ptr_->left->data) {
+                                    std::cout << "1   35" << std::endl;
+                                    ptr_ = ptr_->left;
+                                    std::cout << "1   36" << std::endl;
+                                }
+                            }
+                   
+                        }
+                        else
+                        {
+
                             // Или возвращаем текущий, или идем налево, или конечный
                             // enf
                         }
@@ -42,17 +64,27 @@ class BinaryTree {
                     // налево до упора
                     // Два случая : либо родитель меньше, лбо равен
                         std::cout << "2   43" << std::endl;
-                        
-                        //if (ptr_->parent->data <= ptr_->data){
+
+                        // if (ptr_->left != nullptr) {
+                        //     std::cout << "1   34" << std::endl;
+                        //     if (ptr_->parent->data >= ptr_->left->data) {
+                        //         std::cout << "1   35" << std::endl;
+                        //         ptr_ = ptr_->left;
+                        //         std::cout << "1   36" << std::endl;
+                        //     }
+                        // } else
+
+                        if (ptr_->parent->data <= ptr_->data){
                             ptr_ = ptr_->right;
                             while (ptr_->left != nullptr)
                                 ptr_ = ptr_->left;
-                        // } else {
-                        //     std::cout << "2   48" << std::endl;
-                        //     ptr_ = ptr_ ->parent;
-                        // }
+                        } else {
+                            std::cout << "2   48" << std::endl;
+                            ptr_ = ptr_ ->parent;
+                        }
+
                     } else if (ptr_->parent->data >= ptr_->data) { // 3
-                      std::cout << "3  50" << std::endl;
+                        std::cout << "3  50" << std::endl;
                         ptr_ = ptr_->parent;
                     } else  { // 4
                       std::cout << "4   53" << std::endl;
@@ -232,5 +264,6 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
 
 #include "s21_Red_Blue.h"
 #include "s21_additional_foos.h"
+//#include "s21_iterators.h"
 
 }
