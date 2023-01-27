@@ -95,10 +95,61 @@ typename BinaryTree<Key>::iterator multiset<Key>::end(){
 
 template <class Key>
 typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& value) {
-    this->insert_to_tree(value);
     iterator it;
+    it.ptr_ =  this->insert_to_tree(value);
     return it;
 }
+
+template <class Key>
+class BinaryTree<Key>::iterator
+{
+    friend BinaryTree;
+
+public:
+    reference operator*() {
+        return ptr_->data;
+    }
+
+    iterator operator++()
+    {
+        // Сначала надо определить на какой ветке находится текущий поинтер
+        //// первый случай если текущий элемент == мнимому элементу
+        //// второй случай когда текущий элемент равен голове
+        //// третий и четвертый случай это сравнения
+
+        if (ptr_ == nullptr)
+        {
+            std::cout << "237" << std::endl;
+            // В таком случае элемент == end();
+            //// Что мы делаем в таком случае?
+        } else {
+            std::cout << "27" << std::endl;
+        }
+        // head_element
+
+        return *this;
+    }
+
+    bool operator!=(iterator in)
+    {
+        return in.ptr_ != this->ptr_;
+    }
+
+    iterator operator--()
+    {
+        std::cout << "33" << std::endl;
+        while (ptr_->left != nullptr)
+        {
+            std::cout << "34" << std::endl;
+            ptr_ = ptr_->left;
+        }
+        return *this;
+    }
+   
+    //multiset<Key> *link_multi;
+    node *ptr_;
+};
+
 
 }
 
