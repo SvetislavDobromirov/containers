@@ -11,15 +11,15 @@ namespace s21 {
             using const_reference = const Key &;
             using iterator = typename BinaryTree<Key>::iterator;
             using node_m = typename BinaryTree<Key>::node;
-        // using const_iterator = typename BinaryTree<Key>::const_iterator;
+            // using const_iterator = typename BinaryTree<Key>::const_iterator;
             iterator insert(const value_type& value);
 
             multiset();
-           // multiset(std::initializer_list<value_type> const &items);
-            //multiset(const multiset &ms);
-            //multiset(multiset &&ms);
-            //~multiset();
-            //operator=(multiset &&ms);
+        //    multiset(std::initializer_list<value_type> const &items);
+        //     multiset(const multiset &ms);
+        //     multiset(multiset &&ms);
+        //     ~multiset();
+        //     operator=(multiset &&ms);
             iterator begin();
             iterator end();
 
@@ -61,9 +61,15 @@ typename BinaryTree<Key>::iterator multiset<Key>::begin() {
             }
             goal = go_to_left(goal);
         } 
-    } 
+    }
+
+
     iterator it;
+  /// it->link_multi = *this;
     it.ptr_ = goal;
+
+
+
     return it;
 }
 
@@ -94,12 +100,7 @@ typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& valu
     return it;
 }
 
-// template <class Key>
-// multiset<Key>::multiset(std::initializer_list<value_type> const &items){
-//     // Здесь есть смысл использовать insert 
-// }
-
-
 }
 
-#include "s21_m_constructor.h"
+
+#include "s21_m_constructor.tpp"

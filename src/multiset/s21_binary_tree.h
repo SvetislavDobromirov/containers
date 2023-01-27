@@ -4,9 +4,8 @@ namespace s21 {
 enum node_colors { RED, BLACK, SERVICE };
 
 template <class Key>
-class BinaryTree {
+class BinaryTree {  
     public:
-
         class iterator;
         class const_iterator;
         using key_type = Key;
@@ -14,107 +13,23 @@ class BinaryTree {
         using reference = Key &;
 
         BinaryTree();
-        
+
+
         typedef struct Element {
             struct Element*left, *right, *parent;
             value_type data;
             enum node_colors color;
         } node;
 
-        node *get_head() { return head_element; }; // TEST
+       node *get_head() { return head_element; }; // TEST
 
-        class iterator 
-        {
-            friend BinaryTree;
-            public:
-                reference operator*() {
-                  return ptr_->data;
-                }
-                iterator operator++() {
-                    
-                    // Начинаем с левого дерева
-
-                    if (!ptr_->parent) { //  1
-                        std::cout << "1   33" << std::endl;
-                        if (ptr_->right) {
-                            ptr_ = ptr_->right;
-                            if (ptr_->left != nullptr) {
-                                std::cout << "1   34" << std::endl;
-                              //  if (ptr_->data > head_element->data){
-                                    if (ptr_->parent->data >= ptr_->left->data ) { // + и ветвь левая
-                                        std::cout << "1   35" << std::endl;
-                                        ptr_ = ptr_->left;
-                                        std::cout << "1   36" << std::endl;
-                                    } 
-
-                            }
-                   
-                        }
-                        else
-                        {
-
-                            // Или возвращаем текущий, или идем налево, или конечный
-                            // enf
-                        }
-                    } else if (ptr_->right ) { // 2
-                    // налево до упора
-                    // Два случая : либо родитель меньше, лбо равен
-                        std::cout << "2   43" << std::endl;
-                        ptr_ = ptr_ ->right;
-                        // if (ptr_->parent->data <= ptr_->data){
-                        //     ptr_ = ptr_->right;
-                        //     while (ptr_->left != nullptr)
-                        //         ptr_ = ptr_->left;
-                        // } else {
-                        //     std::cout << "2   48" << std::endl;
-                        //     ptr_ = ptr_ ->parent;
-                        // }
-
-                    } else if (ptr_->parent->data >= ptr_->data) { // 3
-                        std::cout << "3  50" << std::endl;
-                        ptr_ = ptr_->parent;
-                    } else  { // 4
-                      std::cout << "4   53" << std::endl;
-                        ptr_ = ptr_->parent;
-                        if (ptr_->parent) {
-                            ptr_ = ptr_->parent;
-                        } else if (ptr_->right){
-                            ptr_ = ptr_->right;
-                        } else {
-                            // тогда конечный результат
-                        }
-                    }
-                    
-                    
-                    return *this;
-                }
-
-                bool operator!=(iterator in) {
-                    return in.ptr_ != this->ptr_;
-                }
-
-                iterator operator--() {
-                    std::cout << "33" << std::endl;
-                    while (ptr_->left != nullptr) {
-                         std::cout << "34" << std::endl;
-                        ptr_ = ptr_->left;
-                    }
-                    return *this;
-                }
-                void checking_repeate(){
-
-                };
-                node* ptr_;
-
-        };
-
-
+ 
     private:
         node *create_service_element(); // Создаем мнимый элемент при инициализации
         node *add_new_element(node *current, Key Value, node_colors color, node *service);
 
     protected:
-        node *head_element, *end_element;
+        static node *head_element, *end_element;
         node *min_element;
         node *max_element;
         
@@ -157,12 +72,13 @@ BinaryTree<Key>::BinaryTree() {
 }
 
 template <class Key>
-int BinaryTree<Key>::insert_element(const value_type& value){
+int BinaryTree<Key>::insert_element(const value_type& value) {
     int result = 0;
     insert_to_tree(value);
 
     return result;
 }
+
 
 template <class Key>
 typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_type& value) {
@@ -229,10 +145,130 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
    // std::cout << "pre-insert point" << std::endl;
     insert_case1(current);
     return current;
-} 
+}
 
-#include "s21_Red_Blue.h"
-#include "s21_additional_foos.h"
-//#include "s21_iterators.h"
+template <class Key>
+class BinaryTree<Key>::iterator
+{
+    friend BinaryTree;
+
+public:
+    reference operator*()
+    {
+        return ptr_->data;
+    }
+
+    /*
+    iterator operator++()
+    {
+
+
+      // Начинаем с левого дерева
+
+      if (!ptr_->parent)
+      { //  1
+          std::cout << "1   33" << std::endl;
+          if (ptr_->right)
+          {
+              ptr_ = ptr_->right;
+              if (ptr_->left != nullptr)
+              {
+                  std::cout << "1   34" << std::endl;
+                  //  if (ptr_->data > head_element->data){
+                        if (ptr_->parent->data >= ptr_->left->data ) { // + и ветвь левая
+                            std::cout << "1   35" << std::endl;
+                            ptr_ = ptr_->left;
+                            std::cout << "1   36" << std::endl;
+                        }
+
+                }
+
+            }
+            else
+            {
+
+                // Или возвращаем текущий, или идем налево, или конечный
+                // enf
+            }
+        } else if (ptr_->right ) { // 2
+        // налево до упора
+        // Два случая : либо родитель меньше, лбо равен
+            std::cout << "2   43" << std::endl;
+            ptr_ = ptr_ ->right;
+            // if (ptr_->parent->data <= ptr_->data){
+            //     ptr_ = ptr_->right;
+            //     while (ptr_->left != nullptr)
+            //         ptr_ = ptr_->left;
+            // } else {
+            //     std::cout << "2   48" << std::endl;
+            //     ptr_ = ptr_ ->parent;
+            // }
+
+        } else if (ptr_->parent->data >= ptr_->data) { // 3
+            std::cout << "3  50" << std::endl;
+            ptr_ = ptr_->parent;
+        } else  { // 4
+          std::cout << "4   53" << std::endl;
+            ptr_ = ptr_->parent;
+            if (ptr_->parent) {
+                ptr_ = ptr_->parent;
+            } else if (ptr_->right){
+                ptr_ = ptr_->right;
+            } else {
+                // тогда конечный результат
+            }
+        }
+
+
+        return *this;
+    }
+
+    */
+
+    iterator operator++()
+    {
+        // Сначала надо определить на какой ветке находится текущий поинтер
+        //// первый случай если текущий элемент == мнимому элементу
+        //// второй случай когда текущий элемент равен голове
+        //// третий и четвертый случай это сравнения
+
+        if (ptr_ == head_element)
+        {
+            std::cout << "237" << std::endl;
+            // В таком случае элемент == end();
+            //// Что мы делаем в таком случае?
+        } else {
+            std::cout << "27" << std::endl;
+        }
+        // head_element
+
+        return *this;
+    }
+
+    bool operator!=(iterator in)
+    {
+        return in.ptr_ != this->ptr_;
+    }
+
+    iterator operator--()
+    {
+        std::cout << "33" << std::endl;
+        while (ptr_->left != nullptr)
+        {
+            std::cout << "34" << std::endl;
+            ptr_ = ptr_->left;
+        }
+        return *this;
+    }
+    void checking_repeate(){
+
+    };
+    //multiset<Key> *link_multi;
+    node *ptr_;
+};
+
+#include "s21_Red_Blue.tpp"
+#include "s21_additional_foos.tpp"
+
 
 }
