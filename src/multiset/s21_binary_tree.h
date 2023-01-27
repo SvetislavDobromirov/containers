@@ -31,26 +31,22 @@ class BinaryTree {
                   return ptr_->data;
                 }
                 iterator operator++() {
+                    
+                    // Начинаем с левого дерева
+
                     if (!ptr_->parent) { //  1
                         std::cout << "1   33" << std::endl;
-                        // if (ptr_->left != nullptr) {
-                        //     std::cout << "1   34" << std::endl;
-                        //     if (ptr_->parent->data >= ptr_->left->data) {
-                        //         std::cout << "1   35" << std::endl;
-                        //         ptr_ = ptr_->left;
-                        //         std::cout << "1   36" << std::endl;
-                        //     }
-                        // } else 
                         if (ptr_->right) {
                             ptr_ = ptr_->right;
-
                             if (ptr_->left != nullptr) {
                                 std::cout << "1   34" << std::endl;
-                                if (ptr_->parent->data >= ptr_->left->data) {
-                                    std::cout << "1   35" << std::endl;
-                                    ptr_ = ptr_->left;
-                                    std::cout << "1   36" << std::endl;
-                                }
+                              //  if (ptr_->data > head_element->data){
+                                    if (ptr_->parent->data >= ptr_->left->data ) { // + и ветвь левая
+                                        std::cout << "1   35" << std::endl;
+                                        ptr_ = ptr_->left;
+                                        std::cout << "1   36" << std::endl;
+                                    } 
+
                             }
                    
                         }
@@ -64,24 +60,15 @@ class BinaryTree {
                     // налево до упора
                     // Два случая : либо родитель меньше, лбо равен
                         std::cout << "2   43" << std::endl;
-
-                        // if (ptr_->left != nullptr) {
-                        //     std::cout << "1   34" << std::endl;
-                        //     if (ptr_->parent->data >= ptr_->left->data) {
-                        //         std::cout << "1   35" << std::endl;
+                        ptr_ = ptr_ ->right;
+                        // if (ptr_->parent->data <= ptr_->data){
+                        //     ptr_ = ptr_->right;
+                        //     while (ptr_->left != nullptr)
                         //         ptr_ = ptr_->left;
-                        //         std::cout << "1   36" << std::endl;
-                        //     }
-                        // } else
-
-                        if (ptr_->parent->data <= ptr_->data){
-                            ptr_ = ptr_->right;
-                            while (ptr_->left != nullptr)
-                                ptr_ = ptr_->left;
-                        } else {
-                            std::cout << "2   48" << std::endl;
-                            ptr_ = ptr_ ->parent;
-                        }
+                        // } else {
+                        //     std::cout << "2   48" << std::endl;
+                        //     ptr_ = ptr_ ->parent;
+                        // }
 
                     } else if (ptr_->parent->data >= ptr_->data) { // 3
                         std::cout << "3  50" << std::endl;
@@ -97,6 +84,8 @@ class BinaryTree {
                             // тогда конечный результат
                         }
                     }
+                    
+                    
                     return *this;
                 }
 
@@ -194,38 +183,30 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
     //      Если элемент на место которого вставляем новый элемент ссылается на мнимый, то совершаем вставку нового элемента. 
     if (current->color == SERVICE) {
         // Где current = SERVICE
-                printf("end = %p\n", end_element);
+               // printf("end = %p\n", end_element);
                 current = head_element = add_new_element(new_element, value, BLACK, end_element);
     } else {
         while(1) {
-            if (value >= current->data)
-            {
-                        std::cout << "value >= current->data" << std::endl;
-                        if (current->right == nullptr)
-                        {
+            if (value >= current->data) {
+                      //  std::cout << "value >= current->data" << std::endl;
+                        if (current->right == nullptr) {
                             current->right = new_element;
                             current->right->parent = current;
                             current = current->right;
                             current = add_new_element(current, value, RED, nullptr);
                             break;
-                        }
-                        else if (current->right == end_element)
-                        {
-                            std::cout << "right element = end" << std::endl;
+                        } else if (current->right == end_element) {
+                       //    std::cout << "right element = end" << std::endl;
                             // вставляем элемент между текущим и конечным.
                             current->right = new_element;
                             current->right->parent = current;
                             current = current->right;
                             current = add_new_element(current, value, RED, end_element);
                             break;
-                        }
-                        else
-                        {
+                        } else {
                             current = current->right;
                         }
-            }
-            else
-            {
+            } else {
                         if (current->left == nullptr)
                         {
                             current->left = new node();
@@ -234,18 +215,6 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
                             current = add_new_element(current, value, RED, nullptr);
                             break;
                         }
-
-                        // C этим куском работает частично
-                        // else if (current->right == end_element)
-                        // {
-                        //     std::cout << "right element = end" << std::endl;
-                        //     // вставляем элемент между текущим и конечным.
-                        //     current->right = new_element;
-                        //     current->right->parent = current;
-                        //     current = current->right;
-                        //     current = add_new_element(current, value, RED, end_element);
-                        //     break;
-                        // }
 
                         else
                         {
@@ -256,8 +225,8 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
 
         
     }
-   // print_element(current);
-    std::cout << "pre-insert point" << std::endl;
+  //  print_element(current);
+   // std::cout << "pre-insert point" << std::endl;
     insert_case1(current);
     return current;
 } 
