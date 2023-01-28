@@ -117,15 +117,34 @@ public:
         //// второй случай когда текущий элемент равен голове
         //// третий и четвертый случай это сравнения
 
-        if (ptr_ == nullptr)
-        {
-            std::cout << "237" << std::endl;
-            // В таком случае элемент == end();
-            //// Что мы делаем в таком случае?
+    //if (head_element) {
+        if (!this->ptr_) {
+       // this->ptr_ = nullptr; //
+        while (this->ptr_->right) this->ptr_ = this->ptr_->right;
+        } else if ((!this->ptr_->parent ||
+                    this->ptr_ == this->ptr_->parent->right) &&
+                !this->ptr_->right) {
+        while (this->ptr_->parent && this->ptr_->parent->right == this->ptr_)
+            this->ptr_ = this->ptr_->parent;
+        if (!this->ptr_->parent)
+            this->ptr_ = nullptr;
+        else
+            this->ptr_ = this->ptr_->parent;
         } else {
-            std::cout << "27" << std::endl;
+        if (this->ptr_->right) {
+            this->ptr_ = this->ptr_->right;
+            while (this->ptr_->left) this->ptr_ = this->ptr_->left;
+        } else {
+            if (this->ptr_ == this->ptr_->parent->left)
+            this->ptr_ = this->ptr_->parent;
+            else
+            this->ptr_ = this->ptr_->parent->parent;
         }
-        // head_element
+        }
+//     } else {
+//         this->ptr_ = nullptr;
+//   }
+  return *this;
 
         return *this;
     }

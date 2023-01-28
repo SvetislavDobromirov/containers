@@ -45,6 +45,7 @@ class BinaryTree {
         void insert_case4(node *n);
         void insert_case5(node *n);
         void dump2(node  *node_);
+        
 };
 
 
@@ -72,6 +73,7 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
         //  Если элемент на место которого вставляем новый элемент ссылается на мнимый, то совершаем вставку нового элемента. 
     if (head_element == nullptr) {
         // Если элемент первый
+       /// std::cout << "75 __ " << value << std::endl;
         current = head_element = add_new_element(new_element, value, BLACK, nullptr);
     } else {
         while(1) {
@@ -99,6 +101,7 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
         }   
     }
     insert_case1(current);
+   // print_element(current);
     return current;
 }
 
