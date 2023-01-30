@@ -23,7 +23,7 @@ namespace s21 {
             ///
 
             multiset();
-            //    multiset(std::initializer_list<value_type> const &items);
+            multiset(std::initializer_list<value_type> const &items);
             //     multiset(const multiset &ms);
             //     multiset(multiset &&ms);
             //     ~multiset();
@@ -34,7 +34,7 @@ namespace s21 {
         
         private:
             node_m * go_to_left(node_m * cur) {
-                while (cur->left != nullptr)
+                while (cur->left != nullptr  && cur->left != this->end_element  )
                     cur = cur->left;
                 return cur;
             }
@@ -54,7 +54,7 @@ namespace s21 {
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::begin() {
     iterator it;
-    if (this->head_element != nullptr) {
+    if (this->head_element != this->end_element) {
         node_m *goal = this->head_element;
         goal = go_to_left(goal);
         // Проверяем есть и повторные элемент
@@ -78,7 +78,7 @@ typename BinaryTree<Key>::iterator multiset<Key>::begin() {
         }
         it.ptr_ = goal;
     } else {
-        it.ptr_ = nullptr;
+        it.ptr_ = this->end_element;
     }
     return it;
 }
@@ -86,7 +86,7 @@ typename BinaryTree<Key>::iterator multiset<Key>::begin() {
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::end() {
     iterator it;
-    if (this->head_element != nullptr)
+    if (this->head_element != this->end_element)
     {
         node_m *goal = this->head_element;
         goal = go_to_right(goal);
@@ -104,8 +104,10 @@ typename BinaryTree<Key>::iterator multiset<Key>::end() {
         it.ptr_ = goal;
        
     } else {
-        it.ptr_ = nullptr;
+        it.ptr_ = this->end_element;
     }
+
+   // it.ptr_ = this->end_element;
     return it;
 }
 
@@ -118,11 +120,17 @@ typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& valu
 
 template <class Key>
 void multiset<Key>::clear() {
-    // Очистка всего листа с помощью итератора
+
 }
 
+
+
+
+template <class Key>
 void multiset<Key>::erase(iterator pos){
-     
+    this->delete_case1(pos.ptr_);
+
+   
 }
 
 template <class Key>
@@ -182,7 +190,7 @@ public:
             {
                 this->ptr_ = this->ptr_->left;
                 while (this->ptr_->right)
-                this->ptr_ = this->ptr_->right;
+                    this->ptr_ = this->ptr_->right;
             }
             else if (this->ptr_->parent &&
                      this->ptr_->parent->right == this->ptr_)
@@ -192,22 +200,19 @@ public:
             else
             {
                 while (this->ptr_->parent && this->ptr_->parent->right != this->ptr_)
-                this->ptr_ = this->ptr_->parent;
+                    this->ptr_ = this->ptr_->parent;
                 if (this->ptr_->parent)
-                this->ptr_ = this->ptr_->parent;
+                    this->ptr_ = this->ptr_->parent;
                 else
-                this->ptr_ = nullptr;
+                    this->ptr_ = nullptr;
             }    
         return *this;
     }
    
-    //multiset<Key> *link_multi;
     node *ptr_;
 };
 
 
 }
-
-
 
 #include "s21_m_constructor.tpp"
