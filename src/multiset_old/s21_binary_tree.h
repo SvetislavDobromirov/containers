@@ -27,10 +27,13 @@ class BinaryTree {
 
     protected:
         node *head_element;
-        
+    
         int insert_element(const value_type &value);
+    
+
         node *insert_to_tree(const value_type &value);
         void print_element(node *El);
+
         
 
     public: // FOR SiLLy TESTS
@@ -73,7 +76,6 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
         //  Если элемент на место которого вставляем новый элемент ссылается на мнимый, то совершаем вставку нового элемента. 
     if (head_element == nullptr) {
         // Если элемент первый
-       /// std::cout << "75 __ " << value << std::endl;
         current = head_element = add_new_element(new_element, value, BLACK, nullptr);
     } else {
         while(1) {
@@ -104,6 +106,9 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
    // print_element(current);
     return current;
 }
+
+
+
 
 
 #include "s21_Red_Blue.tpp"

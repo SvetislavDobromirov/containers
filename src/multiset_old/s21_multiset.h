@@ -12,14 +12,22 @@ namespace s21 {
             using iterator = typename BinaryTree<Key>::iterator;
             using node_m = typename BinaryTree<Key>::node;
             // using const_iterator = typename BinaryTree<Key>::const_iterator;
+
+            /// Methods
             iterator insert(const value_type& value);
+            void clear();
+            void erase(iterator pos);
+            void swap(multiset &other);
+            void merge(multiset &other);
+
+            ///
 
             multiset();
-        //    multiset(std::initializer_list<value_type> const &items);
-        //     multiset(const multiset &ms);
-        //     multiset(multiset &&ms);
-        //     ~multiset();
-        //     operator=(multiset &&ms);
+            //    multiset(std::initializer_list<value_type> const &items);
+            //     multiset(const multiset &ms);
+            //     multiset(multiset &&ms);
+            //     ~multiset();
+            //     operator=(multiset &&ms);
             iterator begin();
             iterator end();
 
@@ -45,45 +53,59 @@ namespace s21 {
 
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::begin() {
-    node_m * goal = this->head_element;
-    goal = go_to_left(goal);
-    //Проверяем есть и повторные элемент 
-    if (goal->right) {
-        if (goal->right->data == goal->data) {
-             Key check_value = goal->data;
-            while (goal->right != nullptr) {
-                if (goal->right->data != check_value) break;
-                goal = goal->right;
-            }
-        }  else if (goal->right->left) {
-            if (goal->data == goal->right->left->data) {
-                goal = goal->right->left;
-            }
-            goal = go_to_left(goal);
-        } 
-    }
     iterator it;
-    it.ptr_ = goal;
+    if (this->head_element != nullptr) {
+        node_m *goal = this->head_element;
+        goal = go_to_left(goal);
+        // Проверяем есть и повторные элемент
+        if (goal->right) {
+            if (goal->right->data == goal->data) {
+                Key check_value = goal->data;
+                while (goal->right != nullptr)
+                {
+                    if (goal->right->data != check_value)
+                        break;
+                    goal = goal->right;
+                }
+            }
+            else if (goal->right->left) {
+                if (goal->data == goal->right->left->data)
+                {
+                    goal = goal->right->left;
+                }
+                goal = go_to_left(goal);
+            }
+        }
+        it.ptr_ = goal;
+    } else {
+        it.ptr_ = nullptr;
+    }
     return it;
 }
 
 template <class Key>
-typename BinaryTree<Key>::iterator multiset<Key>::end(){
-    node_m *goal = this->head_element;
-    goal = go_to_right(goal);
-    if (goal->right){
-        if (goal->right->data == goal->data) {
-            goal = go_to_right(goal);
-        } 
-        if (goal->right->left) {
-            if (goal->data == goal->right->left->data) {
-                goal = goal->right->left;
-            }
-            goal = go_to_right(goal);
-        } 
-    }
+typename BinaryTree<Key>::iterator multiset<Key>::end() {
     iterator it;
-    it.ptr_ = goal;
+    if (this->head_element != nullptr)
+    {
+        node_m *goal = this->head_element;
+        goal = go_to_right(goal);
+        if (goal->right) {
+            if (goal->right->data == goal->data) {
+                goal = go_to_right(goal);
+            } 
+            if (goal->right->left) {
+                if (goal->data == goal->right->left->data) {
+                    goal = goal->right->left;
+                }
+                goal = go_to_right(goal);
+            } 
+        }
+        it.ptr_ = goal;
+       
+    } else {
+        it.ptr_ = nullptr;
+    }
     return it;
 }
 
@@ -95,7 +117,16 @@ typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& valu
 }
 
 template <class Key>
-class BinaryTree<Key>::iterator
+void multiset<Key>::clear() {
+    // Очистка всего листа с помощью итератора
+}
+
+void multiset<Key>::erase(iterator pos){
+     
+}
+
+template <class Key>
+    class BinaryTree<Key>::iterator
 {
     friend BinaryTree;
 
@@ -110,36 +141,29 @@ public:
         //// первый случай если текущий элемент == мнимому элементу
         //// второй случай когда текущий элемент равен голове
         //// третий и четвертый случай это сравнения
-
-    //if (head_element) {
         if (!this->ptr_) {
-       // this->ptr_ = nullptr; //
-        while (this->ptr_->right) this->ptr_ = this->ptr_->right;
-        } else if ((!this->ptr_->parent ||
-                    this->ptr_ == this->ptr_->parent->right) &&
-                !this->ptr_->right) {
-        while (this->ptr_->parent && this->ptr_->parent->right == this->ptr_)
-            this->ptr_ = this->ptr_->parent;
-        if (!this->ptr_->parent)
-            this->ptr_ = nullptr;
-        else
-            this->ptr_ = this->ptr_->parent;
-        } else {
-        if (this->ptr_->right) {
-            this->ptr_ = this->ptr_->right;
-            while (this->ptr_->left) this->ptr_ = this->ptr_->left;
-        } else {
-            if (this->ptr_ == this->ptr_->parent->left)
-            this->ptr_ = this->ptr_->parent;
+            this->ptr_ = nullptr; //
+            while (this->ptr_->right) this->ptr_ = this->ptr_->right;
+            } else if ((!this->ptr_->parent ||
+                        this->ptr_ == this->ptr_->parent->right) &&
+                    !this->ptr_->right) {
+            while (this->ptr_->parent && this->ptr_->parent->right == this->ptr_)
+                this->ptr_ = this->ptr_->parent;
+            if (!this->ptr_->parent)
+                this->ptr_ = nullptr;
             else
-            this->ptr_ = this->ptr_->parent->parent;
+                this->ptr_ = this->ptr_->parent;
+            } else {
+            if (this->ptr_->right) {
+                this->ptr_ = this->ptr_->right;
+                while (this->ptr_->left) this->ptr_ = this->ptr_->left;
+            } else {
+                if (this->ptr_ == this->ptr_->parent->left)
+                this->ptr_ = this->ptr_->parent;
+                else
+                this->ptr_ = this->ptr_->parent->parent;
+            }
         }
-        }
-//     } else {
-//         this->ptr_ = nullptr;
-//   }
-  return *this;
-
         return *this;
     }
 
@@ -150,12 +174,30 @@ public:
 
     iterator operator--()
     {
-        std::cout << "33" << std::endl;
-        while (ptr_->left != nullptr)
-        {
-            std::cout << "34" << std::endl;
-            ptr_ = ptr_->left;
-        }
+            if (!this->ptr_)
+            {
+                ++(*this);
+            }
+            else if (this->ptr_->left)
+            {
+                this->ptr_ = this->ptr_->left;
+                while (this->ptr_->right)
+                this->ptr_ = this->ptr_->right;
+            }
+            else if (this->ptr_->parent &&
+                     this->ptr_->parent->right == this->ptr_)
+            {
+                this->ptr_ = this->ptr_->parent;
+            }
+            else
+            {
+                while (this->ptr_->parent && this->ptr_->parent->right != this->ptr_)
+                this->ptr_ = this->ptr_->parent;
+                if (this->ptr_->parent)
+                this->ptr_ = this->ptr_->parent;
+                else
+                this->ptr_ = nullptr;
+            }    
         return *this;
     }
    
@@ -165,6 +207,7 @@ public:
 
 
 }
+
 
 
 #include "s21_m_constructor.tpp"
