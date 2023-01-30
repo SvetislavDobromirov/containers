@@ -9,3 +9,4 @@ multiset<Key>::multiset() : BinaryTree<Key>()
         std::cout << "Голова нулевая. Создаем мнимый.  " << std::endl;
     }
 }
+

@@ -62,14 +62,8 @@ typename BinaryTree<Key>::iterator multiset<Key>::begin() {
             goal = go_to_left(goal);
         } 
     }
-
-
     iterator it;
-  /// it->link_multi = *this;
     it.ptr_ = goal;
-
-
-
     return it;
 }
 
