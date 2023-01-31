@@ -56,7 +56,6 @@ class BinaryTree {
         void insert_case5(node *n);
         void dump2(node *node_);
 
-
         void delete_one_child(node *node);
         void delete_case1(node *node);
         void delete_case2(node *node);
@@ -132,6 +131,8 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_to_tree (const value_typ
 }
 
 */
+
+
 template <class Key>
 typename BinaryTree<Key>::node *BinaryTree<Key>::insert_to_tree(const value_type &value)
 {
@@ -208,8 +209,10 @@ typename BinaryTree<Key>::node *BinaryTree<Key>::insert_to_tree(const value_type
                 
             // }
         }
+    
         // print_element(current);
         //std::cout << "pre-insert point" << std::endl;
+    
         insert_case1(current);
         return current;
 }

@@ -22,6 +22,8 @@ namespace s21 {
 
             ///
 
+            void erase_with_value(Key value);
+
             multiset();
             multiset(std::initializer_list<value_type> const &items);
             //     multiset(const multiset &ms);
@@ -31,25 +33,24 @@ namespace s21 {
             iterator begin();
             iterator end();
 
-        
         private:
-            node_m * go_to_left(node_m * cur) {
-                while (cur->left != nullptr  && cur->left != this->end_element  )
+            node_m *go_to_left(node_m *cur)
+            {
+                while (cur->left != nullptr && cur->left != this->end_element)
                     cur = cur->left;
                 return cur;
-            }
-            node_m * go_to_right(node_m * cur) {
-               
-                while (cur->right != nullptr)
-                    cur = cur->right;
-                return cur;
-            }
+                }
+                node_m *go_to_right(node_m * cur)
+                {
 
-        protected:
+                    while (cur->right != nullptr)
+                        cur = cur->right;
+                    return cur;
+                }
 
-            // typename s21::BinaryTree<Key>::node *head;
-    };
-
+            protected:
+                // typename s21::BinaryTree<Key>::node *head;
+            };
 
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::begin() {
@@ -128,11 +129,54 @@ void multiset<Key>::clear() {
 
 template <class Key>
 void multiset<Key>::erase(iterator pos){
-    this->delete_case1(pos.ptr_);
 
-   
+    printf("Pos pointer: %p\n", pos.ptr_);
+   // this->delete_case1(pos.ptr_);
+
+
+     this->delete_one_child(pos.ptr_);
+     //this->dump2(this->get_head());
+     //  erase_with_value()
+}
+/*
+template <class Key>
+void multiset<Key>::erase_with_value(Key value) {
+    Key value = *pos;
+
+    if (root->data == data)
+    {
+        if (!root->left->right && !root->left->left && !root->right->left &&
+            !root->right->right)
+        {
+            std::cout << "if with 3 deletes \n";
+            delete root->right;
+            delete root->left;
+            delete root;
+            root = nullptr;
+            return;
+        }
+        else if (!root->left->right && !root->left->left)
+        {
+            std::cout << "if with delete left \n";
+            Node *right = root->right;
+            delete root->left;
+            delete root;
+            root = right;
+            return;
+        }
+        else if (root->right->left && !root->right->right)
+        {
+            std::cout << "if with delete right \n";
+            Node *left = root->left;
+            delete root->right;
+            delete root;
+            root = left;
+            return;
+        }
+    }
 }
 
+*/
 template <class Key>
     class BinaryTree<Key>::iterator
 {

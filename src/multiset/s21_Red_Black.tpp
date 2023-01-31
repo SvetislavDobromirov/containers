@@ -159,11 +159,21 @@ void BinaryTree<Key>::replace_node(node *n, node *child)
 template <class Key>
 void BinaryTree<Key>::delete_one_child(node *n)
 {
+
     std::cout << "delete_one_child \n";
+    std::cout << "162" << std::endl;
+
+
     node *child = (!n->right->left && !n->right->right) ? n->left : n->right;
+    std::cout << "163" << std::endl;
+
     replace_node(n, child);
+    std::cout << "164" << std::endl;
+
     if (n->color == BLACK)
     {
+        std::cout << "165" << std::endl;
+
         if (child->color == RED)
             child->color = BLACK;
         else
@@ -216,8 +226,9 @@ void BinaryTree<Key>::delete_case3(node *n)
 template <class Key>
 void BinaryTree<Key>::delete_case4(node *n)
 {
-    std::cout << "delete_case4 \n";
+
     node *s = find_sibling(n);
+  
 
     if ((n->parent->color == RED) && (s->color == BLACK) &&
         (s->left->color == BLACK) && (s->right->color == BLACK))
@@ -237,10 +248,10 @@ void BinaryTree<Key>::delete_case5(node *n)
 
     if (s->color == BLACK)
     { /* this if statement is trivial,
-due to case 2 (even though case 2 changed the sibling to a sibling's child,
-the sibling's child can't be red, since no red parent can have a red
-child).
-*/
+    due to case 2 (even though case 2 changed the sibling to a sibling's child,
+    the sibling's child can't be red, since no red parent can have a red
+    child).
+    */
         /* the following statements just force the red to be on the left of the
         left
            of the parent, or right of the right, so case six will rotate

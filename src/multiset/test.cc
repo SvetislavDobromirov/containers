@@ -14,53 +14,35 @@
 
 int main() {
 
-      //  s21::multiset<int> multi;
-  
-        std::multiset<int> obj;
-        //auto it = obj.begin();
-       // std::cout << *it << std::endl;
-        s21::multiset<int> k;
+   
+      s21::multiset<int> my_test_multi = {1, 2, 3, 1, 2, 3};
+   //   std::multiset<int> orig_multi = {1, 2, 3, 1, 2, 3, 3};
 
-        //printf("Empty multi begin pointer :  %p\n", k.begin());
-       // printf("Empty multi emp pointer : %p\n", k.end());
+      auto it_my = my_test_multi.begin();
+   //  auto it_orig = orig_multi.begin();
 
-        srand(time(NULL));
-        for (int i = 0; i < 100; i++){
-          auto value_rand = rand() %20;
-          k.insert(value_rand);
-          obj.insert(value_rand);
-        }
-
-        
-
-  //      auto it_end = k.end();
-
-        // std::cout << std::endl;
-        // auto it_my = k.begin();
-        // auto it_or = obj.begin();
-        // std::cout << *it_or << " " << *it_my << std::endl;
-
-        //  int count = 1;
-        // while (it_my != k.end()) {
-        //   std::cout << count << ": -  " << *it_my << std::endl;
-        //   ++it_my;
-        //   count++;
-        // }
+   //   my_test_multi.dump2(my_test_multi.get_head());
 
 
-    auto it_my_end = k.end();
-    auto it_or_end = obj.end();
-    for (int i = 0; i < 100; i++) {
-          std::cout << *it_or_end << " - " << *it_my_end;
-          printf("  %p\n", it_my_end.ptr_);
-          --it_or_end;
-          --it_my_end;
-    }
+      ++it_my;
+      ++it_my;
+    //  ++it_my;
+      std::cout << "it_my: " << *it_my << std::endl;
+      // ++it_orig;
+      // ++it_orig;
+      // ++it_orig;
+      my_test_multi.erase(it_my);
+     // orig_multi.erase(it_orig);
 
-    printf("FULL multi begin pointer :  %p  %d\n",k.begin(), k.begin().ptr_->color);
-    printf("FULL multi end pointer %p  %d\n", k.end(), k.end().ptr_->color);
-    printf("FULL ORIG multi emp pointer : %p\n", obj.end());
+      auto it1_begin = my_test_multi.begin();
+     
+      while (it1_begin != my_test_multi.end())
+      {
+            std::cout << *it1_begin << " : ";// << *it2_begin << std::endl;
 
+            ++it1_begin;
+         //   ++it2_begin;
+      }
     // k.dump2(k.get_head());
 
     return 0;
