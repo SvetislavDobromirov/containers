@@ -27,6 +27,8 @@ class set : public tree<Key> {
   set &operator=(set &&other) noexcept;
 
   virtual std::pair<iterator, bool> insert(const value_type &value);
+  template <class... Args>
+  std::pair<iterator, bool> emplace(Args&&... args);
 
   void erase(iterator pos);
   iterator find(const key_type &key);

@@ -124,6 +124,15 @@ std::pair<typename set<Key>::iterator, bool> set<Key>::insert(
   return result;
 }
 
+template <typename Key>
+template <typename... Args>
+std::pair<typename set<Key>::iterator, bool> set<Key>::emplace(Args&&... args) {
+  auto res = insert(Key(std::forward<Args>(args)...));
+
+  return res;
+}
+
+
 template <typename T>
 typename set<T>::iterator set<T>::begin() {
   iterator result;

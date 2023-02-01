@@ -356,3 +356,18 @@ TEST(Set, 31_increments) {
   it--;
   ASSERT_EQ(*it, -1);
 }
+
+TEST(Set, 32_emplace) {
+  s21::set<int> a;
+  int b = 10, c = 15, d = 5, e = -10;
+  a.emplace(b);
+  a.emplace(c);
+  a.emplace(d);
+  a.emplace(e);
+  int ar[4] = {-10, 5, 10, 15};
+  int i = 0;
+  for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, ar[i]);
+    i++;
+  }
+}
