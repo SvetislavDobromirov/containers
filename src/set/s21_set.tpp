@@ -126,10 +126,14 @@ std::pair<typename set<Key>::iterator, bool> set<Key>::insert(
 
 template <typename Key>
 template <typename... Args>
-std::pair<typename set<Key>::iterator, bool> set<Key>::emplace(Args&&... args) {
-  auto res = insert(Key(std::forward<Args>(args)...));
+std::vector<std::pair<typename set<Key>::iterator, bool>> set<Key>::emplace(Args&&... args) {
+  std::vector<std::pair<iterator, bool>> result;
+  std::vector<Key> vector_from_args = {args...};
+  for (auto &it : vector_from_args) {
+    result.push_back(insert(Key(std::forward<Key>(it))));
+  }
 
-  return res;
+  return result;
 }
 
 

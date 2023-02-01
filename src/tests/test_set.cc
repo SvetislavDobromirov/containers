@@ -371,3 +371,26 @@ TEST(Set, 32_emplace) {
     i++;
   }
 }
+
+TEST(Set, 33_emplace) {
+  s21::set<int> a;
+  int b = 10, c = 15, d = 5, e = -10;
+  a.emplace(b, c, d, e);
+  int ar[4] = {-10, 5, 10, 15};
+  int i = 0;
+  for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, ar[i]);
+    i++;
+  }
+}
+
+TEST(Set, 34_emplace) {
+  s21::set<int> a;
+  a.emplace(10, 15, 5, -10);
+  int ar[4] = {-10, 5, 10, 15};
+  int i = 0;
+  for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, ar[i]);
+    i++;
+  }
+}
