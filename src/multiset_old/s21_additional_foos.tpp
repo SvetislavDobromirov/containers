@@ -16,8 +16,11 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::add_new_element
 
 template <class Key>
 void BinaryTree<Key>::print_element(node* El) {
-    printf("Element:  %17p Parent: %17p  Left: %17p  Right: %17p Value: %3d ",
+    printf("Element:  %17p Parent: %17p  Left: %17p  Right: %17p Value: %3d Color: ",
            El, El->parent, El->left, El->right, El->data);
+           if (El->color == 0) printf("RED");
+           else if (El->color == 1) printf ("BLACK  ");
+        
     if (El == head_element){
         printf("Head\n");
     }

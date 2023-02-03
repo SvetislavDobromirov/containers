@@ -12,7 +12,7 @@ int main(){
     //it++;
     it++;
     obj.splice(it, obj2);
-
+    
   
         return 0;
 }
