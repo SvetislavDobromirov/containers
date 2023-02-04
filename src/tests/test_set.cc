@@ -394,3 +394,11 @@ TEST(Set, 34_emplace) {
     i++;
   }
 }
+
+TEST(Set, 35_insert) {
+  s21::set<int> aboba;
+  auto pr = aboba.insert(5);
+  ASSERT_EQ(pr.second, true);
+  auto pr1 = aboba.insert(5);
+  ASSERT_EQ(pr1.second, false);
+}

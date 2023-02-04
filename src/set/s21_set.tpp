@@ -136,7 +136,6 @@ std::vector<std::pair<typename set<Key>::iterator, bool>> set<Key>::emplace(Args
   return result;
 }
 
-
 template <typename T>
 typename set<T>::iterator set<T>::begin() {
   iterator result;
