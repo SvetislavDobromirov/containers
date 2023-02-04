@@ -103,3 +103,13 @@ TEST(Map, 11_move)
     ASSERT_EQ("aboba", (*b.begin()).first);
     ASSERT_THROW(*a.begin(), std::runtime_error);
 }
+
+TEST(Map, 12_insert_or_assign) {
+    s21::map<int, std::string> aboba;
+    aboba.insert_or_assign(1, "one");
+    aboba.insert_or_assign(2, "two");
+    aboba.insert_or_assign(1, "new_one");
+
+    ASSERT_EQ(aboba[1], "new_one");
+    ASSERT_EQ(aboba[2], "two");
+}

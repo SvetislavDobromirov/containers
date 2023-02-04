@@ -10,9 +10,20 @@ namespace s21 {
 
     template<class Key, class T>
     std::pair<typename set<std::pair<Key, T>>::iterator, bool> map<Key, T>::insert_or_assign(const Key &key, const T &obj) {
-        auto result_pair = set<value_type>::insert({key, obj});
-        if (!result_pair.second) {
-            at(key) = obj;
+        bool flag = true;
+        std::pair<typename set<std::pair<Key, T>>::iterator, bool> result_pair;
+        for (auto it = set<value_type>::begin(); it != set<value_type>::end(); it++) {
+            if ((*it).first == key) {
+                at(key) = obj;
+                flag = false;
+                result_pair.second = false;
+                result_pair.first = it;
+                break;
+            }
+        }
+        
+        if (flag) {
+            result_pair = set<value_type>::insert({key, obj});
         }
 
         return result_pair;
