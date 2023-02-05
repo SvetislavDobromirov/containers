@@ -197,8 +197,7 @@ void set<T>::erase(iterator pos) {
 template <typename Key>
 void set<Key>::merge(set &other) {
   for (auto it = other.begin(); it != other.end(); it++) {
-    tree<Key>::tree_insert(*it);
-    tree<Key>::size_++;
+    tree<Key>::tree_insert(std::forward<Key>(*it));
   }
 }
 

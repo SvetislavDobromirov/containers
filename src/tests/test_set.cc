@@ -253,6 +253,8 @@ TEST(Set, 23_merge) {
     ASSERT_EQ(*it, i);
     i++;
   }
+
+  ASSERT_EQ(a.size(), 6);
 }
 
 TEST(Set, 24_merge_empty) {
