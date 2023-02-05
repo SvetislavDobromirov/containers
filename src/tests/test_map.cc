@@ -104,7 +104,18 @@ TEST(Map, 11_move)
     ASSERT_THROW(*a.begin(), std::runtime_error);
 }
 
-TEST(Map, 12_insert_or_assign) {
+TEST(Map, 12_insert) {
+    s21::map<int, int> square;
+    square.insert(1, 1);
+    square.insert(2, 4);
+    square.insert(3, 9);
+    auto pr = square.insert(2, 44);
+
+    ASSERT_EQ(square.at(2), 4);
+    ASSERT_EQ(pr.second, false);
+}
+
+TEST(Map, 13_insert_or_assign) {
     s21::map<int, std::string> aboba;
     aboba.insert_or_assign(1, "one");
     aboba.insert_or_assign(2, "two");
