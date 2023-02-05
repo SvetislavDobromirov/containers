@@ -86,6 +86,7 @@
         "cinttypes": "cpp",
         "*.tpp": "cpp",
         "__memory": "cpp",
-        "version": "cpp"
+        "version": "cpp",
+        "fstream": "cpp"
     }
 }

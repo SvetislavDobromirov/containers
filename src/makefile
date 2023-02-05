@@ -17,25 +17,28 @@ push:
 	git commit -ms
 	git push --all
 
+#TODO: remove clean
 test: clean
 	g++ $(CFLAGS) -c tests/run_test.cc
-	g++ $(CFLAGS) -c tests/test_list.cc
+	#g++ $(CFLAGS) -c tests/test_list.cc
 	# g++ $(CFLAGS) -c tests/test_map.cc
 	# g++ $(CFLAGS) -c tests/test_queue.cc
 	# g++ $(CFLAGS) -c tests/test_set.cc
 	# g++ $(CFLAGS) -c tests/test_stack.cc
 	# g++ $(CFLAGS) -c tests/test_vector.cc
+	g++ $(CFLAGS) -c -g tests/test_multiset.cc
 	g++ $(CFLAGS) *.o -o test $(CHECKFLAGS)
 	make run
 
 test_memory:
 	g++ $(CFLAGS) -c -g tests/run_test.cc
-	g++ $(CFLAGS) -c -g tests/test_list.cc
-	g++ $(CFLAGS) -c -g tests/test_map.cc
-	g++ $(CFLAGS) -c -g tests/test_queue.cc
-	g++ $(CFLAGS) -c -g tests/test_set.cc
-	g++ $(CFLAGS) -c -g tests/test_stack.cc
-	g++ $(CFLAGS) -c -g tests/test_vector.cc
+	# g++ $(CFLAGS) -c -g tests/test_list.cc
+	# g++ $(CFLAGS) -c -g tests/test_map.cc
+	# g++ $(CFLAGS) -c -g tests/test_queue.cc
+	# g++ $(CFLAGS) -c -g tests/test_set.cc
+	# g++ $(CFLAGS) -c -g tests/test_stack.cc
+	# g++ $(CFLAGS) -c -g tests/test_vector.cc
+	g++ $(CFLAGS) -c -g tests/test_multiset.cc
 	g++ $(CFLAGS) *.o -g -o test $(CHECKFLAGS)
 	valgrind --leak-check=full ./test
 
