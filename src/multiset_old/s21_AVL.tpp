@@ -98,18 +98,26 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::balance(node* p) // балан�
 }
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::insert(node* p, Key k) // вставка ключа k в дерево с корнем p 
+typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(node* p, Key k, node* merge_node) // вставка ключа k в дерево с корнем p 
 {
 
 	std::cout << std::endl;
-	if( !p ) return new node(k);
+	if( !p ) {
+		if (merge_node == nullptr){
+			return new node(k);
+		} else {
+			merge_node->left = nullptr;
+			merge_node->right = nullptr;
+			return merge_node;
+		}
+	}
 	if( k<p->data ) {
 		node* temp = p;
-		p->left = insert(p->left,k);
+		p->left = insert_avl(p->left,k, merge_node);
 		if (p->left) p->left->parent = temp;
 	} else {
 		node* temp = p;
-		p->right = insert(p->right,k);
+		p->right = insert_avl(p->right,k, merge_node);
 		if (p->right) p->right->parent = temp;
 	}
 	return balance(p);
@@ -118,23 +126,29 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert(node* p, Key k) // вс�
 template <class Key>
 typename BinaryTree<Key>::node* BinaryTree<Key>::findmin(node* p) // поиск узла с минимальным ключом в дереве p 
 {
+//	return p->right?findmin(p->right):p;
 	return p->left?findmin(p->left):p;
 }
 
 template <class Key>
 typename BinaryTree<Key>::node* BinaryTree<Key>::removemin(node* p) // удаление узла с минимальным ключом из дерева p
 {
+
 	if( p->left==0 )
 		return p->right;
 	p->left = removemin(p->left);
+	// if( p->left==0 )
+	// 	return p->right;
+	// p->left = removemin(p->left);
 	return balance(p);
 }
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, Key k) // удаление ключа k из дерева p
+typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k) // удаление ключа k из дерева p
 {
+
 	if( !p ) return 0;
-	if( k < p->data )
+	if( k < p->data ) 
 		p->left = remove(p->left,k);
 	else if( k > p->data )
 		p->right = remove(p->right,k);	
@@ -142,11 +156,22 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, Key k) // уд�
 	{
 		node* q = p->left;
 		node* r = p->right;
+		//if(q) print_element(q);
+		//if(r) print_element(r);
+
+		node * p_parent = p->parent;
 		delete p;
 		if( !r ) return q;
 		node* min = findmin(r);
+	
+		min->parent = p_parent;
+
 		min->right = removemin(r);
+		if (min->right) print_element(min->right);
 		min->left = q;
+		min->left->parent  = min;
+		if (min->right) min->right->parent = min;
+
 		return balance(min);
 	}
 	return balance(p);

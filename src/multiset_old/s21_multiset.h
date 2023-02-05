@@ -1,5 +1,6 @@
 #include "s21_binary_tree.h"
 #include <initializer_list>
+#include <limits>
 
 namespace s21 {
     template <class Key>
@@ -19,6 +20,15 @@ namespace s21 {
             size_type count(const Key& key);
             bool contains(const Key& key);
             std::pair<iterator,iterator> equal_range(const Key& key);
+            iterator lower_bound(const Key& key);
+            iterator upper_bound(const Key& key);
+            bool empty();	
+            size_type size();
+            size_type max_size();
+            void clear();
+            void swap(multiset& other);
+            void merge(multiset& other);
+
 
             multiset();
             multiset(std::initializer_list<value_type> const &items);
@@ -43,7 +53,9 @@ namespace s21 {
                 
                 return cur;
             }
+            
             void counter(node_m* current, size_t* size, const Key& key);
+            size_type size_of_elements;
 
         protected:
 
@@ -82,8 +94,6 @@ typename BinaryTree<Key>::iterator multiset<Key>::begin() {
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::end() {
     iterator it;
-    
-    
     node_m *goal = this->head_element;
     goal = go_to_right(goal);
     if (goal->right) {
@@ -99,21 +109,25 @@ typename BinaryTree<Key>::iterator multiset<Key>::end() {
     }
     if (goal->right == nullptr) goal = nullptr;
     it.ptr_ = goal;
-
-    
-  //  it.ptr_ = this->end_element;
     return it;
 }
 
 template <class Key>
 typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& value) {
     iterator it;
-   this->insert_to_tree(value);
-   
+
+    this->insert_to_tree(value);
    //TODO: Сделать возврат итератора через find
     it.ptr_ = this->head_element;
-   
+    size_of_elements++;
+
     return it;
+}
+
+template <class Key>
+size_t multiset<Key>::max_size(){
+    return std::numeric_limits<std::ptrdiff_t>().max() /
+        sizeof(node_m);
 }
 
 template <class Key>
@@ -129,6 +143,38 @@ typename BinaryTree<Key>::iterator  multiset<Key>::find(const Key& key) {
     it.ptr_ = current;
     return it;
 }
+template <class Key>
+void multiset<Key>::swap(multiset& other)	{
+// копируем: головв, разммер
+    auto temp_head = this->head_element;
+    auto temp_size = this->size_of_elements;
+
+    this->head_element = other->head_element;
+    this->size_of_elements = other->size_of_elements;
+
+    other->head_element = temp_head;
+    other->size_of_elements = temp_size;
+}
+
+template <class Key>
+void multiset<Key>::clear()	 {
+    // TODO:  DO
+}
+
+template <class Key>
+void multiset<Key>::merge(multiset<Key>& other) {
+    auto it_other = other.begin();
+    while  (it_other != other.end()){
+        this->head_element =  this->insert_avl(this->head_element, *it_other, it_other.ptr_);
+        this->head_element->parent = nullptr;
+        size_of_elements++;
+        ++it_other;
+    }
+
+    // TODO: очистить other
+}
+
+
 
 template <class Key>
 typename multiset<Key>::size_type  multiset<Key>::count(const Key& key) {
@@ -157,6 +203,23 @@ void  multiset<Key>::counter(node_m* current, size_t* size, const Key& key) {
 }
 
 template <class Key>
+typename multiset<Key>::iterator multiset<Key>::lower_bound(const Key& key) {
+    auto it = begin();
+    while(*it <= key)
+        ++it;
+    return it;
+}
+
+template <class Key>
+typename multiset<Key>::iterator multiset<Key>::upper_bound(const Key& key) {
+    auto it = begin();
+    while(*it<key ) 
+        ++it;
+    return it;
+}
+
+
+template <class Key>
 std::pair<typename multiset<Key>::iterator, 
     typename multiset<Key>::iterator> multiset<Key>::equal_range(const Key& key) {
     typedef multiset<Key>::iterator It;
@@ -165,15 +228,34 @@ std::pair<typename multiset<Key>::iterator,
     auto it2 = it1;
     if (it1.ptr_ != nullptr) {
         while (*it1 == *it2)
-            ++(*it2);
+            ++it2;
+    } else {
+        it2 = it1 = begin();
     }
     return std::make_pair(it1, it2);
 }
 
 template <class Key>
 void multiset<Key>::erase(iterator pos) {
- 
-   
+    
+    
+    this->head_element = this->remove(this->head_element, *pos);
+    size_of_elements--;
+    //it.ptr_ = this->head_element;
+    //TODO: Что если удаляем голову?
+
+}
+
+
+template <class Key>
+bool multiset<Key>::empty() {
+    return this->head_element?1:0;
+}
+
+
+template <class Key>
+size_t multiset<Key>::size() {
+    return size_of_elements;
 }
 
 template <class Key>
@@ -193,23 +275,27 @@ public:
         //// второй случай когда текущий элемент равен голове
         //// третий и четвертый случай это сравнения
 
-    //if (head_element) {
         if (!this->ptr_) {
-       // this->ptr_ = nullptr; //
-        while (this->ptr_->right) this->ptr_ = this->ptr_->right;
+
+            while (this->ptr_->right) this->ptr_ = this->ptr_->right;
         } else if ((!this->ptr_->parent ||
                     this->ptr_ == this->ptr_->parent->right) &&
                 !this->ptr_->right) {
-        while (this->ptr_->parent && this->ptr_->parent->right == this->ptr_)
-            this->ptr_ = this->ptr_->parent;
-        if (!this->ptr_->parent)
-            this->ptr_ = nullptr;
-        else
-            this->ptr_ = this->ptr_->parent;
+
+            while (this->ptr_->parent && this->ptr_->parent->right == this->ptr_)
+                this->ptr_ = this->ptr_->parent;
+
+    
+            if (!this->ptr_->parent)
+                this->ptr_ = nullptr;
+            else
+                this->ptr_ = this->ptr_->parent;
+
         } else {
-        if (this->ptr_->right) {
-            this->ptr_ = this->ptr_->right;
-            while (this->ptr_->left) this->ptr_ = this->ptr_->left;
+      
+            if (this->ptr_->right) {
+                this->ptr_ = this->ptr_->right;
+                while (this->ptr_->left) this->ptr_ = this->ptr_->left;
         } else {
             if (this->ptr_ == this->ptr_->parent->left)
             this->ptr_ = this->ptr_->parent;
@@ -217,9 +303,7 @@ public:
             this->ptr_ = this->ptr_->parent->parent;
         }
         }
-//     } else {
-//         this->ptr_ = nullptr;
-//   }
+
   return *this;
 
      
