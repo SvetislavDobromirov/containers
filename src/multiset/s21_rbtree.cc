@@ -1,8 +1,5 @@
 #include "s21_rbtree.h"
 
-#include <iostream>
-#include <vector>
-
 using namespace s21;
 
 template <class Key>
@@ -200,13 +197,25 @@ void RBTree<Key>::print_tree(RBTree<Key>::Node const *node,
 }
 
 template <class Key>
-size_t RBTree<Key>::calc_leafs(RBTree<Key>::Node const *node) {
+size_t RBTree<Key>::calc_tree_leaves(RBTree<Key>::Node const *node) {
   std::cout << node->data << '\n';
-  size_t leafs = 0;
+  size_t leaves = 0;
   if (!node || (!node->left && !node->right)) return 1;
-  leafs += calc_leafs(node->left);
-  leafs += calc_leafs(node->right);
-  return leafs;
+  leaves += calc_all_leaves(node->left);
+  leaves += calc_all_leaves(node->right);
+  return leaves;
+}
+
+template <class Key>
+size_t RBTree<Key>::calc_node_leaves(RBTree<Key>::Node const *node) {
+  std::cout << node->data << " - node data\n";
+  size_t leaves = 0;
+  if (node->left && node->right) {
+    if (!node->left->left && !node->left->right) leaves++;
+    if (!node->right->left && !node->right->right) leaves++;
+  }
+  std::cout << leaves << " - num of leaves\n";
+  return leaves;
 }
 
 template <class Key>
@@ -223,32 +232,27 @@ void RBTree<Key>::replace_node(RBTree<Key>::Node *n, RBTree<Key>::Node *child) {
 }
 
 template <class Key>
-void RBTree<Key>::erase(Key data) {
-  if (root->data == data) {
-    if (!root->left->right && !root->left->left && !root->right->left &&
-        !root->right->right) {
-      std::cout << "if with 3 deletes \n";
-      delete root->right;
-      delete root->left;
-      delete root;
-      root = nullptr;
-      return;
-    } else if (!root->left->right && !root->left->left) {
-      std::cout << "if with delete left \n";
-      Node *right = root->right;
-      delete root->left;
-      delete root;
-      root = right;
-      return;
-    } else if (root->right->left && !root->right->right) {
-      std::cout << "if with delete right \n";
-      Node *left = root->left;
-      delete root->right;
-      delete root;
-      root = left;
-      return;
-    }
+typename RBTree<Key>::Node *RBTree<Key>::find_max(
+    RBTree<Key>::Node const *node_start) {
+  Node *current_node = (Node *)node_start;
+  while (current_node->left && current_node->right) {
+    current_node = current_node->right;
   }
+  return current_node;
+}
+
+template <class Key>
+typename RBTree<Key>::Node *RBTree<Key>::find_min(
+    RBTree<Key>::Node const *node_start) {
+  Node *current_node = (Node *)node_start;
+  while (current_node->left && current_node->right) {
+    current_node = current_node->left;
+  }
+  return current_node;
+}
+
+template <class Key>
+void RBTree<Key>::erase(Key data) {
   Node *current_node = root;
   while (current_node->left && current_node->right) {
     if (current_node->data > data) {
@@ -259,13 +263,41 @@ void RBTree<Key>::erase(Key data) {
       break;
     }
   }
-  if (current_node->right) delete_one_child(current_node);
+  size_type num_of_leaves = calc_node_leaves(current_node);
+  if (current_node == root) {
+    std::cout << "if root \n";
+    Node *node_to_change = nullptr;
+    if (num_of_leaves == 0) {
+      node_to_change = find_max(current_node->left);
+      std::cout << "node to change data: " << node_to_change->data << "\n";
+      if (calc_node_leaves(node_to_change) == 2) {
+        root->data = node_to_change->data;
+        delete_no_childs(node_to_change);
+      }
+    } else if (num_of_leaves == 1) {
+      if (current_node->left->right && current_node->left->left) {
+        node_to_change = find_max(current_node->left);
+      } else {
+        node_to_change = find_min(current_node->right);
+      }
+      root->data = node_to_change->data;
+      delete_one_child(node_to_change);
+    }
+  } else {
+    if (num_of_leaves == 2) {
+      std::cout << "if with 2 leaves \n";
+      delete_no_childs(current_node);
+    } else {
+      delete_one_child(current_node);
+    }
+  }
 }
 
 template <class Key>
 void RBTree<Key>::delete_one_child(RBTree<Key>::Node *n) {
   std::cout << "delete_one_child \n";
   Node *child = (!n->right->left && !n->right->right) ? n->left : n->right;
+  Node *leaf = (!n->right->left && !n->right->right) ? n->right : n->left;
   replace_node(n, child);
   if (n->color == BLACK) {
     if (child->color == RED)
@@ -274,6 +306,25 @@ void RBTree<Key>::delete_one_child(RBTree<Key>::Node *n) {
       delete_case1(child);
   }
   delete n;
+  delete leaf;
+}
+
+template <class Key>
+void RBTree<Key>::delete_no_childs(RBTree<Key>::Node *n) {
+  std::cout << "delete_no_childs \n";
+  Node *current_node = n;
+  if (current_node->parent) {
+    delete_case1(current_node->parent);
+    if (current_node->parent->right == current_node) {
+      current_node->parent->right = current_node->right;
+    } else if (current_node->parent->left == current_node) {
+      current_node->parent->left = current_node->right;
+    }
+  } else {
+    delete current_node->right;
+  }
+  delete current_node->left;
+  delete current_node;
 }
 
 template <class Key>
@@ -301,7 +352,6 @@ template <class Key>
 void RBTree<Key>::delete_case3(RBTree<Key>::Node *n) {
   std::cout << "delete_case3 \n";
   Node *s = find_sibling(n);
-
   if ((n->parent->color == BLACK) && (s->color == BLACK) &&
       (s->left->color == BLACK) && (s->right->color == BLACK)) {
     s->color = RED;
@@ -327,26 +377,14 @@ template <class Key>
 void RBTree<Key>::delete_case5(RBTree<Key>::Node *n) {
   std::cout << "delete_case5 \n";
   Node *s = find_sibling(n);
-
-  if (s->color == BLACK) { /* this if statement is trivial,
-due to case 2 (even though case 2 changed the sibling to a sibling's child,
-the sibling's child can't be red, since no red parent can have a red
-child).
-*/
-    /* the following statements just force the red to be on the left of the
-    left
-       of the parent, or right of the right, so case six will rotate
-       correctly.
-     */
+  if (s->color == BLACK) {
     if ((n == n->parent->left) && (s->right->color == BLACK) &&
         (s->left->color == RED)) {
-      /* this last test is trivial too due to cases 2-4. */
       s->color = RED;
       s->left->color = BLACK;
       rotate_right(s);
     } else if ((n == n->parent->right) && (s->left->color == BLACK) &&
                (s->right->color == RED)) {
-      /* this last test is trivial too due to cases 2-4. */
       s->color = RED;
       s->right->color = BLACK;
       rotate_left(s);
@@ -374,7 +412,7 @@ void RBTree<Key>::delete_case6(RBTree<Key>::Node *n) {
 
 int main() {
   s21::RBTree<int> tree;
-  size_t m = 4;
+  size_t m = 20;
   for (size_t i = 1; i < m; i++) {
     tree.insert(i);
     tree.print_tree(tree.get_root());

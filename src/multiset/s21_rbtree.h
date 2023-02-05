@@ -1,4 +1,6 @@
 #include <initializer_list>
+#include <iostream>
+#include <vector>
 
 enum Color { RED, BLACK };
 
@@ -35,8 +37,11 @@ class RBTree {
   Node *get_root();
   void print_tree(Node const *node, std::string const &prefix = "",
                   bool root = true, bool last = true);
-  size_t calc_leafs(Node const *root);
+  size_t calc_tree_leaves(Node const *root);
+  size_t calc_node_leaves(Node const *root);
   void print_tree_my(Node const *root);
+  Node *find_max(Node const *node_start);
+  Node *find_min(Node const *node_start);
 
  private:
   Node *find_uncle(Node *n);
@@ -48,9 +53,10 @@ class RBTree {
   void insert_case3(Node *node);
   void insert_case4(Node *node);
   void insert_case5(Node *node);
+
   void replace_node(Node *node, Node *child);
   void delete_one_child(Node *node);
-
+  void delete_no_childs(Node *node);
   void delete_case1(Node *node);
   void delete_case2(Node *node);
   void delete_case3(Node *node);
