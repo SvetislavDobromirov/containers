@@ -11,9 +11,15 @@ namespace s21 {
             using const_reference = const Key &;
             using iterator = typename BinaryTree<Key>::iterator;
             using node_m = typename BinaryTree<Key>::node;
+            using size_type = size_t;
             // using const_iterator = typename BinaryTree<Key>::const_iterator;
             iterator insert(const value_type& value);
             void erase(iterator pos) ;
+            iterator find(const Key& key);
+            size_type count(const Key& key);
+            bool contains(const Key& key);
+            std::pair<iterator,iterator> equal_range(const Key& key);
+
             multiset();
             multiset(std::initializer_list<value_type> const &items);
         //     multiset(const multiset &ms);
@@ -34,8 +40,11 @@ namespace s21 {
                
                 while (cur->right != nullptr)
                     cur = cur->right;
+                
                 return cur;
             }
+            void counter(node_m* current, size_t* size, const Key& key);
+
         protected:
 
             // typename s21::BinaryTree<Key>::node *head;
@@ -44,163 +53,126 @@ namespace s21 {
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::begin() {
     iterator it;
-    if (this->head_element != this->end_element) {
-        node_m *goal = this->head_element;
-        goal = go_to_left(goal);
-        // Проверяем есть и повторные элемент
-        if (goal->right) {
-            if (goal->right->data == goal->data) {
-                Key check_value = goal->data;
-                while (goal->right != nullptr)
-                {
-                    if (goal->right->data != check_value)
-                        break;
-                    goal = goal->right;
-                }
-            }
-            else if (goal->right->left) {
-                if (goal->data == goal->right->left->data)
-                {
-                    goal = goal->right->left;
-                }
-                goal = go_to_left(goal);
+
+    node_m *goal = this->head_element;
+    goal = go_to_left(goal);
+    // Проверяем есть и повторные элемент
+    if (goal->right) {
+        if (goal->right->data == goal->data) {
+            Key check_value = goal->data;
+            while (goal->right != nullptr)
+            {
+                if (goal->right->data != check_value)
+                    break;
+                goal = goal->right;
             }
         }
-        it.ptr_ = goal;
-    } else {
-        std::cout << "Not find element" << std::endl;
-        it.ptr_ = this->end_element;
+        else if (goal->right->left) {
+            if (goal->data == goal->right->left->data)
+            {
+                goal = goal->right->left;
+            }
+            goal = go_to_left(goal);
+        }
     }
+    it.ptr_ = goal;
     return it;
 }
 
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::end() {
     iterator it;
-    // if (this->head_element != this->end_element)
-    // {
-    //     node_m *goal = this->head_element;
-    //     goal = go_to_right(goal);
-    //     if (goal->right) {
-    //         if (goal->right->data == goal->data) {
-    //             goal = go_to_right(goal);
-    //         } 
-    //         if (goal->right->left) {
-    //             if (goal->data == goal->right->left->data) {
-    //                 goal = goal->right->left;
-    //             }
-    //             goal = go_to_right(goal);
-    //         } 
-    //     }
-    //     it.ptr_ = goal;
-    // } else {
-    //     it.ptr_ = this->end_element;
-    // }
-    it.ptr_ = this->end_element;
+    
+    
+    node_m *goal = this->head_element;
+    goal = go_to_right(goal);
+    if (goal->right) {
+        if (goal->right->data == goal->data) {
+            goal = go_to_right(goal);
+        } 
+        if (goal->right->left) {
+            if (goal->data == goal->right->left->data) {
+                goal = goal->right->left;
+            }
+            goal = go_to_right(goal);
+        } 
+    }
+    if (goal->right == nullptr) goal = nullptr;
+    it.ptr_ = goal;
+
+    
+  //  it.ptr_ = this->end_element;
     return it;
 }
 
 template <class Key>
 typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& value) {
     iterator it;
-    it.ptr_ =  this->insert_to_tree(value);
+   this->insert_to_tree(value);
+   
+   //TODO: Сделать возврат итератора через find
+    it.ptr_ = this->head_element;
+   
     return it;
 }
 
 template <class Key>
+typename BinaryTree<Key>::iterator  multiset<Key>::find(const Key& key) {
+    node_m *current = this->head_element;
+    while (1) {
+        if (current == nullptr) break;
+        if (current->data == key) break;
+        if (key >= current->data) current = current->right;
+        else current = current->left; 
+    }
+    iterator it;
+    it.ptr_ = current;
+    return it;
+}
+
+template <class Key>
+typename multiset<Key>::size_type  multiset<Key>::count(const Key& key) {
+    size_t size = 0;
+    counter(this->head_element, &size, key);
+    return size;
+}
+
+template <class Key>
+bool multiset<Key>::contains(const Key& key) {
+    size_t size = 0;
+    counter(this->head_element, &size, key);
+    return size == 0 ? 0 : 1;
+}
+
+
+template <class Key>
+void  multiset<Key>::counter(node_m* current, size_t* size, const Key& key) {
+    if (!current)
+        return ;
+    if (current->right)
+        counter(current->right, size, key);
+    if (current->left)
+        counter(current->left, size, key);
+    if (current->data == key) (*size)++;
+}
+
+template <class Key>
+std::pair<typename multiset<Key>::iterator, 
+    typename multiset<Key>::iterator> multiset<Key>::equal_range(const Key& key) {
+    typedef multiset<Key>::iterator It;
+    std::pair<It, It> pair;
+    auto it1 = find(key); // Можем получить nullptr,  в таком случае дальше не ищем
+    auto it2 = it1;
+    if (it1.ptr_ != nullptr) {
+        while (*it1 == *it2)
+            ++(*it2);
+    }
+    return std::make_pair(it1, it2);
+}
+
+template <class Key>
 void multiset<Key>::erase(iterator pos) {
-    /*
-       // 1.Если удаление головы единственной 
-    // 2. Если только два элемента и ...
-    // 2.1. Если удаление только с левым или правым лепестком и
-    // 3.  Если элемкнт является последним
-    // 4. Если элемент с двумя леппксками +
-    */
-   node_m * current = pos.ptr_;
-
-  if (current != this->end_element) { // Защита от пустого списка
-        if (current == this->head_element && 
-            current->left == this->end_element && 
-            current->right == this->end_element) { // тогда элемент первый
-            delete current;
-            this->head_element = this->end_element;
-            return;
-        } else if ( (current->left == nullptr || current->left == this->end_element) &&
-                    (current->right == nullptr || current->right == this->end_element) ) {
-            std::cout << "Условие: конечный элемент" << std::endl;
-            
-            // Данный элемент последний. 
-            // Удаляем, если есть на него ссылки у родителя,  занулем
-            // Если элемент крайний, присваиваем родителю ссылки на end
-            if (current->parent) { 
-                // определяем что является концом для текущего
-                node_m * end = nullptr;
-                if (current->left == this->end_element || current->right == this->end_element)
-                end = this->end_element; 
-
-                if (current->color == RED ) {
-             
-                    // связываем ссылку родителя на текущий либо с нулем или конечным
-                    current->parent->left == current ? current->parent->left = end : current->parent->right = end;
-               
-                } else {
-                    this->delete_one_child(current);
-                    //this->delete_case1(current);
-                    std::cout << "149:: " << std::endl;
-
-                  //  this->print_element(current);
-                    return;
-
-                    // std::cout << "147:: " << std::endl;
-
-                    // if (current == current->parent->left) current->parent->left = end;
-                    // else current->parent->right = end;
-
-
-                    // this->print_element(current->parent);
-                    // this->delete_case1(current->parent);
-
-
-                    
-                //return;
-                }
-               // delete current;
-                return;
-            } else {
-                std::cout << " ERROR erase foo" << std::endl;
-                return;
-            }
-        } else if ((current->left &&  current->right) &&
-                   (current->left != this->end_element &&  current->right != this->end_element)) {
-            std::cout << "Условие оба предка" << std::endl;
-            node_m *largest_left_node = current->left;
-            largest_left_node =  go_to_right(largest_left_node); // Заменить find_max_node?
-
-            // Заменяем значения нод, но оставляем цвет
-            Key temp = current->data;
-            current->data = largest_left_node->data;
-            largest_left_node->data = temp;
-
-            current = largest_left_node;
-            this->delete_one_child(current);
-            
-        } else if ( (current->left &&  (!current->right || current->right == this->end_element))  ||
-        ((!current->left || current->left == this->end_element) &&  current->right) ){
-            std::cout << "Условие один предок" << std::endl;
-
-            this->delete_one_child(current);
-        } else {
-              std::cout << " ERROR erase foo 2  условие не должно активироваться" << std::endl;
-        }
-
-
-  } else {
-    return; // Нельзя удалить мнимый элемент
-  }
-
-
-
-   ///
+ 
    
 }
 
