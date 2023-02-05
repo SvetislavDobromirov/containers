@@ -20,8 +20,9 @@ int main() {
       //s21::multiset<int> k  = { 6, 3, 2, 2, 2, 1};
    //   s21::multiset<int> k  = { 1,2,3,4,5};
       // s21::multiset<int> k  = { 5,4,3,2,1};
-       s21::multiset<int> k  = { 2,3 };
-      
+       s21::multiset<int> k;//  = { 2,3 };
+       printf("____%p", k.begin().ptr_);
+      exit(1);
     // s21::multiset<int> k;
      //k.insert(3);
 //         std::cout << "Del : " << std::endl;

@@ -166,12 +166,12 @@ void multiset<Key>::merge(multiset<Key>& other) {
     auto it_other = other.begin();
     
    
-    while  (it_other != other.end()){
+    while  (it_other != nullptr){
         printf("168:%p\n", it_other.ptr_);
         this->head_element =  this->insert_avl(this->head_element, *it_other, it_other.ptr_, other.get_head());
         this->head_element->parent = nullptr;
         size_of_elements++;
-        ++it_other;
+        it_other =   other.begin();
     }
 
     // TODO: очистить other
