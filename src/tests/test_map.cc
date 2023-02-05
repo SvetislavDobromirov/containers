@@ -124,3 +124,30 @@ TEST(Map, 13_insert_or_assign) {
     ASSERT_EQ(aboba[1], "new_one");
     ASSERT_EQ(aboba[2], "two");
 }
+
+TEST(Map, 14_swap_merge_size_erase) {
+    s21::map<int, std::string> aboba { {1, "aboba1"}, {2, "aboba2"}, {3, "aboba3"} };
+    s21::map<int, std::string> aboba2 { {-1, "-aboba1"}, {-2, "-aboba2"}, {-3, "-aboba3"} };
+
+    aboba2.merge(aboba);
+    aboba.swap(aboba2);
+
+    ASSERT_EQ(aboba.size(), 6);
+    ASSERT_EQ(aboba2.size(), 3);
+
+    auto it = aboba.begin();
+    ASSERT_EQ((*it).first, -3);
+    it++;it++;
+    ASSERT_EQ((*it).first, -1);
+    it++;it++;it++;
+    ASSERT_EQ((*it).first, 3);
+    it = aboba2.begin();
+    ASSERT_EQ((*it).first, 1);
+    it++;
+    aboba2.erase(it);
+    ASSERT_EQ(aboba2.size(), 2);
+    it = aboba2.begin();
+    ASSERT_EQ((*it).first, 1);
+    it++;
+    ASSERT_EQ((*it).first, 3);
+}
