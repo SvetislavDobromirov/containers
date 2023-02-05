@@ -187,6 +187,9 @@ typename set<T>::iterator set<T>::find(const T &key) {
 template <typename T>
 void set<T>::swap(set &other) noexcept {
   std::swap(tree<T>::root_, other.root_);
+  size_t size_tmp = this->size_;
+  this->size_ = other.size_;
+  other.size_ = size_tmp;
 }
 
 template <typename T>
