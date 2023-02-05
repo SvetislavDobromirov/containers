@@ -67,10 +67,7 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::rotateleft(node* q) // левы
 //	q->right->parent = p->left->parent;
 	q->right = p->left;
 if (p->left) p->left->parent = q;
-//print_element (p); //3
-//print_element(q); //2
-	//print_element();
-//	p->left->parent = q->parent;
+
 	p->left = q;
 	fixheight(q);
 	fixheight(p);
@@ -98,22 +95,19 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::balance(node* p) // балан�
 }
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(node* p, Key k, node* merge_node, node *head_other) {// вставка ключа k в дерево с корнем p 
+typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(node* p, Key k, node* merge_node, node **head_other) {// вставка ключа k в дерево с корнем p 
 
+	printf("163");
 
 	//std::cout << std::endl;
 	if ( !p ) {
 		if (merge_node == nullptr){
 			return new node(k);
 		} else {
-			// Сначала удаляем элемент 
-			remove(head_other, merge_node->data, 1);
-			
-			printf("Print\n");
-			print_element(merge_node);
+			*head_other = remove(*head_other, merge_node->data, 1);
 			merge_node->left = nullptr;
 			merge_node->right = nullptr;
-
+			merge_node->height = 1;
 			return merge_node;
 		}
 	}
@@ -143,16 +137,13 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::removemin(node* p) // удал�
 	if( p->left==0 )
 		return p->right;
 	p->left = removemin(p->left);
-	// if( p->left==0 )
-	// 	return p->right;
-	// p->left = removemin(p->left);
+
 	return balance(p);
 }
 
 template <class Key>
 typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k, bool del) // удаление ключа k из дерева p
 {
-
 	if( !p ) return 0;
 	if( k < p->data ) 
 		p->left = remove(p->left,k, del);
@@ -160,12 +151,16 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k, b
 		p->right = remove(p->right,k, del);	
 	else //  k == p->key 
 	{
+		
 		node* q = p->left;
 		node* r = p->right;
 		//if(q) print_element(q);
 		//if(r) print_element(r);
 
 		node * p_parent = p->parent;
+		printf("P in remove: %p: %d\n", p, del);
+		printf("Q in remove: %p: %d\n", q, del);
+		//if (!p->left && !p->right) p = nullptr;
 		if (del == 0) delete p;
 		if( !r ) return q;
 		node* min = findmin(r);
@@ -175,7 +170,7 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k, b
 		min->right = removemin(r);
 		//if (min->right) print_element(min->right);
 		min->left = q;
-		min->left->parent  = min;
+		if(min->left) min->left->parent  = min;
 		if (min->right) min->right->parent = min;
 
 		return balance(min);

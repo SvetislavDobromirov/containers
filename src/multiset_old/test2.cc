@@ -20,9 +20,10 @@ int main() {
       //s21::multiset<int> k  = { 6, 3, 2, 2, 2, 1};
    //   s21::multiset<int> k  = { 1,2,3,4,5};
       // s21::multiset<int> k  = { 5,4,3,2,1};
-       s21::multiset<int> k;//  = { 2,3 };
-       printf("____%p", k.begin().ptr_);
-      exit(1);
+
+      s21::multiset<int> k  = { 2,3 };
+      printf("____%p", k.begin().ptr_);
+  //  exit(1);
     // s21::multiset<int> k;
      //k.insert(3);
 //         std::cout << "Del : " << std::endl;
@@ -62,14 +63,9 @@ int main() {
       std::cout << std::endl << "DUMP" << std::endl;
       y.dump2(y.get_head());
 
-//       y.erase(y.find(1));
-      
-      //       std::cout << "Empty? : " << y.empty()  << std::endl;
-   k.merge(y);
-   std::cout << std::endl << "DUMP" << std::endl;
-       k.dump2(k.get_head());
-   //k.dump2(k.get_head());
-
+      k.merge(y);
+      std::cout << std::endl << "DUMP" << std::endl;
+      k.dump2(k.get_head());
 
  }
 

@@ -7,6 +7,10 @@ using namespace s21;
 template <class Key>
 void BinaryTree<Key>::print_element(node* El) {
     //printf("Print\n");
+    if (El == nullptr) {
+         printf("Нулевой элемент \n");
+         return;
+    }
     printf("Element:  %17p Parent: %17p  Left: %17p  Right: %17p Value: %3d Color: ",
            El, El->parent, El->left, El->right, El->data);
     

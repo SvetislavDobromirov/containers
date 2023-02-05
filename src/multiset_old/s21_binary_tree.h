@@ -25,12 +25,12 @@ class BinaryTree {
         } node;
 
        node *get_head() { return head_element; }; // TEST
-        
+        node *head_element;
     private:
      //   node *add_new_element(node *current, Key Value, node_colors color, node *service);
 
     protected:
-        node *head_element, *end_element;
+        
         node *create_service_element(); // Создаем мнимый элемент при инициализации
         
         int insert_element(const value_type &value);
@@ -46,7 +46,7 @@ class BinaryTree {
         node* rotateright(node* p);
         node* rotateleft(node* q); // левый поворот вокруг q
         node* balance(node* p); // балансировка узла p
-        node* insert_avl(node* p, Key k, node* merge_node, node *head_other); // вставка ключа k в дерево с корнем p
+        node* insert_avl(node* p, Key k, node* merge_node, node **head_other); // вставка ключа k в дерево с корнем p
         node* findmin(node* p); // поиск узла с минимальным ключом в дереве p 
         node* removemin(node* p); // удаление узла с минимальным ключом из дерева p
         node* remove(node* p, const Key& k, bool del); // удаление ключа k из дерева p

@@ -42,7 +42,7 @@ namespace s21 {
         
         private:
             node_m * go_to_left(node_m * cur) {
-                while (cur->left != nullptr && cur->left != this->end_element)
+                while (cur->left != nullptr)
                     cur = cur->left;
                 return cur;
             }
@@ -65,6 +65,10 @@ namespace s21 {
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::begin() {
     iterator it;
+    if (this->head_element == nullptr) {
+        it.ptr_ = nullptr;
+        return it;
+    }
 
     node_m *goal = this->head_element;
     goal = go_to_left(goal);
@@ -94,6 +98,12 @@ typename BinaryTree<Key>::iterator multiset<Key>::begin() {
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::end() {
     iterator it;
+
+    if (this->head_element == nullptr) {
+        it.ptr_ = nullptr;
+        return it;
+    }
+
     node_m *goal = this->head_element;
     goal = go_to_right(goal);
     if (goal->right) {
@@ -164,16 +174,18 @@ void multiset<Key>::clear()	 {
 template <class Key>
 void multiset<Key>::merge(multiset<Key>& other) {
     auto it_other = other.begin();
-    
    
-    while  (it_other != nullptr){
-        printf("168:%p\n", it_other.ptr_);
-        this->head_element =  this->insert_avl(this->head_element, *it_other, it_other.ptr_, other.get_head());
+         // TODO: Проверить если this или other пустые
+
+    std::cout << "BEGIN ELEMENT: "  << *it_other << std::endl;
+    while  (it_other != other.end()){
+    
+        this->head_element =  this->insert_avl(this->head_element, *it_other, it_other.ptr_, &other.head_element);  
         this->head_element->parent = nullptr;
         size_of_elements++;
-        it_other =   other.begin();
-    }
+        it_other =  other.begin();
 
+    }
     // TODO: очистить other
 }
 
