@@ -9,6 +9,9 @@ namespace s21 {
     map<Key, T>::map(map &&other) noexcept : set<std::pair<Key, T>>(std::move(other)) { }
 
     template<class Key, class T>
+    map<Key, T>::map(std::initializer_list<std::pair<Key, T>> const &items) : set<std::pair<Key, T>>(items) { }
+
+    template<class Key, class T>
     std::pair<typename set<std::pair<Key, T>>::iterator, bool> map<Key, T>::insert_or_assign(const Key &key, const T &obj) {
         bool flag = true;
         std::pair<typename set<std::pair<Key, T>>::iterator, bool> result_pair;
@@ -41,7 +44,7 @@ namespace s21 {
                 break;
             }
         }
-        
+
         if (flag) {
             result_pair = set<value_type>::insert({key, obj});
         }
@@ -117,15 +120,6 @@ namespace s21 {
         }
 
         return false;
-    }
-
-    template<class Key, class T>
-    map<Key, T>::map(const std::initializer_list<value_type> &items):set<value_type>(items) {
-        tree<value_type>::root_ = nullptr;
-        tree<value_type>::size_ = 0;
-        for (auto p = items.begin(); p != items.end(); p++) {
-            insert((*p).first, (*p).second);
-        }
     }
 
 }  // namespace s21
