@@ -164,8 +164,11 @@ void multiset<Key>::clear()	 {
 template <class Key>
 void multiset<Key>::merge(multiset<Key>& other) {
     auto it_other = other.begin();
+    
+   
     while  (it_other != other.end()){
-        this->head_element =  this->insert_avl(this->head_element, *it_other, it_other.ptr_);
+        printf("168:%p\n", it_other.ptr_);
+        this->head_element =  this->insert_avl(this->head_element, *it_other, it_other.ptr_, other.get_head());
         this->head_element->parent = nullptr;
         size_of_elements++;
         ++it_other;
@@ -239,7 +242,7 @@ template <class Key>
 void multiset<Key>::erase(iterator pos) {
     
     
-    this->head_element = this->remove(this->head_element, *pos);
+    this->head_element = this->remove(this->head_element, *pos, 0);
     size_of_elements--;
     //it.ptr_ = this->head_element;
     //TODO: Что если удаляем голову?

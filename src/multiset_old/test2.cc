@@ -24,15 +24,15 @@ int main() {
       
     // s21::multiset<int> k;
      //k.insert(3);
-        std::cout << "Del : " << std::endl;
-        std::cout.flush();
-k.dump2(k.get_head());
-         auto it_my  = k.begin();
-         while( it_my != k.end()) {
-              std::cout  << *it_my << std::endl;
-              ++it_my;
+//         std::cout << "Del : " << std::endl;
+//         std::cout.flush();
+// k.dump2(k.get_head());
+//          auto it_my  = k.begin();
+//          while( it_my != k.end()) {
+//               std::cout  << *it_my << std::endl;
+//               ++it_my;
         
-         }
+//          }
         
       //   std::cout << "Find: " << *k.find(6) << std::endl;
       //   std::cout << "Count: " << k.count(2) << std::endl;
@@ -46,20 +46,28 @@ k.dump2(k.get_head());
       
       // std::cout << *k.upper_bound(5) << std::endl;
 
-      std::cout << "Empty? : " << k.empty()  << std::endl;
-      std::cout << "Size : " << k.size() << std::endl;
+   //    std::cout << "Empty? : " << k.empty()  << std::endl;
+   //    std::cout << "Size : " << k.size() << std::endl;
 
-      k.erase(k.find(3));
-          //  k.erase(k.find(6));
+   //    k.erase(k.find(3));
+   //        //  k.erase(k.find(6));
 
-     k.dump2(k.get_head());
-
+  
+   
       s21::multiset<int> y = {1, 2, 3};
-      y.erase(y.find(1));
+   
+       std::cout << std::endl << "DUMP" << std::endl;
+       k.dump2(k.get_head());
+      std::cout << std::endl << "DUMP" << std::endl;
       y.dump2(y.get_head());
-            std::cout << "Empty? : " << y.empty()  << std::endl;
+
+//       y.erase(y.find(1));
+      
+      //       std::cout << "Empty? : " << y.empty()  << std::endl;
    k.merge(y);
-   k.dump2(k.get_head());
+   std::cout << std::endl << "DUMP" << std::endl;
+       k.dump2(k.get_head());
+   //k.dump2(k.get_head());
 
 
  }

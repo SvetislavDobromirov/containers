@@ -46,10 +46,10 @@ class BinaryTree {
         node* rotateright(node* p);
         node* rotateleft(node* q); // левый поворот вокруг q
         node* balance(node* p); // балансировка узла p
-        node* insert_avl(node* p, Key k, node* merge_node); // вставка ключа k в дерево с корнем p
+        node* insert_avl(node* p, Key k, node* merge_node, node *head_other); // вставка ключа k в дерево с корнем p
         node* findmin(node* p); // поиск узла с минимальным ключом в дереве p 
         node* removemin(node* p); // удаление узла с минимальным ключом из дерева p
-        node* remove(node* p, const Key& k); // удаление ключа k из дерева p
+        node* remove(node* p, const Key& k, bool del); // удаление ключа k из дерева p
 
         void dump2(node  *node_);
     
@@ -71,8 +71,8 @@ typename BinaryTree<Key>::node *BinaryTree<Key>::insert_to_tree(const value_type
 
         std::cout << "97" << std::endl;
        std::cout.flush();
-       	dump2(head_element);
-       this->head_element =  insert_avl(this->head_element, value, nullptr);
+      // 	dump2(head_element);
+       this->head_element =  insert_avl(this->head_element, value, nullptr, nullptr);
         this->head_element->parent = nullptr;
         // TODO:\return current element
 

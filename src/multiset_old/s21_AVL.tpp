@@ -42,8 +42,8 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::rotateright(node* p) // пра�
 	p->parent = q; // OK
    if (p->left->right) p->left->right->parent = p;
 	//p->left->parent = q->right->parent;
-	print_element (p); // 3
-	print_element(q); // 2
+	//print_element (p); // 3
+	//print_element(q); // 2
 	//q->right->parent = p->parent;
 	p->left = q->right;
 	q->right = p;
@@ -67,8 +67,8 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::rotateleft(node* q) // левы
 //	q->right->parent = p->left->parent;
 	q->right = p->left;
 if (p->left) p->left->parent = q;
-print_element (p); //3
-print_element(q); //2
+//print_element (p); //3
+//print_element(q); //2
 	//print_element();
 //	p->left->parent = q->parent;
 	p->left = q;
@@ -98,26 +98,32 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::balance(node* p) // балан�
 }
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(node* p, Key k, node* merge_node) // вставка ключа k в дерево с корнем p 
-{
+typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(node* p, Key k, node* merge_node, node *head_other) {// вставка ключа k в дерево с корнем p 
 
-	std::cout << std::endl;
-	if( !p ) {
+
+	//std::cout << std::endl;
+	if ( !p ) {
 		if (merge_node == nullptr){
 			return new node(k);
 		} else {
+			// Сначала удаляем элемент 
+			remove(head_other, merge_node->data, 1);
+			
+			printf("Print\n");
+			print_element(merge_node);
 			merge_node->left = nullptr;
 			merge_node->right = nullptr;
+
 			return merge_node;
 		}
 	}
 	if( k<p->data ) {
 		node* temp = p;
-		p->left = insert_avl(p->left,k, merge_node);
+		p->left = insert_avl(p->left,k, merge_node, head_other);
 		if (p->left) p->left->parent = temp;
 	} else {
 		node* temp = p;
-		p->right = insert_avl(p->right,k, merge_node);
+		p->right = insert_avl(p->right,k, merge_node, head_other);
 		if (p->right) p->right->parent = temp;
 	}
 	return balance(p);
@@ -144,14 +150,14 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::removemin(node* p) // удал�
 }
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k) // удаление ключа k из дерева p
+typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k, bool del) // удаление ключа k из дерева p
 {
 
 	if( !p ) return 0;
 	if( k < p->data ) 
-		p->left = remove(p->left,k);
+		p->left = remove(p->left,k, del);
 	else if( k > p->data )
-		p->right = remove(p->right,k);	
+		p->right = remove(p->right,k, del);	
 	else //  k == p->key 
 	{
 		node* q = p->left;
@@ -160,14 +166,14 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k) /
 		//if(r) print_element(r);
 
 		node * p_parent = p->parent;
-		delete p;
+		if (del == 0) delete p;
 		if( !r ) return q;
 		node* min = findmin(r);
 	
 		min->parent = p_parent;
 
 		min->right = removemin(r);
-		if (min->right) print_element(min->right);
+		//if (min->right) print_element(min->right);
 		min->left = q;
 		min->left->parent  = min;
 		if (min->right) min->right->parent = min;
