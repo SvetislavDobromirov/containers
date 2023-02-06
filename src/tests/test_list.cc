@@ -227,6 +227,11 @@ TEST(move, Test_1) {
 TEST(sim, Test_5) {
   list<int> list2;
   list<int > list1(list2);
+  auto i2 = list1.begin();
+  for (auto i = list2.begin(); i != list2.end(); i++) {
+      EXPECT_EQ(*i, *i2);
+      i2++;
+   }
 }
 
 TEST(list_terrible_case1, Test_22)

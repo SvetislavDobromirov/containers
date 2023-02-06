@@ -32,8 +32,8 @@ namespace s21 {
 
             multiset();
             multiset(std::initializer_list<value_type> const &items);
-        //     multiset(const multiset &ms);
-        //     multiset(multiset &&ms);
+             multiset(const multiset &ms);
+             multiset(multiset &&ms);
              ~multiset();
         //     operator=(multiset &&ms);
             iterator begin();
@@ -55,10 +55,11 @@ namespace s21 {
             }
             
             void counter(node_m* current, size_t* size, const Key& key);
-            size_type size_of_elements;
             void delete_tree(node_m *n);
+            void copyrec(node_m* node);
 
         protected:
+            size_type size_of_elements;
 
             // typename s21::BinaryTree<Key>::node *head;
     };
@@ -169,7 +170,8 @@ void multiset<Key>::swap(multiset& other)	{
 
 template <class Key>
 void multiset<Key>::clear()	 {
-    delete_tree(this->head_element);
+
+    if (this->head_element) delete_tree(this->head_element);
     size_of_elements = 0;
     this->head_element = nullptr;
 }

@@ -85,6 +85,18 @@ TEST(Multiset, erase_empty)
    my_test_multi.erase(my_test_multi.begin());
 }
 
+TEST(Multiset, copy)
+{
+    s21::multiset<int>  multi1 = {1,2, 1, 5, 5, 43, 12, 0};
+    s21::multiset<int> multi2(multi1);
+    auto it1 = multi1.begin();
+    auto it2 = multi2.begin();
+    while(it1 != multi1.end()) {
+        EXPECT_EQ(*it1, *it2);
+        ++it1; ++it2;
+    }
+
+}
 
 
 // TEST(Multiset, find)
