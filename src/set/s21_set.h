@@ -27,6 +27,8 @@ class set : public tree<Key> {
   set &operator=(set &&other) noexcept;
 
   virtual std::pair<iterator, bool> insert(const value_type &value);
+  template <class... Args>
+  std::vector<std::pair<iterator, bool>> emplace(Args&&... args);
 
   void erase(iterator pos);
   iterator find(const key_type &key);
@@ -34,16 +36,23 @@ class set : public tree<Key> {
   void swap(set &other) noexcept;
   void merge(set &other);
   class iterator {
-  public:
+   public:
     auto operator++(int);
+    auto operator++();
+    auto operator--(int);
+    auto operator--();
     const auto operator*();
-    bool operator!=(const iterator &other);
-    bool operator==(const iterator &other);
+    bool operator!=(const const_iterator &other);
+    bool operator==(const const_iterator &other);
     typename tree<Key>::node *it_current_node = nullptr;
   };
+  class iterator : public const_iterator {
+   public:
+    iterator() : const_iterator() {}
+  };
 
-  auto begin();
-  auto end();
+  iterator begin();
+  iterator end();
 };
 
 }  // namespace s21

@@ -253,6 +253,8 @@ TEST(Set, 23_merge) {
     ASSERT_EQ(*it, i);
     i++;
   }
+
+  ASSERT_EQ(a.size(), 6);
 }
 
 TEST(Set, 24_merge_empty) {
@@ -329,4 +331,76 @@ TEST(Set, 29_equal) {
     ASSERT_EQ(*it, i);
     i++;
   }
+}
+
+TEST(Set, 30_iterators) {
+  s21::set<int> a {5, 10, 3, 4, 0, 1, -2, 12, -1, 0, 10};
+  s21::set<int>::const_iterator it_1 = a.begin();
+  s21::set<int>::iterator it_2 = a.begin();
+  ASSERT_EQ(*it_1, -2);
+  ASSERT_EQ(*it_2, -2);
+  it_1++;
+  it_2++;
+  ASSERT_EQ(*it_1, -1);
+  ASSERT_EQ(*it_2, -1);
+}
+
+TEST(Set, 31_increments) {
+  s21::set<int> a {1, 0, -1};
+
+  auto it = a.begin();
+  it++;
+  ASSERT_EQ(*it, 0);
+  ++it;
+  ASSERT_EQ(*it, 1);
+  --it;
+  ASSERT_EQ(*it, 0);
+  it--;
+  ASSERT_EQ(*it, -1);
+}
+
+TEST(Set, 32_emplace) {
+  s21::set<int> a;
+  int b = 10, c = 15, d = 5, e = -10;
+  a.emplace(b);
+  a.emplace(c);
+  a.emplace(d);
+  a.emplace(e);
+  int ar[4] = {-10, 5, 10, 15};
+  int i = 0;
+  for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, ar[i]);
+    i++;
+  }
+}
+
+TEST(Set, 33_emplace) {
+  s21::set<int> a;
+  int b = 10, c = 15, d = 5, e = -10;
+  a.emplace(b, c, d, e);
+  int ar[4] = {-10, 5, 10, 15};
+  int i = 0;
+  for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, ar[i]);
+    i++;
+  }
+}
+
+TEST(Set, 34_emplace) {
+  s21::set<int> a;
+  a.emplace(10, 15, 5, -10);
+  int ar[4] = {-10, 5, 10, 15};
+  int i = 0;
+  for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, ar[i]);
+    i++;
+  }
+}
+
+TEST(Set, 35_insert) {
+  s21::set<int> aboba;
+  auto pr = aboba.insert(5);
+  ASSERT_EQ(pr.second, true);
+  auto pr1 = aboba.insert(5);
+  ASSERT_EQ(pr1.second, false);
 }

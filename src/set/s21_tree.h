@@ -2,6 +2,7 @@
 #define __SRC_TREE_H__
 
 #include <initializer_list>
+#include <vector>
 
 namespace s21 {
 typedef unsigned long size_t;

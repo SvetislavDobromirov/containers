@@ -103,3 +103,51 @@ TEST(Map, 11_move)
     ASSERT_EQ("aboba", (*b.begin()).first);
     ASSERT_THROW(*a.begin(), std::runtime_error);
 }
+
+TEST(Map, 12_insert) {
+    s21::map<int, int> square;
+    square.insert(1, 1);
+    square.insert(2, 4);
+    square.insert(3, 9);
+    auto pr = square.insert(2, 44);
+
+    ASSERT_EQ(square.at(2), 4);
+    ASSERT_EQ(pr.second, false);
+}
+
+TEST(Map, 13_insert_or_assign) {
+    s21::map<int, std::string> aboba;
+    aboba.insert_or_assign(1, "one");
+    aboba.insert_or_assign(2, "two");
+    aboba.insert_or_assign(1, "new_one");
+
+    ASSERT_EQ(aboba[1], "new_one");
+    ASSERT_EQ(aboba[2], "two");
+}
+
+TEST(Map, 14_swap_merge_size_erase) {
+    s21::map<int, std::string> aboba { {1, "aboba1"}, {2, "aboba2"}, {3, "aboba3"} };
+    s21::map<int, std::string> aboba2 { {-1, "-aboba1"}, {-2, "-aboba2"}, {-3, "-aboba3"} };
+
+    aboba2.merge(aboba);
+    aboba.swap(aboba2);
+
+    ASSERT_EQ(aboba.size(), 6);
+    ASSERT_EQ(aboba2.size(), 3);
+
+    auto it = aboba.begin();
+    ASSERT_EQ((*it).first, -3);
+    it++;it++;
+    ASSERT_EQ((*it).first, -1);
+    it++;it++;it++;
+    ASSERT_EQ((*it).first, 3);
+    it = aboba2.begin();
+    ASSERT_EQ((*it).first, 1);
+    it++;
+    aboba2.erase(it);
+    ASSERT_EQ(aboba2.size(), 2);
+    it = aboba2.begin();
+    ASSERT_EQ((*it).first, 1);
+    it++;
+    ASSERT_EQ((*it).first, 3);
+}

@@ -14,7 +14,7 @@ template <typename T>
 set<T>::set(set &&s) : tree<T>(std::move(s)) {}
 
 template <typename T>
-const auto set<T>::iterator::operator*() {
+const auto set<T>::const_iterator::operator*() {
   if (!it_current_node) {
     throw std::runtime_error("pointer is null");
   }
@@ -22,7 +22,7 @@ const auto set<T>::iterator::operator*() {
 }
 
 template <typename T>
-auto set<T>::iterator::operator++(int) {
+auto set<T>::const_iterator::operator++(int) {
   // Если у текущего узла есть правое поддерево, то нужно перейти к наименьшему
   // элементу в этом поддереве
   if (it_current_node->right_node) {
@@ -43,6 +43,74 @@ auto set<T>::iterator::operator++(int) {
   return *this;
 }
 
+template <typename T>
+auto set<T>::const_iterator::operator++() {
+  // Если у текущего узла есть правое поддерево, то нужно перейти к наименьшему
+  // элементу в этом поддереве
+  if (it_current_node->right_node) {
+    it_current_node = it_current_node->right_node;
+    while (it_current_node->left_node) {
+      it_current_node = it_current_node->left_node;
+    }
+  } else {
+    // Иначе, нужно искать родительский узел, который является левым потомком
+    typename tree<T>::node *parent = it_current_node->parent_node;
+    while (parent && it_current_node == parent->right_node) {
+      it_current_node = parent;
+      parent = parent->parent_node;
+    }
+    it_current_node = parent;
+  }
+
+  return *this;
+}
+
+template <typename T>
+auto set<T>::const_iterator::operator--(int) {
+  // Если у текущего узла есть левое поддерево, то нужно перейти к наибольшему
+  // элементу в этом поддереве
+  if (it_current_node->left_node) {
+    it_current_node = it_current_node->left_node;
+    while (it_current_node->right_node) {
+      it_current_node = it_current_node->right_node;
+    }
+  } else {
+    // Иначе, нужно искать родительский узел, который является правым потомком
+    typename tree<T>::node *parent = it_current_node->parent_node;
+    while (parent && it_current_node == parent->left_node) {
+      it_current_node = parent;
+      parent = parent->parent_node;
+    }
+
+    it_current_node = parent;
+  }
+
+  return *this;
+}
+
+template <typename T>
+auto set<T>::const_iterator::operator--() {
+  // Если у текущего узла есть левое поддерево, то нужно перейти к наибольшему
+  // элементу в этом поддереве
+  if (it_current_node->left_node) {
+    it_current_node = it_current_node->left_node;
+    while (it_current_node->right_node) {
+      it_current_node = it_current_node->right_node;
+    }
+  } else {
+    // Иначе, нужно искать родительский узел, который является правым потомком
+    typename tree<T>::node *parent = it_current_node->parent_node;
+    while (parent && it_current_node == parent->left_node) {
+      it_current_node = parent;
+      parent = parent->parent_node;
+    }
+
+    it_current_node = parent;
+  }
+
+  return *this;
+}
+
 template <typename Key>
 std::pair<typename set<Key>::iterator, bool> set<Key>::insert(
     const value_type &value) {
@@ -56,8 +124,20 @@ std::pair<typename set<Key>::iterator, bool> set<Key>::insert(
   return result;
 }
 
+template <typename Key>
+template <typename... Args>
+std::vector<std::pair<typename set<Key>::iterator, bool>> set<Key>::emplace(Args&&... args) {
+  std::vector<std::pair<iterator, bool>> result;
+  std::vector<Key> vector_from_args = {args...};
+  for (auto &it : vector_from_args) {
+    result.push_back(insert(Key(std::forward<Key>(it))));
+  }
+
+  return result;
+}
+
 template <typename T>
-auto set<T>::begin() {
+typename set<T>::iterator set<T>::begin() {
   iterator result;
 
   if (tree<T>::root_ == nullptr) {
@@ -75,7 +155,7 @@ auto set<T>::begin() {
 }
 
 template <typename T>
-auto set<T>::end() {
+typename set<T>::iterator set<T>::end() {
   iterator result;
   result.it_current_node = nullptr;
 
@@ -107,6 +187,9 @@ typename set<T>::iterator set<T>::find(const T &key) {
 template <typename T>
 void set<T>::swap(set &other) noexcept {
   std::swap(tree<T>::root_, other.root_);
+  size_t size_tmp = this->size_;
+  this->size_ = other.size_;
+  other.size_ = size_tmp;
 }
 
 template <typename T>
@@ -117,8 +200,7 @@ void set<T>::erase(iterator pos) {
 template <typename Key>
 void set<Key>::merge(set &other) {
   for (auto it = other.begin(); it != other.end(); it++) {
-    tree<Key>::tree_insert(*it);
-    tree<Key>::size_++;
+    tree<Key>::tree_insert(std::move(*it));
   }
 }
 
@@ -139,12 +221,12 @@ bool set<Key>::contains(const Key &key) {
 }
 
 template <typename Key>
-bool set<Key>::iterator::operator!=(const set<Key>::iterator &other) {
+bool set<Key>::const_iterator::operator!=(const set<Key>::const_iterator &other) {
   return it_current_node != other.it_current_node;
 }
 
 template <typename Key>
-bool set<Key>::iterator::operator==(const set<Key>::iterator &other) {
+bool set<Key>::const_iterator::operator==(const set<Key>::const_iterator &other) {
   return it_current_node == other.it_current_node;
 }
 
