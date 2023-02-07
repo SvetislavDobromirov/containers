@@ -122,4 +122,16 @@ namespace s21 {
         return false;
     }
 
+    template<class Key, class T>
+    template <typename... Args>
+    std::vector<std::pair<typename set<std::pair<Key, T>>::iterator, bool>> map<Key, T>::emplace(Args&&... args) {
+        std::vector<std::pair<iterator, bool>> result;
+        std::vector<value_type> vector_from_args = {args...};
+        for (value_type &it : vector_from_args) {
+            result.push_back(insert(value_type(std::forward<value_type>(it))));
+        }
+
+        return result;
+    }
+
 }  // namespace s21
