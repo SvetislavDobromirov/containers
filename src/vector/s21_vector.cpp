@@ -61,10 +61,10 @@ vector<T>::vector(vector &&other) : vector(){
 template <class T>
 void vector<T>::add_memory() {
     T *tmp = new T[m_capacity+2]; 
-if (m_capacity < m_size){
-    std::cout << "CAP SIZE" << m_capacity << m_size << std::endl;
-    exit(1);
-}
+    //ЕTODO:
+    if (m_capacity < m_size)
+        exit(1);
+    
     for(unsigned long int i = 0; i < m_size; i ++)
         tmp[i] = arr[i];
 
@@ -172,4 +172,27 @@ template <class T>
  void vector<T>::shrink_to_fit() {
     m_capacity = m_size;
     add_memory();
+}
+
+template <class T>
+T*  vector<T>::insert(iterator pos, const_reference value) noexcept{
+    if (m_size >= m_capacity) {
+        m_capacity *= 2;
+        add_memory();
+    }
+
+    m_size++;
+    T temp1 = 0, temp2 = value;
+    T* ret = pos;
+    for (int i = 0; pos+i != end(); ) {
+        temp1 =  *(pos+i); 
+        *(pos+i) = temp2; 
+        i++;
+        if (pos+i == end()) break;
+        temp2 = *(pos+i); 
+       *(pos+i) = temp1;
+        i++;
+        std::cout << "SSS: "<< *pos << std::endl;
+    }    
+    return pos;
 }

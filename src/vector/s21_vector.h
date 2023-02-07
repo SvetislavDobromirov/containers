@@ -46,9 +46,10 @@ class vector {
          bool empty() noexcept;
          size_type size() noexcept;
          size_type max_size() noexcept;
-        void reserve(size_type __n);
+         void reserve(size_type __n);
          void shrink_to_fit();
          size_type capacity() noexcept;
+         iterator insert(iterator pos, const_reference value) noexcept;
     
         // methods iterators
          iterator begin() noexcept;
