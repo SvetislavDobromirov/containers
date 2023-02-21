@@ -172,6 +172,13 @@ namespace s21
                 return this->ptr_ == other.ptr_;
             }
 
+            template <typename... Args>
+            iterator emplace(const_iterator pos, Args&&... args);
+            template <typename... Args>
+            void emplace_back(Args&&... args);
+            template <typename... Args>
+            void emplace_front(Args&&... args);
+
         protected:
             element_list *ptr_;
         };

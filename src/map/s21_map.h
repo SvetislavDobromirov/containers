@@ -31,6 +31,9 @@ class map : public set<std::pair<Key, T>> {
   std::pair<iterator, bool> insert(const key_type &key, const mapped_type &obj);
 
   std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
+
+  template <class... Args>
+  std::vector<std::pair<iterator, bool>> emplace(Args&&... args);
 };
 
 }  // namespace s21

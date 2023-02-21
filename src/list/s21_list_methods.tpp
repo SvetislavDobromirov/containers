@@ -253,3 +253,21 @@ void list<T>::splice(const_iterator pos, list &other) {
     other.end_of_list_ = nullptr;
     other.m_size = 0;
 }
+
+template <class T>
+template <typename... Args>
+void list<T>::emplace_back(Args&&... args) {
+  this->push_back(std::forward<Args>(args)...);
+}
+
+template <class T>
+template <typename... Args>
+void list<T>::emplace_front(Args&&... args) {
+  this->push_front(std::forward<Args>(args)...);
+}
+
+template <class T>
+template <typename... Args>
+typename list<T>::iterator list<T>::emplace(const_iterator pos, Args&&... args) {
+  return this->insert(pos, std::forward<Args>(args)...);
+}

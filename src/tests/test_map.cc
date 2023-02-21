@@ -151,3 +151,25 @@ TEST(Map, 14_swap_merge_size_erase) {
     it++;
     ASSERT_EQ((*it).first, 3);
 }
+
+TEST(Map, 15_emplace) {
+    s21::map<int, int> a;
+    a.emplace(std::make_pair(69, 5));
+    a.emplace(std::make_pair(120, 5));
+    auto it = a.begin();
+    ASSERT_EQ((*it).first, 69);
+    a.emplace(std::make_pair(-55, 5), std::make_pair(-200, 1));
+    it = a.begin();
+    ASSERT_EQ((*it).first, -200);
+}
+
+TEST(Map, 16_emplace) {
+    s21::map<int, std::string> a;
+    std::pair<int, std::string> bibka = {1, "bobka"};
+    std::pair<int, std::string> bibka2 = {2, "balabolka"};
+    a.emplace(bibka, bibka2);
+    auto it = a.begin();
+    ASSERT_EQ((*it).second, "bobka");
+    it++;
+    ASSERT_EQ((*it).second, "balabolka");
+}

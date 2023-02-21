@@ -26,7 +26,7 @@ class set : public tree<Key> {
 
   set &operator=(set &&other) noexcept;
 
-  virtual std::pair<iterator, bool> insert(const value_type &value);
+  std::pair<iterator, bool> insert(const value_type &value);
   template <class... Args>
   std::vector<std::pair<iterator, bool>> emplace(Args&&... args);
 
@@ -35,7 +35,7 @@ class set : public tree<Key> {
   bool contains(const key_type &key);
   void swap(set &other) noexcept;
   void merge(set &other);
-  class iterator {
+  class const_iterator {
    public:
     auto operator++(int);
     auto operator++();
