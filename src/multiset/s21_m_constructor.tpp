@@ -30,9 +30,11 @@ template <class Key>
 void multiset<Key>::copyrec(node_m* node_){
    if (!node_)
         return;
-    if (node_->right)
+    if (node_->right) {
       copyrec(node_->right);
-      insert(node_->data);
+    }
+    insert(node_->data);
+    
     if (node_->left)
       copyrec(node_->left);
 }

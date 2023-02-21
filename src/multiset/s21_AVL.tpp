@@ -1,14 +1,5 @@
 
 
-// struct node // структура для представления узлов дерева
-// {
-// 	int key;
-// 	unsigned char height;
-// 	struct node* left;
-// 	struct node* right;
-// 	node(int k) { key = k; left = right = 0; height = 1; }
-// };
-
 template <class Key>
 unsigned char BinaryTree<Key>::height(node* p)
 {
@@ -30,21 +21,12 @@ void BinaryTree<Key>::fixheight(node* p)
 }
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::rotateright(node* p) // правый поворот вокруг p
-{
+typename BinaryTree<Key>::node* BinaryTree<Key>::rotateright(node* p) {
 	
-	std::cout << "right rotate" << std::endl;
-
 	node* q = p->left;
-	//q->parent = 
-
 	q->parent = p->parent;
-	p->parent = q; // OK
-   if (p->left->right) p->left->right->parent = p;
-	//p->left->parent = q->right->parent;
-	//print_element (p); // 3
-	//print_element(q); // 2
-	//q->right->parent = p->parent;
+	p->parent = q; 
+    if (p->left->right) p->left->right->parent = p;
 	p->left = q->right;
 	q->right = p;
 	fixheight(p);
@@ -54,29 +36,21 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::rotateright(node* p) // пра�
 
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::rotateleft(node* q) // левый поворот вокруг q
+typename BinaryTree<Key>::node* BinaryTree<Key>::rotateleft(node* q)
 {
-	std::cout << "left rotate" << std::endl;
-
 	node* p = q->right;
-
-	
 	q->parent = p;
-	p->parent = q->parent; // Ok
-
-//	q->right->parent = p->left->parent;
+	p->parent = q->parent;
 	q->right = p->left;
-if (p->left) p->left->parent = q;
-
+	if (p->left) p->left->parent = q;
 	p->left = q;
 	fixheight(q);
 	fixheight(p);
-		std::cout << "\n" << std::endl;
 	return p;
 }
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::balance(node* p) // балансировка узла p
+typename BinaryTree<Key>::node* BinaryTree<Key>::balance(node* p) 
 {
 	fixheight(p);
 	if( bfactor(p)==2 )
@@ -91,20 +65,15 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::balance(node* p) // балан�
 			p->left = rotateleft(p->left);
 		return rotateright(p);
 	}
-	return p; // балансировка не нужна
+	return p;
 }
 
 template <class Key>
 typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(node* p, Key k, 
-			node* merge_node, node **head_other, node** current) {// вставка ключа k в дерево с корнем p 
-
-	printf("163");
-
-	//std::cout << std::endl;
+			node* merge_node, node **head_other, node** current) {
 	if ( !p ) {
 		if (merge_node == nullptr){
 			*current = new node(k);
-			
 		} else {
 			*head_other = remove(*head_other, merge_node->data, 1);
 			merge_node->left = nullptr;
@@ -129,7 +98,6 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(node* p, Key k,
 template <class Key>
 typename BinaryTree<Key>::node* BinaryTree<Key>::findmin(node* p) // поиск узла с минимальным ключом в дереве p 
 {
-//	return p->right?findmin(p->right):p;
 	return p->left?findmin(p->left):p;
 }
 
@@ -152,18 +120,14 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k, b
 		p->left = remove(p->left,k, del);
 	else if( k > p->data )
 		p->right = remove(p->right,k, del);	
-	else //  k == p->key 
+	else 
 	{
 		
 		node* q = p->left;
 		node* r = p->right;
-		//if(q) print_element(q);
-		//if(r) print_element(r);
-
+	
 		node * p_parent = p->parent;
-		printf("P in remove: %p: %d\n", p, del);
-		printf("Q in remove: %p: %d\n", q, del);
-		//if (!p->left && !p->right) p = nullptr;
+			
 		if (del == 0) delete p;
 		if( !r ) return q;
 		node* min = findmin(r);
@@ -171,7 +135,7 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::remove(node* p, const Key& k, b
 		min->parent = p_parent;
 
 		min->right = removemin(r);
-		//if (min->right) print_element(min->right);
+		
 		min->left = q;
 		if(min->left) min->left->parent  = min;
 		if (min->right) min->right->parent = min;

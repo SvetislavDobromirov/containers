@@ -32,9 +32,9 @@ namespace s21 {
 
             multiset();
             multiset(std::initializer_list<value_type> const &items);
-             multiset(const multiset &ms);
-             multiset(multiset &&ms);
-             ~multiset();
+            multiset(const multiset &ms);
+            multiset(multiset &&ms);
+            ~multiset();
         //     operator=(multiset &&ms);
             iterator begin();
             iterator end();

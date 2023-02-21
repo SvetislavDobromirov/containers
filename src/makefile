@@ -48,20 +48,23 @@ run:
 
 testing:
 	g++ $(CFLAGS) -c -g --coverage list/s21*.cpp
-	g++ $(CFLAGS) -c -g --coverage list/test.cc
+	
+	#g++ $(CFLAGS) -c -g --coverage list/test.cc
 	g++ $(CFLAGS) *.o -g --coverage -o test $(CHECKFLAGS)
 	./test
 
 
 
 
-gcov_report: 
+gcov_report: clean
 	g++ $(CFLAGS) -c -g --coverage tests/run_test.cc
-	g++ $(CFLAGS) -c -g --coveragetests/test_*.cc
+	g++ $(CFLAGS) -c -g --coverage tests/test_multiset.cc
+#g++ $(CFLAGS) -c -g --coverage tests/test_*.cc
 	g++ $(CFLAGS) *.o -g --coverage -o test $(CHECKFLAGS)
 	mkdir -p gcov/
 	mkdir report/
+	./test
 	lcov -t "s21_vector.a" -o $(REPORTFILE) -c -d .
 	genhtml $(REPORTFILE) -o $(REPORTFOLDER)
-	open $(REPORTFOLDER)index.html
+	xdg-open $(REPORTFOLDER)index.html
 

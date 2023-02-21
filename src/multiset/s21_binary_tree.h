@@ -59,7 +59,6 @@ class BinaryTree {
 
 template <class Key>
 BinaryTree<Key>::BinaryTree() {
-        std::cout << "Конструктор дерева без инициализации" << std::endl;
         this->head_element = nullptr;
 }
 
