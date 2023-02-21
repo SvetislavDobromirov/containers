@@ -18,16 +18,13 @@ class BinaryTree {
         typedef struct Element {
              Element*left, *right, *parent;
             value_type data;
-            // 	int key;
          	unsigned char height;
- //          enum node_colors color;
             Element(Key k) { data = k; left = right = 0; height = 1; }
         } node;
 
        node *get_head() { return head_element; }; // TEST
         node *head_element;
     private:
-     //   node *add_new_element(node *current, Key Value, node_colors color, node *service);
 
     protected:
         
@@ -68,10 +65,13 @@ template <class Key>
 typename BinaryTree<Key>::node *BinaryTree<Key>::insert_to_tree(const value_type &value)
 {
 
-      node *current = nullptr;
-       this->head_element =  insert_avl(this->head_element, value, nullptr, nullptr, &current);
-        this->head_element->parent = nullptr;
-        // TODO:return current element
+    node *current = nullptr;
+    this->head_element =  insert_avl(this->head_element,
+                                    value,
+                                    nullptr,
+                                    nullptr,
+                                    &current);
+    this->head_element->parent = nullptr;
     return current;
 }
 

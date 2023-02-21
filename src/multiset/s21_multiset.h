@@ -8,7 +8,7 @@ namespace s21 {
         public:
             using key_type = Key;
             using value_type = key_type;
-        
+       //  using const_reference = const Key &;
             using const_reference = const Key &;
             using iterator = typename BinaryTree<Key>::iterator;
             using node_m = typename BinaryTree<Key>::node;
@@ -42,8 +42,11 @@ namespace s21 {
         
         private:
             node_m * go_to_left(node_m * cur) {
+                //printf("45: %p \n", cur);
+                //this->print_element(cur);
                 while (cur->left != nullptr)
                     cur = cur->left;
+                
                 return cur;
             }
             node_m * go_to_right(node_m * cur) {
@@ -74,25 +77,6 @@ typename BinaryTree<Key>::iterator multiset<Key>::begin() {
 
     node_m *goal = this->head_element;
     goal = go_to_left(goal);
-    // Проверяем есть и повторные элемент
-    if (goal->right) {
-        if (goal->right->data == goal->data) {
-            Key check_value = goal->data;
-            while (goal->right != nullptr)
-            {
-                if (goal->right->data != check_value)
-                    break;
-                goal = goal->right;
-            }
-        }
-        else if (goal->right->left) {
-            if (goal->data == goal->right->left->data)
-            {
-                goal = goal->right->left;
-            }
-            goal = go_to_left(goal);
-        }
-    }
     it.ptr_ = goal;
     return it;
 }
@@ -108,17 +92,7 @@ typename BinaryTree<Key>::iterator multiset<Key>::end() {
 
     node_m *goal = this->head_element;
     goal = go_to_right(goal);
-    if (goal->right) {
-        if (goal->right->data == goal->data) {
-            goal = go_to_right(goal);
-        } 
-        if (goal->right->left) {
-            if (goal->data == goal->right->left->data) {
-                goal = goal->right->left;
-            }
-            goal = go_to_right(goal);
-        } 
-    }
+
     if (goal->right == nullptr) goal = nullptr;
     it.ptr_ = goal;
     return it;
@@ -126,14 +100,9 @@ typename BinaryTree<Key>::iterator multiset<Key>::end() {
 
 template <class Key>
 typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& value) {
-    iterator it;
-
     this->insert_to_tree(value);
-   //TODO: Сделать возврат итератора через find
-    it.ptr_ = this->head_element;
     size_of_elements++;
-
-    return it;
+    return find(value);
 }
 
 template <class Key>
@@ -157,15 +126,14 @@ typename BinaryTree<Key>::iterator  multiset<Key>::find(const Key& key) {
 }
 template <class Key>
 void multiset<Key>::swap(multiset& other)	{
-// копируем: головв, разммер
     auto temp_head = this->head_element;
     auto temp_size = this->size_of_elements;
 
-    this->head_element = other->head_element;
-    this->size_of_elements = other->size_of_elements;
+    this->head_element = other.head_element;
+    this->size_of_elements = other.size_of_elements;
 
-    other->head_element = temp_head;
-    other->size_of_elements = temp_size;
+    other.head_element = temp_head;
+    other.size_of_elements = temp_size;
 }
 
 template <class Key>
@@ -182,7 +150,7 @@ void multiset<Key>::delete_tree(node_m* n) {
   node_m *right = n->right;
   node_m *left = n->left;
   delete n;
-  if (!right && !left) return;
+  if(!right && !left) return;
   if(left != nullptr) delete_tree(left);
   if(right != nullptr) delete_tree(right);
 }
@@ -190,24 +158,18 @@ void multiset<Key>::delete_tree(node_m* n) {
 template <class Key>
 void multiset<Key>::merge(multiset<Key>& other) {
     auto it_other = other.begin();
-   
-         // TODO: Проверить если this или other пустые
-
-    while  (it_other != other.end()){
-    
+    node_m *current = nullptr;
+    while  (it_other != other.end()) {
         this->head_element =  this->insert_avl(this->head_element, 
                                             *it_other, 
                                             it_other.ptr_, 
-                                            &other.head_element);  
+                                            &other.head_element,
+                                            &current );  
         this->head_element->parent = nullptr;
         size_of_elements++;
         it_other =  other.begin();
-
     }
-    // TODO: очистить other
 }
-
-
 
 template <class Key>
 typename multiset<Key>::size_type  multiset<Key>::count(const Key& key) {
@@ -238,7 +200,7 @@ void  multiset<Key>::counter(node_m* current, size_t* size, const Key& key) {
 template <class Key>
 typename multiset<Key>::iterator multiset<Key>::lower_bound(const Key& key) {
     auto it = begin();
-    while(*it <= key)
+    while(*it < key)
         ++it;
     return it;
 }
@@ -246,7 +208,7 @@ typename multiset<Key>::iterator multiset<Key>::lower_bound(const Key& key) {
 template <class Key>
 typename multiset<Key>::iterator multiset<Key>::upper_bound(const Key& key) {
     auto it = begin();
-    while(*it<key ) 
+    while(*it<=key ) 
         ++it;
     return it;
 }
@@ -274,15 +236,13 @@ void multiset<Key>::erase(iterator pos) {
     if (pos.ptr_ == nullptr) return;
     this->head_element = this->remove(this->head_element, *pos, 0);
     size_of_elements--;
-    //it.ptr_ = this->head_element;
-    //TODO: Что если удаляем голову?
-
+ 
 }
 
 
 template <class Key>
 bool multiset<Key>::empty() {
-    return this->head_element?1:0;
+    return this->size() ?0:1;
 }
 
 

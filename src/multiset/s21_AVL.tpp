@@ -69,10 +69,14 @@ typename BinaryTree<Key>::node* BinaryTree<Key>::balance(node* p)
 }
 
 template <class Key>
-typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(node* p, Key k, 
-			node* merge_node, node **head_other, node** current) {
+typename BinaryTree<Key>::node* BinaryTree<Key>::insert_avl(
+												node* p,
+												Key k, 
+												node* merge_node,
+												node **head_other,
+												node** current) {
 	if ( !p ) {
-		if (merge_node == nullptr){
+		if (merge_node == nullptr) {
 			*current = new node(k);
 		} else {
 			*head_other = remove(*head_other, merge_node->data, 1);
