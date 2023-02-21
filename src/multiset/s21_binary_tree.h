@@ -36,9 +36,6 @@ class BinaryTree {
         int insert_element(const value_type &value);
         node *insert_to_tree(const value_type &value);
         
-        
-//TODO: move foos to protected
-    public: // FOR SiLLy TESTS
         void print_element(node *El);
         unsigned char height(node* p);
         int bfactor(node* p);
@@ -55,9 +52,8 @@ class BinaryTree {
         node* removemin(node* p); // удаление узла с минимальным ключом из дерева p
         node* remove(node* p, const Key& k, bool del); // удаление ключа k из дерева p
 
+        //TODO:: убрать?
         void dump2(node  *node_);
-    
-     
 };
 
 
@@ -73,9 +69,6 @@ template <class Key>
 typename BinaryTree<Key>::node *BinaryTree<Key>::insert_to_tree(const value_type &value)
 {
 
-        std::cout << "97" << std::endl;
-       std::cout.flush();
-      // 	dump2(head_element);
       node *current = nullptr;
        this->head_element =  insert_avl(this->head_element, value, nullptr, nullptr, &current);
         this->head_element->parent = nullptr;

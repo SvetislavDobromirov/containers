@@ -193,10 +193,12 @@ void multiset<Key>::merge(multiset<Key>& other) {
    
          // TODO: Проверить если this или other пустые
 
-    std::cout << "BEGIN ELEMENT: "  << *it_other << std::endl;
     while  (it_other != other.end()){
     
-        this->head_element =  this->insert_avl(this->head_element, *it_other, it_other.ptr_, &other.head_element);  
+        this->head_element =  this->insert_avl(this->head_element, 
+                                            *it_other, 
+                                            it_other.ptr_, 
+                                            &other.head_element);  
         this->head_element->parent = nullptr;
         size_of_elements++;
         it_other =  other.begin();

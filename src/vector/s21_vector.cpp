@@ -176,12 +176,11 @@ template <class T>
 
 template <class T>
 T*  vector<T>::insert(iterator pos, const_reference value) noexcept{
+    m_size++;
     if (m_size >= m_capacity) {
         m_capacity *= 2;
         add_memory();
     }
-
-    m_size++;
     T temp1 = 0, temp2 = value;
     T* ret = pos;
     for (int i = 0; pos+i != end(); ) {
@@ -192,7 +191,6 @@ T*  vector<T>::insert(iterator pos, const_reference value) noexcept{
         temp2 = *(pos+i); 
        *(pos+i) = temp1;
         i++;
-        std::cout << "SSS: "<< *pos << std::endl;
     }    
     return pos;
 }
