@@ -122,8 +122,9 @@ typename array<T, N>::const_reference array<T, N>::front() {
 
 template <class T, size_t N>
 typename array<T, N>::const_reference array<T, N>::back() {
+ 
   if (m_size < 1)
-    return nullptr;
+    return *arr;
   else
     return arr[m_size - 1];
 }
@@ -142,9 +143,9 @@ typename array<T, N>::iterator array<T, N>::begin() {
 template <class T, size_t N>
 typename array<T, N>::iterator array<T, N>::end() {
   if (m_size < 1)
-    return nullptr;
+    return arr;
   else
-    return arr + m_size - 1;
+    return arr + m_size;
 }
 
 // array Capacity
@@ -160,7 +161,9 @@ typename array<T, N>::size_type array<T, N>::size() {
 
 template <class T, size_t N>
 typename array<T, N>::size_type array<T, N>::max_size() {
-  return static_cast<size_type>(pow(2, sizeof(void *) * 8) / sizeof(T) - 1);
+  return std::numeric_limits<std::ptrdiff_t>().max() /
+        sizeof(T);
+
 }
 
 // array Modifiers

@@ -150,7 +150,7 @@ namespace s21
                 return *this;
             }
 
-            ListConstIterator operator++(int i) const
+            ListConstIterator oper=-ator++(int i) const
             {
                 i = 0;
                 ListIterator tmp(*this);

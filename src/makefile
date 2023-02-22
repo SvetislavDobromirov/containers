@@ -26,7 +26,9 @@ test: clean
 	# g++ $(CFLAGS) -c tests/test_set.cc
 	# g++ $(CFLAGS) -c tests/test_stack.cc
 	# g++ $(CFLAGS) -c tests/test_vector.cc
-	g++ $(CFLAGS) -c -g tests/test_multiset.cc
+	# g++ $(CFLAGS) -c -g tests/test_multiset.cc
+	g++ $(CFLAGS) -c -g tests/test_array.cc
+
 	g++ $(CFLAGS) *.o -o test $(CHECKFLAGS)
 	make run
 
@@ -38,7 +40,8 @@ test_memory:
 	# g++ $(CFLAGS) -c -g tests/test_set.cc
 	# g++ $(CFLAGS) -c -g tests/test_stack.cc
 	# g++ $(CFLAGS) -c -g tests/test_vector.cc
-	g++ $(CFLAGS) -c -g tests/test_multiset.cc
+	# g++ $(CFLAGS) -c -g tests/test_multiset.cc
+	g++ $(CFLAGS) -c -g tests/test_array.cc
 	g++ $(CFLAGS) *.o -g -o test $(CHECKFLAGS)
 	valgrind --leak-check=full ./test
 
@@ -58,7 +61,9 @@ testing:
 
 gcov_report: clean
 	g++ $(CFLAGS) -c -g --coverage tests/run_test.cc
-	g++ $(CFLAGS) -c -g --coverage tests/test_multiset.cc
+		g++ $(CFLAGS) -c -g --coverage tests/test_array.cc
+
+#g++ $(CFLAGS) -c -g --coverage tests/test_multiset.cc
 #g++ $(CFLAGS) -c -g --coverage tests/test_*.cc
 	g++ $(CFLAGS) *.o -g --coverage -o test $(CHECKFLAGS)
 	mkdir -p gcov/

@@ -1,19 +1,22 @@
 #include "s21_binary_tree.h"
 #include <initializer_list>
 #include <limits>
+#include  "../vector/s21_vector.h"
+
 
 namespace s21 {
+    
     template <class Key>
     class multiset : public BinaryTree<Key> {
         public:
             using key_type = Key;
             using value_type = key_type;
-       //  using const_reference = const Key &;
             using const_reference = const Key &;
             using iterator = typename BinaryTree<Key>::iterator;
             using node_m = typename BinaryTree<Key>::node;
             using size_type = size_t;
-            // using const_iterator = typename BinaryTree<Key>::const_iterator;
+            using const_iterator = typename BinaryTree<Key>::const_iterator;
+            
             iterator insert(const value_type& value);
             void erase(iterator pos) ;
             iterator find(const Key& key);
@@ -29,21 +32,20 @@ namespace s21 {
             void swap(multiset& other);
             void merge(multiset& other);
 
+            template <class... Args>
+            vector<std::pair<typename BinaryTree<Key>::iterator, bool>> emplace(Args&&... args);
 
             multiset();
             multiset(std::initializer_list<value_type> const &items);
             multiset(const multiset &ms);
             multiset(multiset &&ms);
             ~multiset();
-        //     operator=(multiset &&ms);
             iterator begin();
             iterator end();
 
         
         private:
             node_m * go_to_left(node_m * cur) {
-                //printf("45: %p \n", cur);
-                //this->print_element(cur);
                 while (cur->left != nullptr)
                     cur = cur->left;
                 
@@ -252,6 +254,18 @@ size_t multiset<Key>::size() {
 }
 
 template <class Key>
+template <class... Args>
+vector<std::pair<typename BinaryTree<Key>::iterator, bool>> multiset<Key>::emplace(Args&&... args) {
+    vector<std::pair<iterator, bool>> res{};
+    for (auto elem : {std::forward<Args>(args)...}) {
+      std::pair<iterator, bool> a = insert(elem);
+      res.push_back(a);
+    }
+    return res;
+}
+
+
+template <class Key>
 class BinaryTree<Key>::iterator
 {
     friend BinaryTree;
@@ -332,6 +346,83 @@ public:
 };
 
 
+
+
+template <class Key>
+class BinaryTree<Key>::const_iterator
+{
+    friend BinaryTree;
+
+public:
+    reference operator*() {
+        return ptr_->data;
+    }
+
+    const_iterator operator++()
+    {
+
+        if (!this->ptr_) {
+
+            while (this->ptr_->right) this->ptr_ = this->ptr_->right;
+        } else if ((!this->ptr_->parent ||
+                    this->ptr_ == this->ptr_->parent->right) &&
+                !this->ptr_->right) {
+
+            while (this->ptr_->parent && this->ptr_->parent->right == this->ptr_)
+                this->ptr_ = this->ptr_->parent;
+
+    
+            if (!this->ptr_->parent)
+                this->ptr_ = nullptr;
+            else
+                this->ptr_ = this->ptr_->parent;
+
+        } else {
+      
+            if (this->ptr_->right) {
+                this->ptr_ = this->ptr_->right;
+                while (this->ptr_->left) this->ptr_ = this->ptr_->left;
+        } else {
+            if (this->ptr_ == this->ptr_->parent->left)
+                this->ptr_ = this->ptr_->parent;
+            else
+                this->ptr_ = this->ptr_->parent->parent;
+        }
+        }
+
+  return *this;
+
+     
+    }
+
+    bool operator!=(const_iterator in)
+    {
+        return in.ptr_ != this->ptr_;
+    }
+
+    const_iterator operator--()
+    {
+        while (ptr_->left != nullptr)
+            ptr_ = ptr_->left;
+        
+        return *this;
+    }
+    
+    const_iterator operator++(int i) {
+        i = 0;
+        i++;
+        ++(*this);
+        return *this;
+    }
+
+    const_iterator operator--(int i) {
+        i = 0;
+        i++;
+        --(*this);
+        return *this;;
+    }
+    node *ptr_;
+};
 }
 
 
