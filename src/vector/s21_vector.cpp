@@ -3,7 +3,6 @@
 #include <cmath>
 #include <cstring>
 #include <stdio.h>
-
 // Constrictors and destructors
 
 template <class T>

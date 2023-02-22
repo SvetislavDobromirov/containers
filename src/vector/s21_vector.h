@@ -12,6 +12,7 @@ typedef unsigned long size_t;
 #include <stdio.h>
 
 
+namespace s21 {
 template <class T>
 class vector {
     public:
@@ -64,7 +65,7 @@ class vector {
        //
        // void MoveC(vector other);
 };
-
+}
 
 ///
 
