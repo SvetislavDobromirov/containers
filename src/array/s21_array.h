@@ -1,3 +1,5 @@
+#ifndef __SRC_ARRAY_ARRAY_H__
+#define __SRC_ARRAY_ARRAY_H__
 
 #include <algorithm>
 #include <cmath>
@@ -178,3 +180,5 @@ void array<T, N>::fill(const_reference value) {
 }
 
 }  // namespace s21
+
+#endif

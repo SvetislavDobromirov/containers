@@ -20,13 +20,13 @@ push:
 #TODO: remove clean
 test: clean
 	g++ $(CFLAGS) -c tests/run_test.cc
-	#g++ $(CFLAGS) -c tests/test_list.cc
-	# g++ $(CFLAGS) -c tests/test_map.cc
-	# g++ $(CFLAGS) -c tests/test_queue.cc
-	# g++ $(CFLAGS) -c tests/test_set.cc
-	# g++ $(CFLAGS) -c tests/test_stack.cc
-	# g++ $(CFLAGS) -c tests/test_vector.cc
-	# g++ $(CFLAGS) -c -g tests/test_multiset.cc
+	g++ $(CFLAGS) -c tests/test_list.cc
+	g++ $(CFLAGS) -c tests/test_map.cc
+	g++ $(CFLAGS) -c tests/test_queue.cc
+	g++ $(CFLAGS) -c tests/test_set.cc
+	g++ $(CFLAGS) -c tests/test_stack.cc
+	g++ $(CFLAGS) -c tests/test_vector.cc
+	g++ $(CFLAGS) -c -g tests/test_multiset.cc
 	g++ $(CFLAGS) -c -g tests/test_array.cc
 
 	g++ $(CFLAGS) *.o -o test $(CHECKFLAGS)

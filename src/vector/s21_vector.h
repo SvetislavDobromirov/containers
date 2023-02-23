@@ -62,12 +62,9 @@ class vector {
         size_type m_capacity;
         T *arr;
         void add_memory();
-       //
-       // void MoveC(vector other);
+
 };
 }
 
-///
-
-#include "s21_vector.cpp"
+#include "s21_vector.tpp"
 #endif

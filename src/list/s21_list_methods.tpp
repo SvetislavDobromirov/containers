@@ -111,7 +111,6 @@ size_t list<T>::size() const noexcept {
     return m_size;
 }
 
-
 template <class T>
 size_t list<T>::max_size() const noexcept {
 return std::numeric_limits<std::ptrdiff_t>().max() /
@@ -204,6 +203,7 @@ typename list<T>::ListConstIterator list<T>::cend() const
     it.ptr_ = end_of_list_;
     return it;
 }
+
 template <class T>
 typename list<T>::ListConstIterator list<T>::cbegin() const
 {
@@ -211,7 +211,6 @@ typename list<T>::ListConstIterator list<T>::cbegin() const
     it.ptr_ = end_of_list_;
     return it;
 }
-
 
 template <class T>
 const T & list<T>::front(){
@@ -255,13 +254,13 @@ void list<T>::splice(const_iterator pos, list &other) {
 }
 
 template <class T>
-template <typename... Args>
+template <class... Args>
 void list<T>::emplace_back(Args&&... args) {
   this->push_back(std::forward<Args>(args)...);
 }
 
 template <class T>
-template <typename... Args>
+template <class... Args>
 void list<T>::emplace_front(Args&&... args) {
   this->push_front(std::forward<Args>(args)...);
 }

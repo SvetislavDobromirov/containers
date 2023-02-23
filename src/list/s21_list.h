@@ -1,5 +1,5 @@
-#ifndef __SRC_LIST_S21_VECTOR_H__
-#define __SRC_LIST_S21_VECTOR_H__
+#ifndef __SRC_LIST_S21_LIST_H__
+#define __SRC_LIST_S21_LIST_H__
 
 #include <iostream>
 #include <stdio.h>
@@ -8,6 +8,9 @@
 
 namespace s21
 {
+    class ListIterator;
+    class  ListConstIterator;
+
     template <class T>
     class list
     {
@@ -15,10 +18,9 @@ namespace s21
         using value_type = T;
         using reference = T &;
         using const_reference = const T &;
-
         using size_type = size_t;
         using difference_type = std::ptrdiff_t;
-
+     
         list();
         list(const list &l);
         list(std::initializer_list<T> const &items);
@@ -150,7 +152,7 @@ namespace s21
                 return *this;
             }
 
-            ListConstIterator oper=-ator++(int i) const
+            ListConstIterator operator++(int i) const
             {
                 i = 0;
                 ListIterator tmp(*this);
@@ -172,19 +174,23 @@ namespace s21
                 return this->ptr_ == other.ptr_;
             }
 
-            template <typename... Args>
-            iterator emplace(const_iterator pos, Args&&... args);
-            template <typename... Args>
-            void emplace_back(Args&&... args);
-            template <typename... Args>
-            void emplace_front(Args&&... args);
 
+          
         protected:
             element_list *ptr_;
         };
 
         using iterator = ListIterator;
         using const_iterator = ListConstIterator;
+
+        template <class... Args>
+        void emplace_back(Args&&... args);
+        template <class... Args>
+        void emplace_front(Args&&... args);
+
+        template <class... Args>
+        ListIterator emplace(const_iterator pos, Args&&... args);
+        
 
         iterator begin();
         iterator end();

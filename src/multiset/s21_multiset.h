@@ -1,3 +1,6 @@
+#ifndef __SRC_MULTISET_MULTISET_H__
+#define __SRC_MULTISET_MULTISET_H__
+
 #include "s21_binary_tree.h"
 #include <initializer_list>
 #include <limits>
@@ -427,3 +430,4 @@ public:
 
 
 #include "s21_m_constructor.tpp"
+#endif
