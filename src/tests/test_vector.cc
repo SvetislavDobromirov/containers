@@ -97,4 +97,15 @@ TEST (Vother, Test_1) {
     EXPECT_EQ(*obj.data(), 1);
 }
 
+TEST (Vector, Insert) {
+    vector<int> obj_2  {1,3,4,5};
+    auto it = obj_2.begin();
+    it++;
+    obj_2.insert(it,2);
+    EXPECT_EQ(*(obj_2.begin() + 1), 2);
+}
+
+
+
+
 

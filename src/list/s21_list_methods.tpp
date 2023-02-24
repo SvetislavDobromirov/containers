@@ -1,5 +1,6 @@
 using namespace s21;
 
+
 template <class T>
 void list<T>::unique() {
     element_list* now = head_of_list_;
@@ -196,21 +197,6 @@ typename list<T>::ListIterator list<T>::end()
     return it;
 }
 
-template <class T>
-typename list<T>::ListConstIterator list<T>::cend() const
-{
-    list::ListConstIterator it;
-    it.ptr_ = end_of_list_;
-    return it;
-}
-
-template <class T>
-typename list<T>::ListConstIterator list<T>::cbegin() const
-{
-    list::ListConstIterator it;
-    it.ptr_ = end_of_list_;
-    return it;
-}
 
 template <class T>
 const T & list<T>::front(){
@@ -229,7 +215,7 @@ void list<T>::splice(const_iterator pos, list &other) {
     // Чекаем является ли входящий список пустой
     if (other.head_of_list_ == end_of_list_) return;
     // Чекаем корректеность итератора (является ли он конечным)
-    if (pos.ptr_ == cend().ptr_) return;
+    if (pos.ptr_ == end().ptr_) return;
   
     // Если все ок, запускаем балалайку.
     // Запоминаем следующий элемент
@@ -256,17 +242,34 @@ void list<T>::splice(const_iterator pos, list &other) {
 template <class T>
 template <class... Args>
 void list<T>::emplace_back(Args&&... args) {
-  this->push_back(std::forward<Args>(args)...);
+    vector<T> temp {args...};
+    auto it = temp.begin();
+    for (it; it != temp.end(); it++) {
+       this->push_back(*it);
+    }
 }
 
 template <class T>
 template <class... Args>
 void list<T>::emplace_front(Args&&... args) {
-  this->push_front(std::forward<Args>(args)...);
+   vector<T> temp {args...};
+    auto it = temp.end() - 1;
+    for (it; it != temp.begin() - 1; it--) {
+       this->push_front(*it);
+    }
 }
 
 template <class T>
 template <typename... Args>
-typename list<T>::iterator list<T>::emplace(const_iterator pos, Args&&... args) {
-  return this->insert(pos, std::forward<Args>(args)...);
+typename list<T>::iterator list<T>::emplace(iterator pos, Args&&... args) {
+    vector<T> temp {args...};
+    auto it = temp.begin();
+    s21::list<T>::iterator it_ret;
+    for (it; it != temp.end(); it++) {
+        it_ret = this->insert(pos, *it);
+        std::cout << "274: " << *it << std::endl;
+
+    }
+  
+  return it_ret;
 }

@@ -62,3 +62,21 @@ TEST(Else_one_test, Test_) {
   
 }
 
+TEST(Else_second_test, Test_) {
+  s21::array<int, 6> my {1, 2, 3, 4, 5, 6};
+  s21::array<int, 6> my2( (s21::array<int, 6> &&) my); 
+
+  EXPECT_EQ(my2[0],1);
+  EXPECT_EQ(my2[3],4);
+  EXPECT_EQ(my2[5],6);  
+}
+
+TEST(Else_third_test, Test_) {
+  s21::array<int, 6> my {1, 2, 3, 4, 5, 6};
+  s21::array<int, 6> my2; 
+  my2 = (s21::array<int, 6> &&)my;
+  EXPECT_EQ(my2[0],1);
+  EXPECT_EQ(my2[3],4);
+  EXPECT_EQ(my2[5],6);  
+}
+

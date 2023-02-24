@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <initializer_list>
 #include <limits>
+#include  "../vector/s21_vector.h"
 
 namespace s21
 {
@@ -27,7 +28,6 @@ namespace s21
         list &operator=(list &&l);
         list(list &&l);
         list(size_type n);
-
         ~list();
 
         void push_front(const_reference value);
@@ -137,28 +137,14 @@ namespace s21
 
             ListConstIterator(list<T>::ListIterator l) : ptr_(l.ptr_) {}
 
-            ListConstIterator
-            operator--(int i) const
-            {
-                i = 0;
-                ListIterator tmp(*this);
-                ptr_ = ptr_->before_;
-                return tmp;
-            }
-
+            
             ListConstIterator operator++() const
             {
                 ptr_ = ptr_->next_;
                 return *this;
             }
 
-            ListConstIterator operator++(int i) const
-            {
-                i = 0;
-                ListIterator tmp(*this);
-                ptr_ = ptr_->next_;
-                return tmp;
-            }
+          
 
             const_reference operator*() const
             {
@@ -189,14 +175,14 @@ namespace s21
         void emplace_front(Args&&... args);
 
         template <class... Args>
-        ListIterator emplace(const_iterator pos, Args&&... args);
+        ListIterator emplace(iterator pos, Args&&... args);
         
 
         iterator begin();
         iterator end();
-
-        const_iterator cbegin() const;
-        const_iterator cend() const;
+        
+        const_iterator begin() const;
+        const_iterator end() const;
 
         void splice(const_iterator pos, list &other);
         iterator insert(iterator pos, const_reference value);

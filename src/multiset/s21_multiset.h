@@ -7,6 +7,7 @@
 #include  "../vector/s21_vector.h"
 
 
+
 namespace s21 {
     
     template <class Key>
@@ -43,15 +44,17 @@ namespace s21 {
             multiset(const multiset &ms);
             multiset(multiset &&ms);
             ~multiset();
+            multiset &operator=(multiset&ms);
             iterator begin();
             iterator end();
+            const_iterator cbegin();
+            const_iterator cend();
 
         
         private:
             node_m * go_to_left(node_m * cur) {
                 while (cur->left != nullptr)
                     cur = cur->left;
-                
                 return cur;
             }
             node_m * go_to_right(node_m * cur) {
@@ -89,19 +92,52 @@ typename BinaryTree<Key>::iterator multiset<Key>::begin() {
 template <class Key>
 typename BinaryTree<Key>::iterator multiset<Key>::end() {
     iterator it;
+    if (this->head_element == nullptr) {
+        it.ptr_ = nullptr;
+        return it;
+    }
+    node_m *goal = this->head_element;
+    goal = go_to_right(goal);
+    if (goal->right == nullptr) goal = nullptr;
+    it.ptr_ = goal;
+    return it;
+}
 
+template <class Key>
+typename BinaryTree<Key>::const_iterator multiset<Key>::cbegin()   {
+    //iterator it;
+    const_iterator it;
     if (this->head_element == nullptr) {
         it.ptr_ = nullptr;
         return it;
     }
 
     node_m *goal = this->head_element;
-    goal = go_to_right(goal);
-
-    if (goal->right == nullptr) goal = nullptr;
+    goal = go_to_left(goal);
     it.ptr_ = goal;
+
+    
     return it;
 }
+
+template <class Key>
+typename BinaryTree<Key>::const_iterator multiset<Key>::cend() {
+   // iterator it;
+    const_iterator it;
+
+    if (this->head_element == nullptr) {
+        it.ptr_ = nullptr;
+        return it;
+    }
+    node_m *goal = this->head_element;
+    goal = go_to_right(goal);
+    if (goal->right == nullptr) goal = nullptr;
+    it.ptr_ = goal;
+
+    return it;
+  
+}
+
 
 template <class Key>
 typename BinaryTree<Key>::iterator  multiset<Key>::insert(const value_type& value) {
@@ -258,13 +294,20 @@ size_t multiset<Key>::size() {
 
 template <class Key>
 template <class... Args>
-vector<std::pair<typename BinaryTree<Key>::iterator, bool>> multiset<Key>::emplace(Args&&... args) {
-    vector<std::pair<iterator, bool>> res{};
-    for (auto elem : {std::forward<Args>(args)...}) {
-      std::pair<iterator, bool> a = insert(elem);
-      res.push_back(a);
-    }
-    return res;
+vector<std::pair<typename BinaryTree<Key>::iterator, bool>> 
+    multiset<Key>::emplace(Args&&... args) {
+     
+    vector<std::pair<iterator, bool>> result;
+    vector<Key> vector_from_args{args...};
+    auto it = vector_from_args.begin();
+     for (it; it != vector_from_args.end(); it++) {
+         std::pair<iterator, bool> temp;
+         iterator temp_it = insert(*it);
+         temp.first = temp_it;
+         temp.second = 1;
+         result.push_back(temp);
+     }
+    return result;
 }
 
 
@@ -357,6 +400,8 @@ class BinaryTree<Key>::const_iterator
     friend BinaryTree;
 
 public:
+
+
     reference operator*() {
         return ptr_->data;
     }

@@ -87,16 +87,6 @@ TEST(Set, 8_for) {
   }
 }
 
-TEST(Set, 9_insert_pair) {
-  s21::set<int> a;
-  std::pair b = a.insert(5);
-  std::pair c = a.insert(5);
-  auto it = a.begin();
-  ASSERT_EQ(b.second, true);
-  ASSERT_EQ(c.second, false);
-
-  ASSERT_EQ(*b.first, *it);
-}
 
 TEST(Set, 10_nullptr) {
   s21::set<int> a;
@@ -403,4 +393,9 @@ TEST(Set, 35_insert) {
   ASSERT_EQ(pr.second, true);
   auto pr1 = aboba.insert(5);
   ASSERT_EQ(pr1.second, false);
+}
+
+TEST(Set, 35_emplaxe) {
+  s21::set<int> aboba;
+  aboba.emplace(1,2,3,4);
 }

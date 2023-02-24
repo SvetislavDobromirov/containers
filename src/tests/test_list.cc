@@ -252,6 +252,8 @@ TEST(list_terrible_case_2, Test_5)
    list<std::string> obj = {"one", "two", "three"};
    orig.sort();
    obj.sort();
+
+
    auto i2 = orig.begin();
    for (auto i = obj.begin(); i != obj.end(); i++)
    {
@@ -284,4 +286,33 @@ TEST(list_splice, Test_1)
    int count = 1;
    for (auto i = obj.begin(); i != obj.end(); i++)
       EXPECT_EQ(count++, *i);
+}
+
+TEST(emplaces, Test_1)
+{
+  list<int> obj;
+  obj.emplace_front(1,2,3);
+  obj.emplace_back(7, 8, 9);
+  auto cit = obj.begin();
+  cit++; cit++; cit++;
+  obj.emplace(cit, 4, 5, 6);
+
+  unsigned long count = 1;
+  auto it = obj.begin();
+  for (it; it != obj.end(); it++) {
+    EXPECT_EQ(*it, count);
+    count++;
+  }
+    EXPECT_EQ(obj.max_size(), obj.max_size());
+}
+
+
+TEST(const_it, Test_1)
+{
+  list<int> obj {1,2,3,4,5,6};
+
+  auto cit = obj.begin();
+  ++cit; --cit;
+
+
 }

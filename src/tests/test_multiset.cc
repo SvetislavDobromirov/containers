@@ -227,3 +227,63 @@ TEST(Multiset, copy)
 }
 
 
+TEST(Multiset, emplace)
+{
+    s21::multiset<int>  multi1;
+    multi1.emplace(1,2,3,4,5,6);
+    auto it1 = multi1.begin();
+    int count = 1;
+     while(it1 != multi1.end()) {
+         EXPECT_EQ(*it1, count);
+         ++it1; count ++;
+     }
+}
+
+
+TEST(Multiset, eqqq)
+{
+    s21::multiset<int>  multi2 {1,2,3,4,5};
+    s21::multiset<int>  multi1 {6,7,8,9,10};
+    multi1 = multi2;
+    auto it1 = multi1.begin();
+    int count = 1;
+     while(it1 != multi1.end()) {
+         EXPECT_EQ(*it1, count);
+         ++it1; count ++;
+     }
+}
+
+TEST(Multiset, movw)
+{
+    s21::multiset<int>  multi2 {1,2,3,4,5};
+    s21::multiset<int>  multi1((multiset<int> &&) multi2);
+    auto it1 = multi1.begin();
+    int count = 1;
+     while(it1 != multi1.end()) {
+         EXPECT_EQ(*it1, count);
+         ++it1; count ++;
+     }
+}
+
+
+
+TEST(Multiset, const_it)
+{
+    s21::multiset<int>  multi2 {1,2,3,4,5};
+    s21::multiset<int>  multi1((multiset<int> &&) multi2);
+    auto it1 = multi1.cbegin();
+    int count = 1;
+     while(it1 != multi1.cend()) {
+         EXPECT_EQ(*it1, count);
+         ++it1; count ++;
+     }
+     it1 = multi1.cbegin();
+     ++it1; --it1;
+    EXPECT_EQ(*it1, 1);
+    it1++; it1--;
+     //   EXPECT_EQ(*it1, 1);
+
+
+
+}
+

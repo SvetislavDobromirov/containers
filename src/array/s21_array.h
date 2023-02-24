@@ -46,8 +46,7 @@ class array {
   void swap(array &other);
   void fill(const_reference value);
 
-  // Helpers
-  void PrintArray();
+
 
  private:
   size_type m_size;
@@ -78,31 +77,36 @@ array<T, N>::array(const array &a) : m_size(N) {
 }
 
 template <class T, size_t N>
-array<T, N>::array(array &&a) : arr(a.arr), m_size(a.m_size) {
-  if (N != a.m_size) throw std::logic_error("Invalid array size");
+array<T, N>::array(array &&a) {
+std::cout << "81" << std::endl;
+  if (this != &a) {
+    std::swap(arr, a.arr);
+    std::swap(m_size, a.m_size);
+  }
+  a.m_size = 0;
+  a.arr = nullptr;
+std::cout << "87" << std::endl;
+
 }
 
 template <class T, size_t N>
 array<T, N>::~array() {
-  delete[] arr;
+  if (m_size !=0) {
+    delete[] arr;
+  }
 };
 
 template <class T, size_t N>
 array<T, N> &array<T, N>::operator=(array &&a) {
-  if (m_size != a.m_size) throw std::logic_error("Invalid array size");
-  arr = a.arr;
-  m_size = a.m_size;
-  return this;
+  if (this != &a) {
+    std::swap(arr, a.arr);
+    std::swap(m_size, a.m_size);
+  }
+  a.m_size = 0;
+  a.arr = nullptr;
+  return *this;
 }
 
-// Temporary helpers
-template <class T, size_t N>
-void array<T, N>::PrintArray() {
-  for (size_type i = 0; i < this->m_size; i++) {
-    std::cout << this->arr[i] << ' ';
-  }
-  std::cout << std::endl;
-}
 
 // array Element access
 template <class T, size_t N>

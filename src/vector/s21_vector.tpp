@@ -26,8 +26,9 @@ vector<T>::vector(std::initializer_list<T> const &items) {
     m_size = items.size();
     arr = new T[m_capacity];
     unsigned long count = 0;
-    for (auto p = items.begin(); p != items.end(); p++)
+    for (auto p = items.begin(); p != items.end(); p++){
         *(arr+count++) = *p;
+    }
 }
 
 template <class T>
@@ -62,10 +63,6 @@ vector<T>::vector(vector &&other) : vector(){
 template <class T>
 void vector<T>::add_memory() {
     T *tmp = new T[m_capacity+2]; 
-    //ЕTODO:
-    if (m_capacity < m_size)
-        exit(1);
-    
     for(unsigned long int i = 0; i < m_size; i ++)
         tmp[i] = arr[i];
 
@@ -150,7 +147,6 @@ template <class T>
 // vector Iterators
 template <class T>
  T* vector<T>::begin () noexcept {
-   
     return arr;
 }
 
@@ -177,14 +173,20 @@ template <class T>
 
 template <class T>
 T*  vector<T>::insert(iterator pos, const_reference value) noexcept{
-    m_size++;
+   
+
+   size_t pos_value = pos-begin();
     if (m_size >= m_capacity) {
         m_capacity *= 2;
         add_memory();
+        pos = begin() + pos_value;
     }
+     m_size++;
     T temp1 = 0, temp2 = value;
     T* ret = pos;
+
     for (int i = 0; pos+i != end(); ) {
+          std::cout << "189" << std::endl;
         temp1 =  *(pos+i); 
         *(pos+i) = temp2; 
         i++;

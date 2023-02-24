@@ -45,3 +45,11 @@ multiset<Key>::multiset(multiset &&ms) {
       ms.head_element = nullptr;
       ms.clear();
 }
+
+template<class Key>
+multiset<Key>& multiset<Key>::operator=(multiset &ms) {
+if (this != &ms) {
+    std::swap(this->head_element, ms.head_element);
+  }
+  return *this;
+ }
