@@ -12,7 +12,7 @@ clean:
 	rm -rf a.out *.gcno *.o *.gcda report *.gch s21 test .vs* .DS* *tar
 
 
-push:
+push: clean
 	git add --all
 	git commit -ms
 	git push --all
