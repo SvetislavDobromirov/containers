@@ -87,7 +87,6 @@ TEST(Set, 8_for) {
   }
 }
 
-
 TEST(Set, 10_nullptr) {
   s21::set<int> a;
   auto it = a.begin();
@@ -96,14 +95,14 @@ TEST(Set, 10_nullptr) {
 }
 
 TEST(Set, 11_find) {
-  s21::set<std::string> a {"aboba", "flex"};
+  s21::set<std::string> a{"aboba", "flex"};
   auto it = a.find("flex");
 
   ASSERT_EQ(*it, "flex");
 }
 
 TEST(Set, 12_find) {
-  s21::set<std::string> a {"aboba", "flex"};
+  s21::set<std::string> a{"aboba", "flex"};
   auto it = a.find("cringe");
 
   ASSERT_THROW(*it, std::runtime_error);
@@ -128,7 +127,7 @@ TEST(Set, 14_contains) {
 }
 
 TEST(Set, 15_erase) {
-  s21::set<int> a {5, 2, 3, 10, 9, 12, 8};
+  s21::set<int> a{5, 2, 3, 10, 9, 12, 8};
 
   auto it = a.find(9);
   a.erase(it);
@@ -151,9 +150,8 @@ TEST(Set, 15_erase) {
 }
 
 TEST(Set, 16_erase_root) {
-  s21::set<int> a {5, 2, 3};
+  s21::set<int> a{5, 2, 3};
 
-  
   a.erase(a.find(5));
 
   int tmp[2] = {2, 3};
@@ -165,7 +163,7 @@ TEST(Set, 16_erase_root) {
 }
 
 TEST(Set, 17_erase) {
-  s21::set<int> a {5, 2, 3};
+  s21::set<int> a{5, 2, 3};
 
   a.erase(a.find(3));
 
@@ -178,7 +176,7 @@ TEST(Set, 17_erase) {
 }
 
 TEST(Set, 18_clear) {
-  s21::set<int> a {1, 2};
+  s21::set<int> a{1, 2};
 
   a.clear();
   auto it = a.begin();
@@ -187,7 +185,7 @@ TEST(Set, 18_clear) {
 }
 
 TEST(Set, 19_clear) {
-  s21::set<int> a {1, 2};
+  s21::set<int> a{1, 2};
 
   a.clear();
   auto it = a.begin();
@@ -205,8 +203,8 @@ TEST(Set, 20_clear_empty) {
 }
 
 TEST(Set, 21_swap) {
-  s21::set<int> a {1, 2, 3};
-  s21::set<int> b {4, 5, 6};
+  s21::set<int> a{1, 2, 3};
+  s21::set<int> b{4, 5, 6};
 
   a.swap(b);
   auto it = a.begin();
@@ -219,8 +217,8 @@ TEST(Set, 21_swap) {
 }
 
 TEST(Set, 22_swap) {
-  s21::set<int> a {1, 2, 3};
-  s21::set<int> b {4, 5, 6};
+  s21::set<int> a{1, 2, 3};
+  s21::set<int> b{4, 5, 6};
 
   a.swap(b);
   auto it = b.begin();
@@ -233,8 +231,8 @@ TEST(Set, 22_swap) {
 }
 
 TEST(Set, 23_merge) {
-  s21::set<int> a {1, 2, 3};
-  s21::set<int> b {4, 5, 6};
+  s21::set<int> a{1, 2, 3};
+  s21::set<int> b{4, 5, 6};
 
   a.merge(b);
 
@@ -248,7 +246,7 @@ TEST(Set, 23_merge) {
 }
 
 TEST(Set, 24_merge_empty) {
-  s21::set<int> a {1, 2, 3};
+  s21::set<int> a{1, 2, 3};
   s21::set<int> b;
 
   a.merge(b);
@@ -262,7 +260,7 @@ TEST(Set, 24_merge_empty) {
 
 TEST(Set, 25_merge_empty_2) {
   s21::set<int> a;
-  s21::set<int> b {1, 2, 3};
+  s21::set<int> b{1, 2, 3};
 
   a.merge(b);
 
@@ -274,7 +272,7 @@ TEST(Set, 25_merge_empty_2) {
 }
 
 TEST(Set, 26_size) {
-  s21::set<int> a {1, 2, 3};
+  s21::set<int> a{1, 2, 3};
   a.erase(a.find(2));
   ASSERT_EQ(a.size(), 2);
   a.clear();
@@ -282,7 +280,7 @@ TEST(Set, 26_size) {
 }
 
 TEST(Set, 27_copy) {
-  s21::set<int> a {1, 2, 3};
+  s21::set<int> a{1, 2, 3};
   s21::set<int> b(a);
   int i = 1;
   for (auto it = b.begin(); it != b.end(); it++) {
@@ -294,17 +292,17 @@ TEST(Set, 27_copy) {
 TEST(Set, 28_copy_empty) {
   s21::set<int> a;
   s21::set<int> b(a);
-  
+
   auto it = b.begin();
 
   ASSERT_THROW(*it, std::runtime_error);
 }
 
 TEST(Set, 28_move) {
-  s21::set<int> a {1, 2, 3};
+  s21::set<int> a{1, 2, 3};
   s21::set<int> b(std::move(a));
 
-  int i = 1;  
+  int i = 1;
   for (auto it = b.begin(); it != b.end(); it++) {
     ASSERT_EQ(*it, i);
     i++;
@@ -312,11 +310,11 @@ TEST(Set, 28_move) {
 }
 
 TEST(Set, 29_equal) {
-  s21::set<int> a {1, 2, 3};
+  s21::set<int> a{1, 2, 3};
   s21::set<int> b;
   b = std::move(a);
 
-  int i = 1;  
+  int i = 1;
   for (auto it = b.begin(); it != b.end(); it++) {
     ASSERT_EQ(*it, i);
     i++;
@@ -324,7 +322,7 @@ TEST(Set, 29_equal) {
 }
 
 TEST(Set, 30_iterators) {
-  s21::set<int> a {5, 10, 3, 4, 0, 1, -2, 12, -1, 0, 10};
+  s21::set<int> a{5, 10, 3, 4, 0, 1, -2, 12, -1, 0, 10};
   s21::set<int>::const_iterator it_1 = a.begin();
   s21::set<int>::iterator it_2 = a.begin();
   ASSERT_EQ(*it_1, -2);
@@ -336,7 +334,7 @@ TEST(Set, 30_iterators) {
 }
 
 TEST(Set, 31_increments) {
-  s21::set<int> a {1, 0, -1};
+  s21::set<int> a{1, 0, -1};
 
   auto it = a.begin();
   it++;
@@ -397,5 +395,5 @@ TEST(Set, 35_insert) {
 
 TEST(Set, 35_emplaxe) {
   s21::set<int> aboba;
-  aboba.emplace(1,2,3,4);
+  aboba.emplace(1, 2, 3, 4);
 }

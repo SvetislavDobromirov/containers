@@ -1,198 +1,167 @@
 #ifndef __SRC_LIST_S21_LIST_H__
 #define __SRC_LIST_S21_LIST_H__
 
-#include <iostream>
-#include <stdio.h>
+#include "../vector/s21_vector.h"
 #include <initializer_list>
+#include <iostream>
 #include <limits>
-#include  "../vector/s21_vector.h"
+#include <stdio.h>
 
-namespace s21
-{
-    class ListIterator;
-    class  ListConstIterator;
+namespace s21 {
+class ListIterator;
+class ListConstIterator;
 
-    template <class T>
-    class list
-    {
-    public:
-        using value_type = T;
-        using reference = T &;
-        using const_reference = const T &;
-        using size_type = size_t;
-        using difference_type = std::ptrdiff_t;
-     
-        list();
-        list(const list &l);
-        list(std::initializer_list<T> const &items);
-        list &operator=(list &&l);
-        list(list &&l);
-        list(size_type n);
-        ~list();
+template <class T> class list {
+public:
+  using value_type = T;
+  using reference = T &;
+  using const_reference = const T &;
+  using size_type = size_t;
+  using difference_type = std::ptrdiff_t;
 
-        void push_front(const_reference value);
-        void push_back(const_reference value);
-        void pop_front();
-        void pop_back();
-        void sort();
-        void unique();
-        void reverse() noexcept;
-        void merge(list &other);
-        void swap(list &other) noexcept;
-        void clear() noexcept;
+  list();
+  list(const list &l);
+  list(std::initializer_list<T> const &items);
+  list &operator=(list &&l);
+  list(list &&l);
+  list(size_type n);
+  ~list();
 
-        const_reference front();
-        const_reference back();
+  void push_front(const_reference value);
+  void push_back(const_reference value);
+  void pop_front();
+  void pop_back();
+  void sort();
+  void unique();
+  void reverse() noexcept;
+  void merge(list &other);
+  void swap(list &other) noexcept;
+  void clear() noexcept;
 
-        size_type size() const noexcept;
-        size_type max_size() const noexcept;
-        bool empty() const;
+  const_reference front();
+  const_reference back();
 
-    private:
-        size_type m_size;
-        typedef struct Element
-        {
-            struct Element *before_;
-            struct Element *next_;
-            T data_;
-        } element_list;
+  size_type size() const noexcept;
+  size_type max_size() const noexcept;
+  bool empty() const;
 
-        element_list *head_of_list_;
-        element_list *end_of_list_;
+private:
+  size_type m_size;
+  typedef struct Element {
+    struct Element *before_;
+    struct Element *next_;
+    T data_;
+  } element_list;
 
-        void swap_elements(element_list *a, element_list *b);
+  element_list *head_of_list_;
+  element_list *end_of_list_;
 
-    public:
-        class ListIterator
-        {
-            friend list;
+  void swap_elements(element_list *a, element_list *b);
 
-        public:
-            element_list *Data() { return ptr_; };
+public:
+  class ListIterator {
+    friend list;
 
-            ListIterator(){};
-            
-            ListIterator operator--()
-            {
-                ptr_ = ptr_->before_;
-                return *this;
-            }
+  public:
+    element_list *Data() { return ptr_; };
 
-            ListIterator operator--(int i)
-            {
-                i = 0;
-                i++;
-                ListIterator tmp(*this);
-                ptr_ = ptr_->before_;
-                return tmp;
-            }
+    ListIterator(){};
 
-            ListIterator operator++()
-            {
-                ptr_ = ptr_->next_;
-                return *this;
-            }
+    ListIterator operator--() {
+      ptr_ = ptr_->before_;
+      return *this;
+    }
 
-            ListIterator operator++(int i)
-            {
-                i = 0;
-                i++;
-                ListIterator tmp(*this);
-                ptr_ = ptr_->next_;
-                return tmp;
-            }
+    ListIterator operator--(int i) {
+      i = 0;
+      i++;
+      ListIterator tmp(*this);
+      ptr_ = ptr_->before_;
+      return tmp;
+    }
 
-            reference operator*()
-            {
-                return this->Data()->data_;
-            }
+    ListIterator operator++() {
+      ptr_ = ptr_->next_;
+      return *this;
+    }
 
-            bool operator!=(const ListIterator &other) const
-            {
-                return this->ptr_ != other.ptr_;
-            }
-            bool operator==(const ListIterator &other) const
-            {
-                return this->ptr_ == other.ptr_;
-            }
+    ListIterator operator++(int i) {
+      i = 0;
+      i++;
+      ListIterator tmp(*this);
+      ptr_ = ptr_->next_;
+      return tmp;
+    }
 
-        protected:
-            element_list *ptr_;
-        };
+    reference operator*() { return this->Data()->data_; }
 
-        class ListConstIterator
-        {
-            friend list;
+    bool operator!=(const ListIterator &other) const {
+      return this->ptr_ != other.ptr_;
+    }
+    bool operator==(const ListIterator &other) const {
+      return this->ptr_ == other.ptr_;
+    }
 
-        public:
-            element_list *Data() { return ptr_; };
+  protected:
+    element_list *ptr_;
+  };
 
-            ListConstIterator(){};
+  class ListConstIterator {
+    friend list;
 
-            ListConstIterator operator--() const
-            {
-                ptr_ = ptr_->before_;
-                return *this;
-            }
+  public:
+    element_list *Data() { return ptr_; };
 
-            ListConstIterator(list<T>::ListIterator l) : ptr_(l.ptr_) {}
+    ListConstIterator(){};
 
-            
-            ListConstIterator operator++() const
-            {
-                ptr_ = ptr_->next_;
-                return *this;
-            }
+    ListConstIterator operator--() const {
+      ptr_ = ptr_->before_;
+      return *this;
+    }
 
-          
+    ListConstIterator(list<T>::ListIterator l) : ptr_(l.ptr_) {}
 
-            const_reference operator*() const
-            {
-                return this->Data()->data_;
-            }
+    ListConstIterator operator++() const {
+      ptr_ = ptr_->next_;
+      return *this;
+    }
 
-            bool operator!=(const ListConstIterator &other) const
-            {
-                return this->ptr_ != other.ptr_;
-            }
-            bool operator==(const ListConstIterator &other) const
-            {
-                return this->ptr_ == other.ptr_;
-            }
+    const_reference operator*() const { return this->Data()->data_; }
 
+    bool operator!=(const ListConstIterator &other) const {
+      return this->ptr_ != other.ptr_;
+    }
+    bool operator==(const ListConstIterator &other) const {
+      return this->ptr_ == other.ptr_;
+    }
 
-          
-        protected:
-            element_list *ptr_;
-        };
+  protected:
+    element_list *ptr_;
+  };
 
-        using iterator = ListIterator;
-        using const_iterator = ListConstIterator;
+  using iterator = ListIterator;
+  using const_iterator = ListConstIterator;
 
-        template <class... Args>
-        void emplace_back(Args&&... args);
-        template <class... Args>
-        void emplace_front(Args&&... args);
+  template <class... Args> void emplace_back(Args &&... args);
+  template <class... Args> void emplace_front(Args &&... args);
 
-        template <class... Args>
-        ListIterator emplace(iterator pos, Args&&... args);
-        
+  template <class... Args> ListIterator emplace(iterator pos, Args &&... args);
 
-        iterator begin();
-        iterator end();
-        
-        const_iterator begin() const;
-        const_iterator end() const;
+  iterator begin();
+  iterator end();
 
-        void splice(const_iterator pos, list &other);
-        iterator insert(iterator pos, const_reference value);
-        void erase(iterator pos);
-    };
+  const_iterator begin() const;
+  const_iterator end() const;
 
-}
+  void splice(const_iterator pos, list &other);
+  iterator insert(iterator pos, const_reference value);
+  void erase(iterator pos);
+};
 
-#include "s21_list_methods.tpp"
+} // namespace s21
+
 #include "s21_list_class.tpp"
+#include "s21_list_methods.tpp"
 #include "s21_list_pop_push.tpp"
 #include "s21_list_sort.tpp"
 #endif

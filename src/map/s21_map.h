@@ -7,9 +7,8 @@ namespace s21 {
 
 typedef unsigned long size_t;
 
-template <class Key, class T>
-class map : public set<std::pair<Key, T>> {
- public:
+template <class Key, class T> class map : public set<std::pair<Key, T>> {
+public:
   using mapped_type = T;
   using key_type = Key;
   using value_type = std::pair<key_type, mapped_type>;
@@ -17,10 +16,10 @@ class map : public set<std::pair<Key, T>> {
 
   map() = default;
   map(std::initializer_list<value_type> const &items);
-  map(const map& other);
-  map(map&& other) noexcept;
+  map(const map &other);
+  map(map &&other) noexcept;
 
-  bool contains(const key_type& key);
+  bool contains(const key_type &key);
 
   mapped_type &at(const key_type &key);
 
@@ -30,14 +29,14 @@ class map : public set<std::pair<Key, T>> {
 
   std::pair<iterator, bool> insert(const key_type &key, const mapped_type &obj);
 
-  std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
+  std::pair<iterator, bool> insert_or_assign(const Key &key, const T &obj);
 
   template <class... Args>
-  std::vector<std::pair<iterator, bool>> emplace(Args&&... args);
+  std::vector<std::pair<iterator, bool>> emplace(Args &&... args);
 };
 
-}  // namespace s21
+} // namespace s21
 
 #include "s21_map.tpp"
 
-#endif  // __SRC_MAP_H__
+#endif // __SRC_MAP_H__

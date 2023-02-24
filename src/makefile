@@ -55,6 +55,21 @@ testing:
 	./test
 
 
+auto_formatting:
+	clang-format -i array/*.h
+	clang-format -i list/*.tpp list/*.h
+	clang-format -i map/*.tpp map/*.h
+	clang-format -i multiset/*.tpp multiset/*.h
+	clang-format -i queue/*.h
+	clang-format -i stack/*.h
+	clang-format -i vector/*.tpp vector/*.h
+	#clang-format -i *.cc *.h tests/*.cc
+
+style: 
+	
+	clang-format -i -n */*.cc */*.h
+
+
 
 
 gcov_report: clean

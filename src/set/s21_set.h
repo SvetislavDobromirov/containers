@@ -3,14 +3,12 @@
 
 #include "s21_tree.h"
 
-
 namespace s21 {
 
 typedef unsigned long size_t;
 
-template <typename Key>
-class set : public tree<Key> {
- public:
+template <typename Key> class set : public tree<Key> {
+public:
   class iterator;
   using key_type = Key;
   using value_type = key_type;
@@ -28,7 +26,7 @@ class set : public tree<Key> {
 
   std::pair<iterator, bool> insert(const value_type &value);
   template <class... Args>
-  std::vector<std::pair<iterator, bool>> emplace(Args&&... args);
+  std::vector<std::pair<iterator, bool>> emplace(Args &&... args);
 
   void erase(iterator pos);
   iterator find(const key_type &key);
@@ -36,7 +34,7 @@ class set : public tree<Key> {
   void swap(set &other) noexcept;
   void merge(set &other);
   class const_iterator {
-   public:
+  public:
     auto operator++(int);
     auto operator++();
     auto operator--(int);
@@ -47,7 +45,7 @@ class set : public tree<Key> {
     typename tree<Key>::node *it_current_node = nullptr;
   };
   class iterator : public const_iterator {
-   public:
+  public:
     iterator() : const_iterator() {}
   };
 
@@ -55,8 +53,8 @@ class set : public tree<Key> {
   iterator end();
 };
 
-}  // namespace s21
+} // namespace s21
 
 #include "s21_set.tpp"
 
-#endif  // __SRC_SET_H__
+#endif // __SRC_SET_H__

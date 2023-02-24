@@ -7,9 +7,8 @@
 namespace s21 {
 typedef unsigned long size_t;
 
-template <typename T>
-class tree {
- public:
+template <typename T> class tree {
+public:
   using size_type = size_t;
 
   tree();
@@ -24,7 +23,7 @@ class tree {
   bool empty();
   void clear();
 
- protected:
+protected:
   class node;
   int tree_insert(T value);
   node *root_;
@@ -34,7 +33,7 @@ class tree {
   node *copy_tree(node *cur_node);
 
   class node {
-   public:
+  public:
     explicit node(T data = T(), node *r_node = nullptr, node *l_node = nullptr,
                   node *p_node = nullptr) {
       this->node_data = data;
@@ -49,8 +48,8 @@ class tree {
   };
 };
 
-}  // namespace s21
+} // namespace s21
 
 #include "s21_tree.tpp"
 
-#endif  // __SRC_TREE_H__
+#endif // __SRC_TREE_H__
