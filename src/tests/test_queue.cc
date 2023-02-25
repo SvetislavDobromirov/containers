@@ -1,4 +1,4 @@
-#include "../queue/s21_queue.h"
+#include "../s21_containers.h"
 #include <gtest/gtest.h>
 
 using namespace s21;
@@ -38,4 +38,11 @@ TEST(queue_3, queue_test_3) {
   queue<int> q3(q2);
   EXPECT_EQ(1, q3.front());
   EXPECT_EQ(3, q3.back());
+}
+
+TEST(queue_4, queue_test_3) {
+  queue<int> q2 = {1, 2, 3};
+  q2.emplace_back(4, 5, 6);
+  EXPECT_EQ(1, q2.front());
+  EXPECT_EQ(6, q2.back());
 }

@@ -1,5 +1,5 @@
-#ifndef __SRC_S21_vector_H__
-#define __SRC_S21_vector_H__
+#ifndef __SRC_S21_VECTOR_H__
+#define __SRC_S21_VECTOR_H__
 
 #define print cout
 typedef unsigned long size_t;
@@ -54,9 +54,8 @@ public:
   iterator end() noexcept;
 
   template <typename... Args>
-  iterator emplace(const_iterator pos, Args &&...args);
-  template <typename... Args>
-  void emplace_back(Args &&...args);
+  iterator emplace(const_iterator pos, Args &&... args);
+  template <typename... Args> void emplace_back(Args &&... args);
 
 private:
   size_type m_size;

@@ -1,4 +1,4 @@
-#include "../map/s21_map.h"
+#include "../s21_containers.h"
 #include <gtest/gtest.h>
 
 TEST(Map, 0_base) { s21::map<int, std::string> a; }

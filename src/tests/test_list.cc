@@ -1,5 +1,5 @@
 
-#include "../list/s21_list.h"
+#include "../s21_containers.h"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <list>
@@ -276,7 +276,7 @@ TEST(emplaces, Test_1) {
 
   unsigned long count = 1;
   auto it = obj.begin();
-  for (it; it != obj.end(); it++) {
+  for (; it != obj.end(); it++) {
     EXPECT_EQ(*it, count);
     count++;
   }

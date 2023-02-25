@@ -288,7 +288,7 @@ multiset<Key>::emplace(Args &&... args) {
   vector<std::pair<iterator, bool>> result;
   vector<Key> vector_from_args{args...};
   auto it = vector_from_args.begin();
-  for (it; it != vector_from_args.end(); it++) {
+  for (; it != vector_from_args.end(); it++) {
     std::pair<iterator, bool> temp;
     iterator temp_it = insert(*it);
     temp.first = temp_it;

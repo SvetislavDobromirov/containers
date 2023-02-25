@@ -215,7 +215,7 @@ template <class... Args>
 void list<T>::emplace_back(Args &&... args) {
   vector<T> temp{args...};
   auto it = temp.begin();
-  for (it; it != temp.end(); it++) {
+  for (; it != temp.end(); it++) {
     this->push_back(*it);
   }
 }
@@ -225,7 +225,7 @@ template <class... Args>
 void list<T>::emplace_front(Args &&... args) {
   vector<T> temp{args...};
   auto it = temp.end() - 1;
-  for (it; it != temp.begin() - 1; it--) {
+  for (; it != temp.begin() - 1; it--) {
     this->push_front(*it);
   }
 }
@@ -236,10 +236,8 @@ typename list<T>::iterator list<T>::emplace(iterator pos, Args &&... args) {
   vector<T> temp{args...};
   auto it = temp.begin();
   s21::list<T>::iterator it_ret;
-  for (it; it != temp.end(); it++) {
+  for (; it != temp.end(); it++) {
     it_ret = this->insert(pos, *it);
-    std::cout << "274: " << *it << std::endl;
   }
-
   return it_ret;
 }

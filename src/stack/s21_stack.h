@@ -25,6 +25,7 @@ public:
   bool empty() const;
   size_t size();
   const_reference top();
+  template <class... Args> void emplace_back(Args &&... args);
 
 private:
   s21::list<T> obj; // object
@@ -52,15 +53,20 @@ template <class T> const T &stack<T>::top() { return *(--obj.end()); }
 
 // Constructors
 template <class T> stack<T>::stack() = default;
-// Should I create object here?
-// wait
+
+template <class T>
+template <class... Args>
+void stack<T>::emplace_back(Args &&... args) {
+  vector<T> temp{args...};
+  auto it = temp.begin();
+  for (; it != temp.end(); it++) {
+    this->push(*it);
+  }
+}
 
 template <class T> stack<T>::stack(const stack &s) = default;
 
-template <class T> stack<T>::stack(stack &&s) {
-  obj = std::move(s.obj); // move copy  /// Not working with =  ..???
-  // working, but this is more correct, because it does the same
-}
+template <class T> stack<T>::stack(stack &&s) { obj = std::move(s.obj); }
 
 template <class T> stack<T> &stack<T>::operator=(stack &&s) = default;
 

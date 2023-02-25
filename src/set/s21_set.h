@@ -1,8 +1,8 @@
 #ifndef __SRC_SET_H__
 #define __SRC_SET_H__
 
-#include "s21_tree.h"
 #include "../vector/s21_vector.h"
+#include "s21_tree.h"
 
 namespace s21 {
 

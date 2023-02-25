@@ -1,4 +1,4 @@
-#include "../stack/s21_stack.h"
+#include "../s21_containers.h"
 #include <gtest/gtest.h>
 
 using namespace s21;
@@ -41,4 +41,11 @@ TEST(stack_3, stack_test_3) {
   stack<int> st1 = {1, 2, 3, 4};
   stack<int> st2 = st1;
   EXPECT_EQ(4, st2.top());
+}
+
+TEST(stack_23, stack_test_3) {
+
+  stack<int> st1 = {1, 2, 3, 4};
+  st1.emplace_back(4, 6);
+  EXPECT_EQ(6, st1.top());
 }

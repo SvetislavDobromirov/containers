@@ -19,6 +19,8 @@ public:
   ~queue();
   queue &operator=(queue &&q) = default;
 
+  template <class... Args> void emplace_back(Args &&... args);
+
   void push(const_reference value);
   void pop();
   void swap(queue &other);
@@ -39,14 +41,9 @@ template <class T> queue<T>::queue(std::initializer_list<T> const &items) {
     obj.push_back(*it);
 }
 
-// template <class T>
-// queue<T>::queue(queue &&q){
-// obj = std::move(q.obj);
-// }
-
 template <class T> queue<T>::~queue() = default;
 
-////
+//
 
 // Methods
 template <class T> void queue<T>::push(const_reference value) {
@@ -56,6 +53,16 @@ template <class T> void queue<T>::push(const_reference value) {
 template <class T> void queue<T>::pop() {
   if (obj.size() != 0)
     obj.pop_front();
+}
+
+template <class T>
+template <class... Args>
+void queue<T>::emplace_back(Args &&... args) {
+  vector<T> temp{args...};
+  auto it = temp.begin();
+  for (; it != temp.end(); it++) {
+    this->push(*it);
+  }
 }
 
 template <class T> void queue<T>::swap(queue &other) { obj.swap(other.obj); }

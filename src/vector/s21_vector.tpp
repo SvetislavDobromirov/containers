@@ -141,7 +141,6 @@ T *vector<T>::insert(iterator pos, const_reference value) noexcept {
   }
   m_size++;
   T temp1 = 0, temp2 = value;
-  T *ret = pos;
 
   for (int i = 0; pos + i != end();) {
     std::cout << "189" << std::endl;
@@ -159,14 +158,14 @@ T *vector<T>::insert(iterator pos, const_reference value) noexcept {
 
 template <typename T>
 template <typename... Args>
-void vector<T>::emplace_back(Args &&...args) {
+void vector<T>::emplace_back(Args &&... args) {
   this->push_back(T(std::forward<Args>(args)...));
 }
 
 template <typename T>
 template <typename... Args>
-typename vector<T>::iterator
-vector<T>::emplace(const_iterator pos, Args &&...args) {
+typename vector<T>::iterator vector<T>::emplace(const_iterator pos,
+                                                Args &&... args) {
   iterator iterator(pos);
   iterator = this->insert(iterator, T(std::forward<Args>(args)...));
   return iterator;

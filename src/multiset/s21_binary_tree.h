@@ -1,3 +1,7 @@
+
+#ifndef __SRC_MULTISET_S21_BINARY_TREE_H__
+#define __SRC_MULTISET_S21_BINARY_TREE_H__
+
 #include <initializer_list>
 #include <iostream>
 
@@ -34,7 +38,6 @@ protected:
   int insert_element(const value_type &value);
   node *insert_to_tree(const value_type &value);
 
-  void print_element(node *El);
   unsigned char height(node *p);
   int bfactor(node *p);
   void fixheight(node *p);
@@ -46,9 +49,6 @@ protected:
   node *findmin(node *p); // поиск узла с минимальным ключом в дереве p
   node *removemin(node *p); // удаление узла с минимальным ключом из дерева p
   node *remove(node *p, const Key &k, bool del); // удаление ключа k из дерева p
-
-  // TODO:: убрать?
-  void dump2(node *node_);
 };
 
 template <class Key> BinaryTree<Key>::BinaryTree() {
@@ -66,8 +66,8 @@ BinaryTree<Key>::insert_to_tree(const value_type &value) {
   return current;
 }
 
-//#include "s21_Red_Blue.tpp"
 #include "s21_AVL.tpp"
-#include "s21_additional_foos.tpp"
 
 } // namespace s21
+
+#endif

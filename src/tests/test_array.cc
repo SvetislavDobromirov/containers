@@ -3,7 +3,7 @@
 #include <array>
 #include <typeinfo>
 
-#include "../array/s21_array.h"
+#include "../s21_containerplus.h"
 
 TEST(Constructors, Test_1) {
   s21::array<int, 6> my({1, 2, 3, 4, 5, 6});
