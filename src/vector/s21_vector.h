@@ -53,6 +53,11 @@ public:
   iterator begin() noexcept;
   iterator end() noexcept;
 
+  template <typename... Args>
+  iterator emplace(const_iterator pos, Args &&...args);
+  template <typename... Args>
+  void emplace_back(Args &&...args);
+
 private:
   size_type m_size;
   size_type m_capacity;
