@@ -393,7 +393,27 @@ TEST(Set, 35_insert) {
   ASSERT_EQ(pr1.second, false);
 }
 
-TEST(Set, 35_emplaxe) {
+TEST(Set, 35_emplace) {
   s21::set<int> aboba;
   aboba.emplace(1, 2, 3, 4);
+}
+
+TEST(Set, 36_additional) {
+  s21::set<int> ad {132, 120, 122, 121, 118, 119, 140, 135, 134, 138, 137, 136};
+
+  int arr[12] = {118, 119, 120, 121, 122, 132, 134, 135, 136, 137, 138, 140};
+  auto it = ad.begin();
+
+  ASSERT_EQ(*it, arr[0]); it++;
+  ASSERT_EQ(*it, arr[1]); it++;
+  ASSERT_EQ(*it, arr[2]); it++;
+  ASSERT_EQ(*it, arr[3]); it++;
+  ASSERT_EQ(*it, arr[4]); it++;
+  ASSERT_EQ(*it, arr[5]); it++;
+  ASSERT_EQ(*it, arr[6]); it++;
+  ASSERT_EQ(*it, arr[7]); it++;
+  ASSERT_EQ(*it, arr[8]); it++;
+  ASSERT_EQ(*it, arr[9]); it++;
+  ASSERT_EQ(*it, arr[10]); it++;
+  ASSERT_EQ(*it, arr[11]); it++;
 }
