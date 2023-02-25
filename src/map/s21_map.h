@@ -32,7 +32,7 @@ public:
   std::pair<iterator, bool> insert_or_assign(const Key &key, const T &obj);
 
   template <class... Args>
-  std::vector<std::pair<iterator, bool>> emplace(Args &&... args);
+  vector<std::pair<iterator, bool>> emplace(Args &&... args);
 };
 
 } // namespace s21

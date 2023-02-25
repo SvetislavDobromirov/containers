@@ -127,10 +127,10 @@ template <class Key, class T> bool map<Key, T>::contains(const key_type &key) {
 
 template <class Key, class T>
 template <typename... Args>
-std::vector<std::pair<typename set<std::pair<Key, T>>::iterator, bool>>
+vector<std::pair<typename set<std::pair<Key, T>>::iterator, bool>>
 map<Key, T>::emplace(Args &&... args) {
-  std::vector<std::pair<iterator, bool>> result;
-  std::vector<value_type> vector_from_args = {args...};
+  vector<std::pair<iterator, bool>> result;
+  vector<value_type> vector_from_args = {args...};
   for (value_type &it : vector_from_args) {
     result.push_back(insert(value_type(std::forward<value_type>(it))));
   }

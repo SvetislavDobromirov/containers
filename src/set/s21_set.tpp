@@ -119,10 +119,10 @@ set<Key>::insert(const value_type &value) {
 
 template <typename Key>
 template <typename... Args>
-std::vector<std::pair<typename set<Key>::iterator, bool>>
+vector<std::pair<typename set<Key>::iterator, bool>>
 set<Key>::emplace(Args &&... args) {
-  std::vector<std::pair<iterator, bool>> result;
-  std::vector<Key> vector_from_args = {args...};
+  vector<std::pair<iterator, bool>> result;
+  vector<Key> vector_from_args = {args...};
   for (auto &it : vector_from_args) {
     result.push_back(insert(Key(std::forward<Key>(it))));
   }

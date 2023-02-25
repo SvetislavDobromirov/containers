@@ -2,6 +2,7 @@
 #define __SRC_SET_H__
 
 #include "s21_tree.h"
+#include "../vector/s21_vector.h"
 
 namespace s21 {
 
@@ -26,7 +27,7 @@ public:
 
   std::pair<iterator, bool> insert(const value_type &value);
   template <class... Args>
-  std::vector<std::pair<iterator, bool>> emplace(Args &&... args);
+  vector<std::pair<iterator, bool>> emplace(Args &&... args);
 
   void erase(iterator pos);
   iterator find(const key_type &key);
