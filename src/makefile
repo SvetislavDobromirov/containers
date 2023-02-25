@@ -56,18 +56,13 @@ testing:
 
 
 auto_formatting:
-	clang-format -i array/*.h
-	clang-format -i list/*.tpp list/*.h
-	clang-format -i map/*.tpp map/*.h
-	clang-format -i multiset/*.tpp multiset/*.h
-	clang-format -i queue/*.h
-	clang-format -i stack/*.h
-	clang-format -i vector/*.tpp vector/*.h
-	#clang-format -i *.cc *.h tests/*.cc
+	clang-format -i **/*.cc **/*.tpp **/*.h
+	clang-format -i **/*.cc **/*.tpp **/*.h
+
 
 style: 
 	
-	clang-format -i -n */*.cc */*.h
+	clang-format -i -n **/*.cc **/*.tpp **/*.h
 
 
 

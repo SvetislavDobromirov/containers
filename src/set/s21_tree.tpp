@@ -5,8 +5,7 @@
 
 namespace s21 {
 
-template <typename T>
-tree<T>::tree() : root_(nullptr), size_(0) {}
+template <typename T> tree<T>::tree() : root_(nullptr), size_(0) {}
 
 template <typename T>
 tree<T>::tree(const std::initializer_list<T> &items)
@@ -16,27 +15,21 @@ tree<T>::tree(const std::initializer_list<T> &items)
   }
 }
 
-template <typename T>
-tree<T>::tree(const tree &other) {
+template <typename T> tree<T>::tree(const tree &other) {
   size_ = other.size_;
   root_ = copy_tree(other.root_);
 }
 
-template <typename T>
-tree<T>::tree(tree &&other) noexcept {
+template <typename T> tree<T>::tree(tree &&other) noexcept {
   root_ = other.root_;
   size_ = other.size_;
   other.root_ = nullptr;
   other.size_ = 0;
 }
 
-template <typename T>
-tree<T>::~tree() {
-  deallocate_node(root_);
-}
+template <typename T> tree<T>::~tree() { deallocate_node(root_); }
 
-template <typename T>
-int tree<T>::tree_insert(T value) {
+template <typename T> int tree<T>::tree_insert(T value) {
   if (root_ == nullptr) {
     ++size_;
     root_ = new node(value);
@@ -62,8 +55,7 @@ int tree<T>::tree_insert(T value) {
   return 0;
 }
 
-template <typename T>
-void tree<T>::erase(const T &value) {
+template <typename T> void tree<T>::erase(const T &value) {
   node *current_node = root_;
   while (current_node != nullptr && current_node->node_data != value) {
     if (value < current_node->node_data) {
@@ -78,8 +70,7 @@ void tree<T>::erase(const T &value) {
   }
 }
 
-template <typename T>
-void tree<T>::erase(node *current_node) {
+template <typename T> void tree<T>::erase(node *current_node) {
   if (current_node == nullptr) {
     return;
   }
@@ -133,21 +124,14 @@ void tree<T>::erase(node *current_node) {
     return;
   }
 
-    delete current_node;
+  delete current_node;
 }
 
-template <typename T>
-size_t tree<T>::size() {
-  return size_;
-}
+template <typename T> size_t tree<T>::size() { return size_; }
 
-template <typename T>
-bool tree<T>::empty() {
-  return root_ == nullptr;
-}
+template <typename T> bool tree<T>::empty() { return root_ == nullptr; }
 
-template <typename T>
-void tree<T>::deallocate_node(node *current_node) {
+template <typename T> void tree<T>::deallocate_node(node *current_node) {
   if (current_node == nullptr) {
     return;
   }
@@ -157,16 +141,14 @@ void tree<T>::deallocate_node(node *current_node) {
   delete current_node;
 }
 
-template <typename T>
-void tree<T>::clear() {
+template <typename T> void tree<T>::clear() {
   while (root_ != nullptr) {
     erase(root_);
   }
   size_ = 0;
 }
 
-template <typename T>
-typename tree<T>::size_type tree<T>::max_size() const {
+template <typename T> typename tree<T>::size_type tree<T>::max_size() const {
   const size_t node_size = sizeof(node) + alignof(node);
   return std::numeric_limits<size_t>::max() / node_size;
 }
@@ -189,4 +171,4 @@ typename tree<T>::node *tree<T>::copy_tree(tree::node *cur_node) {
   return node_tmp;
 }
 
-}  // namespace s21
+} // namespace s21

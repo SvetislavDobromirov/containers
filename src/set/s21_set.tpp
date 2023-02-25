@@ -7,22 +7,18 @@ namespace s21 {
 template <typename T>
 set<T>::set(const std::initializer_list<T> &items) : tree<T>(items) {}
 
-template <typename T>
-set<T>::set(const set &s) : tree<T>(s) {}
+template <typename T> set<T>::set(const set &s) : tree<T>(s) {}
 
-template <typename T>
-set<T>::set(set &&s) : tree<T>(std::move(s)) {}
+template <typename T> set<T>::set(set &&s) : tree<T>(std::move(s)) {}
 
-template <typename T>
-const auto set<T>::const_iterator::operator*() {
+template <typename T> const auto set<T>::const_iterator::operator*() {
   if (!it_current_node) {
     throw std::runtime_error("pointer is null");
   }
   return it_current_node->node_data;
 }
 
-template <typename T>
-auto set<T>::const_iterator::operator++(int) {
+template <typename T> auto set<T>::const_iterator::operator++(int) {
   // Если у текущего узла есть правое поддерево, то нужно перейти к наименьшему
   // элементу в этом поддереве
   if (it_current_node->right_node) {
@@ -43,8 +39,7 @@ auto set<T>::const_iterator::operator++(int) {
   return *this;
 }
 
-template <typename T>
-auto set<T>::const_iterator::operator++() {
+template <typename T> auto set<T>::const_iterator::operator++() {
   // Если у текущего узла есть правое поддерево, то нужно перейти к наименьшему
   // элементу в этом поддереве
   if (it_current_node->right_node) {
@@ -65,8 +60,7 @@ auto set<T>::const_iterator::operator++() {
   return *this;
 }
 
-template <typename T>
-auto set<T>::const_iterator::operator--(int) {
+template <typename T> auto set<T>::const_iterator::operator--(int) {
   // Если у текущего узла есть левое поддерево, то нужно перейти к наибольшему
   // элементу в этом поддереве
   if (it_current_node->left_node) {
@@ -88,8 +82,7 @@ auto set<T>::const_iterator::operator--(int) {
   return *this;
 }
 
-template <typename T>
-auto set<T>::const_iterator::operator--() {
+template <typename T> auto set<T>::const_iterator::operator--() {
   // Если у текущего узла есть левое поддерево, то нужно перейти к наибольшему
   // элементу в этом поддереве
   if (it_current_node->left_node) {
@@ -112,8 +105,8 @@ auto set<T>::const_iterator::operator--() {
 }
 
 template <typename Key>
-std::pair<typename set<Key>::iterator, bool> set<Key>::insert(
-    const value_type &value) {
+std::pair<typename set<Key>::iterator, bool>
+set<Key>::insert(const value_type &value) {
   int is_find = tree<Key>::tree_insert(value);
   iterator result_first = find(value);
   bool result_second = is_find != 3;
@@ -126,7 +119,8 @@ std::pair<typename set<Key>::iterator, bool> set<Key>::insert(
 
 template <typename Key>
 template <typename... Args>
-std::vector<std::pair<typename set<Key>::iterator, bool>> set<Key>::emplace(Args&&... args) {
+std::vector<std::pair<typename set<Key>::iterator, bool>>
+set<Key>::emplace(Args &&... args) {
   std::vector<std::pair<iterator, bool>> result;
   std::vector<Key> vector_from_args = {args...};
   for (auto &it : vector_from_args) {
@@ -136,8 +130,7 @@ std::vector<std::pair<typename set<Key>::iterator, bool>> set<Key>::emplace(Args
   return result;
 }
 
-template <typename T>
-typename set<T>::iterator set<T>::begin() {
+template <typename T> typename set<T>::iterator set<T>::begin() {
   iterator result;
 
   if (tree<T>::root_ == nullptr) {
@@ -154,16 +147,14 @@ typename set<T>::iterator set<T>::begin() {
   return result;
 }
 
-template <typename T>
-typename set<T>::iterator set<T>::end() {
+template <typename T> typename set<T>::iterator set<T>::end() {
   iterator result;
   result.it_current_node = nullptr;
 
   return result;
 }
 
-template <typename T>
-typename set<T>::iterator set<T>::find(const T &key) {
+template <typename T> typename set<T>::iterator set<T>::find(const T &key) {
   iterator result;
 
   if (tree<T>::root_ == nullptr) {
@@ -184,28 +175,22 @@ typename set<T>::iterator set<T>::find(const T &key) {
   return result;
 }
 
-template <typename T>
-void set<T>::swap(set &other) noexcept {
+template <typename T> void set<T>::swap(set &other) noexcept {
   std::swap(tree<T>::root_, other.root_);
   size_t size_tmp = this->size_;
   this->size_ = other.size_;
   other.size_ = size_tmp;
 }
 
-template <typename T>
-void set<T>::erase(iterator pos) {
-  tree<T>::erase(*pos);
-}
+template <typename T> void set<T>::erase(iterator pos) { tree<T>::erase(*pos); }
 
-template <typename Key>
-void set<Key>::merge(set &other) {
+template <typename Key> void set<Key>::merge(set &other) {
   for (auto it = other.begin(); it != other.end(); it++) {
     tree<Key>::tree_insert(std::move(*it));
   }
 }
 
-template <typename Key>
-bool set<Key>::contains(const Key &key) {
+template <typename Key> bool set<Key>::contains(const Key &key) {
   typename tree<Key>::node *current_node = tree<Key>::root_;
   while (current_node != nullptr) {
     if (key > current_node->node_data) {
@@ -221,17 +206,18 @@ bool set<Key>::contains(const Key &key) {
 }
 
 template <typename Key>
-bool set<Key>::const_iterator::operator!=(const set<Key>::const_iterator &other) {
+bool set<Key>::const_iterator::operator!=(
+    const set<Key>::const_iterator &other) {
   return it_current_node != other.it_current_node;
 }
 
 template <typename Key>
-bool set<Key>::const_iterator::operator==(const set<Key>::const_iterator &other) {
+bool set<Key>::const_iterator::operator==(
+    const set<Key>::const_iterator &other) {
   return it_current_node == other.it_current_node;
 }
 
-template <typename Key>
-set<Key> &set<Key>::operator=(set &&other) noexcept {
+template <typename Key> set<Key> &set<Key>::operator=(set &&other) noexcept {
   tree<Key>::root_ = other.root_;
   tree<Key>::size_ = other.size_;
   other.root_ = nullptr;
@@ -239,4 +225,4 @@ set<Key> &set<Key>::operator=(set &&other) noexcept {
   return *this;
 }
 
-}  // namespace s21
+} // namespace s21
